@@ -38,10 +38,9 @@ alias supwifi='curl "1.1.3.1/reg.php" -d "url=E2B8F3578D88E9E36CD7BB15C0C60E8AC7
 autoload -U promptinit && promptinit
 source ~/.zsh/git
 
-#PROMPT="%{$fg_no_bold[blue]%}%n%{$reset_color%}@%{$fg_no_bold[cyan]%}%m%{$reset_color%}:%{$fg_no_bold[yellow]%}${PWD/#$HOME/~} %{$fg_no_bold[green]%}$%{$reset_color%} "
 setopt PROMPT_SUBST
 local prompt_always_parse='$(git_prompt_string)'
-PROMPT="%{$fg_no_bold[blue]%}%n%{$reset_color%}@%{$fg_no_bold[cyan]%}%m%{$reset_color%}:%{$fg_no_bold[yellow]%}%~ %{$fg_no_bold[green]%}$%{$reset_color%} "
+PROMPT="%{$fg_no_bold[cyan]%}%n%{$reset_color%}@%{$fg_no_bold[blue]%}%m%{$reset_color%}:%{$fg_no_bold[yellow]%}%~ %{$fg_no_bold[white]%}>%{$reset_color%} "
 RPROMPT="[%{$fg_no_bold[white]%}%T%{$reset_color%} %(?.%{$fg_no_bold[green]%}.%{$fg_no_bold[red]%})%?%{$reset_color%}]%(1j. (%{$fg_no_bold[magenta]%}%j%{$reset_color%}J%).)${prompt_always_parse}"
 
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
