@@ -1,0 +1,43 @@
+[user]
+    name = Samuel Denis
+    email = contact@smumu.fr
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    interactive = auto
+    grep = true
+    ui = true
+
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+
+[alias]
+    st = status
+    lg = log --date-order --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+    w = whatchanged
+    pl = pull --rebase origin
+    pol = pull --rebase origin master
+    pom = push origin master
+    amend = commit --amend
+    rank = shortlog -sn --no-merges   # show list of contributors in descending order by number of commits
+
+[apply]
+    whitespace = strip
+[core]
+	editor = vim
+[push]
+	default = simple
