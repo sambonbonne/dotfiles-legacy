@@ -10,6 +10,23 @@ endif
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
+" Vundle config
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim " set the runtime path to include Vundle and initialize
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim' " let Vundle manage Vundle, required End Vundle config
+
+" Put your plugins here
+Plugin 'scrooloose/syntastic'
+Plugin 'scrooloose/nerdtree'
+Plugin 'embear/vim-localvimrc'
+Plugin 'jlanzarotta/bufexplorer'
+
+call vundle#end()
+" End vundle config
+
+filetype plugin indent on
+
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
@@ -45,9 +62,6 @@ set wildmenu
 
 " Yeah just put the clipboard on X11, okay ?
 set clipboard=unnamedplus
-
-" For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
-" let &guioptions = substitute(&guioptions, "t", "", "g")
 
 " Don't use Ex mode, use Q for formatting
 map Q gq
@@ -92,12 +106,6 @@ if has("autocmd")
   au BufNewFile,BufRead *.html.twig set ft=html
   " handlebar file as html
   au BufNewFile,BufRead *.hbs set ft=html
-
-  " Enable file type detection.
-  " Use the default filetype settings, so that mail gets 'tw' set to 72,
-  " 'cindent' is on in C files, etc.
-  " Also load indent files, to automatically do language-dependent indenting.
-  filetype plugin indent on
 
   " Put these in an autocmd group, so that we can delete them easily.
   augroup vimrcEx
