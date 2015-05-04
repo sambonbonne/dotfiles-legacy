@@ -17,10 +17,12 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim' " let Vundle manage Vundle, required End Vundle config
 
 " Put your plugins here
-Plugin 'scrooloose/syntastic'
-Plugin 'scrooloose/nerdtree'
-Plugin 'embear/vim-localvimrc'
-Plugin 'jlanzarotta/bufexplorer'
+Plugin 'scrooloose/syntastic'       " Syntax check plugin
+Plugin 'Shougo/neocomplete.vim'     " Completion plugin
+Plugin 'scrooloose/nerdtree'        " Best tree you can see
+Plugin 'embear/vim-localvimrc'      " To add .lvimrc for each project you want
+Plugin 'jlanzarotta/bufexplorer'    " List buffers and switch
+Plugin 'airblade/vim-gitgutter'     " See +/-/~ for git
 
 call vundle#end()
 " End vundle config
@@ -39,6 +41,23 @@ set history=100		" keep 100 lines of command line history
 set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
 set incsearch		" do incremental searching
+
+" Configure neocomplete
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+" dictionary
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : ''
+    \ }
+" completion with TAB, S-TAB can unindent if no popup menu
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-D>"
+" select with return key, cancel with backspace (<CR>, <BS>)
+inoremap <expr><CR> pumvisible() ? neocomplete#close_popup() : "\<CR>"
+inoremap <expr><BS> pumvisible() ? neocomplete#undo_completion() : "\<BS>"
 
 " my own options
 " display line number
@@ -121,11 +140,15 @@ if has("autocmd")
   " Delete white space at end of line when save
   autocmd BufWritePre * :%s/\s\+$//e
 
-  " PHP completion in all PHP files
-  autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-
-  " HTML completion in all HMTL files
-  autocmd FileType html,php set omnifunc=htmlcomplete#CompleteTags
+  " enable omnifunc
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  " and put it to neocomplete
+  if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
+  endif
 
   " When editing a file, always jump to the last known cursor position.
   " Don't do it when the position is invalid or when inside an event handler
