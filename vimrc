@@ -17,12 +17,25 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim' " let Vundle manage Vundle, required End Vundle config
 
 " Put your plugins here
-Plugin 'scrooloose/syntastic'       " Syntax check plugin
-Plugin 'Shougo/neocomplete.vim'     " Completion plugin
-Plugin 'scrooloose/nerdtree'        " Best tree you can see
-Plugin 'embear/vim-localvimrc'      " To add .lvimrc for each project you want
-Plugin 'jlanzarotta/bufexplorer'    " List buffers and switch
-Plugin 'airblade/vim-gitgutter'     " See +/-/~ for git
+Plugin 'scrooloose/syntastic'           " Syntax check plugin
+Plugin 'Shougo/neocomplete.vim'         " Completion plugin
+Plugin 'scrooloose/nerdtree'            " Best tree you can see
+Plugin 'Xuyuanp/nerdtree-git-plugin'    " Git status flags on the tree
+Plugin 'embear/vim-localvimrc'          " To add .lvimrc for each project you want
+Plugin 'jeetsukumaran/vim-buffergator'  " Buffers list like NERDTree
+Plugin 'airblade/vim-gitgutter'         " See +/-/~ for git
+Plugin 'tpope/vim-fugitive'             " Git wrapper, don't put Vim on foreground
+Plugin 'Shougo/neosnippet'              " Snippets, works well with Neocomplete
+Plugin 'mattn/emmet-vim'                " Emmet for HTML facilities
+" Some technos
+Plugin 'pangloss/vim-javascript'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'moll/vim-node'
+Plugin 'hail2u/vim-css3-syntax'
+Plugin 'elzr/vim-json'
+Plugin 'StanAngeloff/php.vim'
+" And the colorscheme
+Plugin 'altercation/vim-colors-solarized'
 
 call vundle#end()
 " End vundle config
@@ -42,7 +55,7 @@ set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
 set incsearch		" do incremental searching
 
-" Configure neocomplete
+" configure neocomplete
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 " Set minimum syntax keyword length.
@@ -50,14 +63,22 @@ let g:neocomplete#sources#syntax#min_keyword_length = 3
 let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 " dictionary
 let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : ''
-    \ }
+      \ 'default' : ''
+      \ }
 " completion with TAB, S-TAB can unindent if no popup menu
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-D>"
 " select with return key, cancel with backspace (<CR>, <BS>)
 inoremap <expr><CR> pumvisible() ? neocomplete#close_popup() : "\<CR>"
-inoremap <expr><BS> pumvisible() ? neocomplete#undo_completion() : "\<BS>"
+inoremap <expr><BS> pumvisible() ? neocomplete#undo_completion()."\<BS>" : "\<BS>"
+
+" configure neosnippet
+let g:neosnippet#disable_runtime_snippets = {'_': 1}
+" keymap to select and expand the snippet in neocomplete menu
+imap <C-k>  <Plug>(neosnippet_expand_or_jump)
+smap <C-k>  <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>  <Plug>(neosnippet_expand_target)
+let g:neosnippet#snippets_directory = '~/.vim/snippets'
 
 " my own options
 " display line number
@@ -94,22 +115,20 @@ if has('mouse')
   set mouse=a
 endif
 
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-set t_Co=256
-let g:solarized_termcolors=256
-let g:solarized_termtrans=1
+" Some colors
+syntax on
 colorscheme solarized
 set background=dark
-if &t_Co > 2 || has("gui_running")
-  syntax on
-  set hlsearch
-endif
+" Also switch on highlighting the last used search pattern.
+set hlsearch
+" Highlight line number
+set cursorline
+hi clear CursorLine
 
 if has("gui_running")
-    set guifont=Droid\ Sans\ Mono\ 10
-    set lines=999 columns=999 " maybe the ugliest way to maximize a window
-endif " gui running"
+  set guifont=Droid\ Sans\ Mono\ 10
+  set lines=999 columns=999 " maybe the ugliest way to maximize a window
+endif " gui running
 
 " Syntastic config
 let g:syntastic_always_populate_loc_list = 1
@@ -119,46 +138,40 @@ let g:syntastic_check_on_wq = 0
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
-  " tpl file as html
-  au BufNewFile,BufRead *.tpl set ft=html
-  " twig file as html
-  au BufNewFile,BufRead *.html.twig set ft=html
-  " handlebar file as html
-  au BufNewFile,BufRead *.hbs set ft=html
+  augroup general
+    autocmd!
 
-  " Put these in an autocmd group, so that we can delete them easily.
-  augroup vimrcEx
-  au!
+    " templates as html
+    au BufNewFile,BufRead *.tpl set ft=html
+    au BufNewFile,BufRead *.html.twig set ft=html
+    au BufNewFile,BufRead *.hbs set ft=html
 
-  " For all text files set 'textwidth' to 78 characters.
-  "autocmd FileType text setlocal textwidth=78
+    " Delete white space at end of line when save
+    autocmd BufWritePre * :%s/\s\+$//e
 
-  " Highlight line number
-  set cursorline
-  hi clear CursorLine
+    " 2 spaces indent for some files
+    autocmd FileType vim,html,markdown setlocal tabstop=2 shiftwidth=2
+    " line limit for some files
+    autocmd FileType text,markdown setlocal textwidth=80
 
-  " Delete white space at end of line when save
-  autocmd BufWritePre * :%s/\s\+$//e
+    " enable omnifunc and put it to neocomplete
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType css,scss,sass,less setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    if !exists('g:neocomplete#sources#omni#input_patterns')
+      let g:neocomplete#sources#omni#input_patterns = {}
+    endif
 
-  " enable omnifunc
-  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
-  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  " and put it to neocomplete
-  if !exists('g:neocomplete#sources#omni#input_patterns')
-    let g:neocomplete#sources#omni#input_patterns = {}
-  endif
-
-  " When editing a file, always jump to the last known cursor position.
-  " Don't do it when the position is invalid or when inside an event handler
-  " (happens when dropping a file on gvim).
-  " Also don't do it when the mark is in the first line, that is the default
-  " position when opening a file.
-  autocmd BufReadPost *
-    \ if line("'\"") > 1 && line("'\"") <= line("$") |
-    \   exe "normal! g`\"" |
-    \ endif
+    " When editing a file, always jump to the last known cursor position.
+    " Don't do it when the position is invalid or when inside an event handler
+    " (happens when dropping a file on gvim).
+    " Also don't do it when the mark is in the first line, that is the default
+    " position when opening a file.
+    autocmd BufReadPost *
+          \ if line("'\"") > 1 && line("'\"") <= line("$") |
+          \   exe "normal! g`\"" |
+          \ endif
 
   augroup END
 
@@ -166,12 +179,9 @@ if has("autocmd")
   autocmd vimenter * NERDTree
   " Close it if this is the last buffer
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-  " Close it if this is the last buffer
-  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-else
-
-  set autoindent		" always set autoindenting on
-
+else " what do you really need ?
+  set autoindent
+  set omnifunc=syntaxcomplete#Complete
 endif " has("autocmd")
 
 " Convenient command to see the difference between the current buffer and the
@@ -179,7 +189,7 @@ endif " has("autocmd")
 " Only define it when not defined already.
 if !exists(":DiffOrig")
   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-		  \ | wincmd p | diffthis
+        \ | wincmd p | diffthis
 endif
 
 " Statusline config
