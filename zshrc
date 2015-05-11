@@ -9,14 +9,12 @@ bindkey -v
 # The following lines were added by compinstall
 zstyle :compinstall filename '/home/samuel/.zshrc'
 
-autoload -Uz compinit
-compinit
+autoload -Uz compinit && compinit
 # End of lines added by compinstall
 
 ### My own configuration
-
-## $PATH
 export PATH=$HOME/.npm/bin:$PATH
+export EDITOR=/usr/bin/vim
 
 ## Completion is a basic
 zstyle ':completion:*' menu select
