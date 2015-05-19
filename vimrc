@@ -28,7 +28,7 @@ Plugin 'tpope/vim-fugitive'             " Git wrapper, don't put Vim on foregrou
 Plugin 'Shougo/neosnippet'              " Snippets, works well with Neocomplete
 Plugin 'mattn/emmet-vim'                " Emmet for HTML facilities
 Plugin 'ciaranm/detectindent'           " detect indent
-" Some technos
+" Some technos/languages
 Plugin 'pangloss/vim-javascript'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'moll/vim-node'
@@ -93,8 +93,10 @@ let g:detectindent_preferred_indent = 4
 set foldmethod=indent foldlevel=3 foldcolumn=3 foldminlines=80 foldnestmax=5
 " press space to insert a single char before cursor
 nmap <Space> i_<Esc>r
-" C-n to open NERDTree
-map <C-n> :NERDTreeToggle<CR>
+" C-n to open NERDTree, C-b to open Bufergator in horizontal mode
+nmap <C-n> :NERDTreeToggle<CR>
+let g:buffergator_viewport_split_policy = 'B'
+nmap <C-b> :BuffergatorToggle<CR>
 " automatically close the brackets
 "inoremap {<Space> {}<C-o>i
 inoremap {<Return> {<cr>}<C-o>O
@@ -178,8 +180,6 @@ if has("autocmd")
 
   augroup END
 
-  " Open NERDTree
-  autocmd vimenter * NERDTree
   " Close it if this is the last buffer
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 else " what do you really need ?
