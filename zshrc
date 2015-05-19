@@ -16,6 +16,12 @@ autoload -Uz compinit && compinit
 export PATH=$HOME/.npm/bin:$PATH
 export EDITOR=/usr/bin/vim
 
+# Fish-like syntax highlighting (available in AUR for Arch)
+SYNTAX_HIGHLIGHT_FILE=/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [[ -a $SYNTAX_HIGHLIGHT_FILE ]]; then
+    source $SYNTAX_HIGHLIGHT_FILE
+fi
+
 ## Completion is a basic
 zstyle ':completion:*' menu select
 setopt completealiases
