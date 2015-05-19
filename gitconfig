@@ -28,13 +28,11 @@
 
 [alias]
     st = status
-    lg = log --date-order --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
-    w = whatchanged
-    pl = pull --rebase origin
-    pol = pull --rebase origin master
-    pom = push origin master
+    ca = commit -a
     amend = commit --amend
-    rank = shortlog -sn --no-merges   # show list of contributors in descending order by number of commits
+    lg = log --date-order --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+    pl = pull --rebase
+    rank = shortlog -sn --no-merges # show list of contributors in descending order by number of commits
 
 [apply]
     whitespace = strip
