@@ -26,6 +26,9 @@
     changed = yellow
     untracked = cyan
 
+[diff]
+    tool = vimdiff
+
 [alias]
     st = status
     ca = commit -a
