@@ -1,6 +1,7 @@
 [user]
     name = Samuel Denis
     email = contact@smumu.fr
+
 [color]
     diff = auto
     status = auto
@@ -10,19 +11,19 @@
     ui = true
 
 [color "branch"]
-    current = yellow reverse
-    local = yellow
-    remote = green
+    current = green
+    local = cyan
+    remote = blue
 
 [color "diff"]
-    meta = yellow bold
-    frag = magenta bold
-    old = red bold
-    new = green bold
+    meta = white
+    frag = yellow
+    old = red
+    new = green
 
 [color "status"]
-    added = yellow
-    changed = green
+    added = green
+    changed = yellow
     untracked = cyan
 
 [alias]
