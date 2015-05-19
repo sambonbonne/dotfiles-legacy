@@ -125,6 +125,8 @@ colorscheme solarized
 set background=dark
 " Also switch on highlighting the last used search pattern.
 set hlsearch
+let hlstate=0
+nnoremap <C-h> :if (hlstate%2 == 0) \| nohlsearch \| else \| set hlsearch \| endif \| let hlstate=hlstate+1<cr>
 " Highlight line number
 set cursorline
 hi clear CursorLine
