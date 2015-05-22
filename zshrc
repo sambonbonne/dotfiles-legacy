@@ -1,3 +1,7 @@
+# Global variables
+export PATH=$HOME/.npm/bin:$PATH
+export EDITOR=/usr/bin/vim
+
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.zsh_history
 HISTSIZE=2048
@@ -13,8 +17,6 @@ autoload -Uz compinit && compinit
 # End of lines added by compinstall
 
 ### My own configuration
-export PATH=$HOME/.npm/bin:$PATH
-export EDITOR=/usr/bin/vim
 
 # Fish-like syntax highlighting (available in AUR for Arch)
 SYNTAX_HIGHLIGHT_FILE=/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -31,7 +33,6 @@ setopt HIST_IGNORE_DUPS
 autoload -U colors && colors
 
 ## Some alias, can belways usefull
-# Global alias
 # Commands alias
 alias ll='ls -FhlX --color=always --hide="*~"'
 alias la='ls -AFhlX --color=always --hide="*~"'
