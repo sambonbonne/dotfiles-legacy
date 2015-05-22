@@ -27,7 +27,7 @@ Plugin 'airblade/vim-gitgutter'         " See +/-/~ for git
 Plugin 'tpope/vim-fugitive'             " Git wrapper, don't put Vim on foreground
 Plugin 'Shougo/neosnippet'              " Snippets, works well with Neocomplete
 Plugin 'mattn/emmet-vim'                " Emmet for HTML facilities
-Plugin 'ciaranm/detectindent'           " detect indent
+Plugin 'vim-scripts/yaifa.vim'          " detect indent
 " Some technos/languages
 Plugin 'pangloss/vim-javascript'
 Plugin 'kchmck/vim-coffee-script'
@@ -85,9 +85,10 @@ let g:neosnippet#snippets_directory = '~/.vim/snippets'
 " display line number
 set number
 
-" detect indent plugin
-let g:detectindent_preferred_expandtab = 1
-let g:detectindent_preferred_indent = 4
+" default indentation (overwrote by YAIFI if needed)
+set tabstop=4          " size of hard tab stop
+set shiftwidth=4       " size of an "indent"
+set expandtab          " use space instead of tab
 
 " fold method to indent
 set foldmethod=indent foldlevel=3 foldcolumn=3 foldminlines=80 foldnestmax=5
@@ -155,7 +156,6 @@ if has("autocmd")
     " Delete white space at end of line when save
     autocmd BufWritePre * :%s/\s\+$//e
 
-    autocmd BufReadPost * :DetectIndent
     " 2 spaces indent for some files
     autocmd FileType vim,html,markdown setlocal tabstop=2 shiftwidth=2
     " line limit for some files
