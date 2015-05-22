@@ -38,6 +38,26 @@ alias la='ls -AFhlX --color=always --hide="*~"'
 alias search='grep -rnF --exclude "*~" --color=always'
 alias supwifi='curl "1.1.3.1/reg.php" -d "url=E2B8F3578D88E9E36CD7BB15C0C60E8AC72C51875E24&username=denis_s&password=FV7h0ZF8"'
 
+# vim (vundle) function
+function vundle() {
+    if [ -z "$1" ] || [ $1 = "help" ]; then
+        echo "Install, update or clean Vundle plugins.\n\nUsage: vundle <operation>\nOperations:"
+        echo "\tinstall\tInstall plugins"
+        echo "\tupdate\tUpdate plugins"
+        echo "\tclean\tClean plugins"
+    else
+        if [ $1 = "install" ]; then
+            vim +PluginInstall +qall
+        elif [ $1 = "update" ]; then
+            vim +PluginUpdate +qall
+        elif [ $1 = "clean" ]; then
+            vim +PluginClean +qall
+        else
+            echo "Unknown operation $1."
+        fi
+    fi
+}
+
 ### Oh yeah my prompt
 autoload -U promptinit && promptinit
 source ~/.zsh/git
