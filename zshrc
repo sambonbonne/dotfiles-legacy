@@ -1,6 +1,7 @@
 # Global variables
-export PATH=$HOME/.npm/bin:$PATH
-export EDITOR=/usr/bin/vim
+if [ -f ~/.profile ]; then
+    source ~/.profile
+fi
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.zsh_history
