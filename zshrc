@@ -10,11 +10,9 @@ setopt appendhistory autocd beep extendedglob nomatch
 unsetopt notify
 bindkey -v
 # End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-zstyle :compinstall filename '/home/samuel/.zshrc'
 
+zstyle :compinstall filename '/home/samuel/.zshrc'
 autoload -Uz compinit && compinit
-# End of lines added by compinstall
 
 ### My own configuration
 
@@ -37,7 +35,8 @@ autoload -U colors && colors
 alias ll='ls -FhlX --color=always --hide="*~"'
 alias la='ls -AFhlX --color=always --hide="*~"'
 alias search='grep -rnF --exclude "*~" --color=always'
-alias supwifi='curl "1.1.3.1/reg.php" -d "url=E2B8F3578D88E9E36CD7BB15C0C60E8AC72C51875E24&username=denis_s&password=FV7h0ZF8"'
+alias ports='netstat -pln'
+alias fuck="thefuck" # fuck is thefuck in arch :/
 
 # vim (vundle) function
 function vundle() {
