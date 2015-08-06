@@ -29,7 +29,7 @@ export ANDROID_HOME=/opt/android-sdk
 
 # Start SSH agent if not exists, thanks Julien Palard for inspiration
 # Warning ! You have to launch ssh-add manually ! (not a bug, wanted feature)
-ssh_agents_number="$(ls -1 /tmp/ssh-*/* 2>/dev/null | wc -l)"
+ssh_agents_number="$(ls -1 /tmp/ssh-*/* 2>&1 > /dev/null | wc -l)"
 if [ z"$ssh_agents_number" = z"1" ] ; then
     export SSH_AUTH_SOCK="$(printf "%s" /tmp/ssh-*/*)"
     export SSH_AGENT_PID="${SSH_AUTH_SOCK##/*/*.}"
