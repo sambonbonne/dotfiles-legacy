@@ -63,6 +63,8 @@ inoremap <expr><BS> pumvisible() ? neocomplete#undo_completion()."\<BS>" : "\<BS
 
 " First, auto-close brackets, quotes ... Second, auto-close tags
 Plugin 'Raimondi/delimitMate'
+let delimitMate_expand_cr = 1
+let delimitMate_expand_space = 1
 "Plugin 'alvan/vim-closetag'
 "let g:closetag_filenames = "*.html,*.erb,*.xml"
 "Plugin 'docunext/closetag.vim'
@@ -259,7 +261,7 @@ endif
 hi StatusLine ctermbg=black ctermfg=grey
 hi StatusLineNC ctermbg=black ctermfg=darkgrey
 set laststatus=2
-set statusline=%6(%L%)\ %6(%c%)
+set statusline=%6(%L%)\ %6(%l%),%-6(%c%)
 set statusline+=\ %<%f\ %Y,%{&fenc==\"\"?&enc:&fenc}\ %{strftime(\"%H:%M\",getftime(expand(\"%%\")))}
 set statusline+=%=%m%r%{fugitive#statusline()}
 set statusline+=\ %(%#warningmsg#%{SyntasticStatuslineFlag()}%*%)
