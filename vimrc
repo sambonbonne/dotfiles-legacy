@@ -123,7 +123,7 @@ Plugin 'cespare/vim-toml'
 
 " Some colors
 set t_Co=256
-Plugin 'altercation/vim-colors-solarized'
+Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'vim-scripts/colorizer'
 let g:colorizer_nomap = 1
 
@@ -136,7 +136,7 @@ set wildignore=*~,*.swp,*.orig
 
 " Some colors
 set background=dark
-colorscheme solarized
+colorscheme PaperColor
 
 " disable the old Ex mode
 nnoremap Q <nop>
@@ -159,8 +159,6 @@ set number
 " fold method to indent, fold config
 set foldmethod=indent
 set foldcolumn=3 foldnestmax=4 foldminlines=8
-highlight Folded cterm=underline ctermfg=grey ctermbg=NONE
-highlight FoldColumn ctermfg=magenta
 
 " press space to insert a single char before cursor
 nmap <Space> i_<Esc>r
@@ -179,7 +177,6 @@ endif
 
 " highlight line, light line number
 set cursorline
-highlight CursorLineNR ctermbg=black ctermfg=grey
 " Also switch on highlighting the last used search pattern.
 set hlsearch
 
@@ -258,8 +255,6 @@ if !exists(":DiffOrig")
 endif
 
 " Statusline config
-hi StatusLine ctermbg=black ctermfg=grey
-hi StatusLineNC ctermbg=black ctermfg=darkgrey
 set laststatus=2
 set statusline=%6(%L%)\ %6(%l%),%-6(%c%)
 set statusline+=\ %<%f\ %Y,%{&fenc==\"\"?&enc:&fenc}\ %{strftime(\"%H:%M\",getftime(expand(\"%%\")))}
