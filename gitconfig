@@ -34,12 +34,13 @@
     ca = commit -a
     amend = commit --amend
     lg = log --date-order --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+    last = log -10 --date-order --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
     pl = pull --rebase
     rank = shortlog -sn --no-merges # show list of contributors in descending order by number of commits
 
 [apply]
     whitespace = strip
 [core]
-	editor = vim
+    editor = vim
 [push]
-	default = simple
+    default = simple
