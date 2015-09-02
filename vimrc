@@ -107,12 +107,17 @@ Plugin 'bruno-/vim-man'
 Plugin 'pangloss/vim-javascript'
 Plugin 'moll/vim-node'
 Plugin 'kchmck/vim-coffee-script'
+Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'digitaltoad/vim-jade'
 Plugin 'othree/html5.vim'
 Plugin 'hail2u/vim-css3-syntax'
+Plugin 'wavded/vim-stylus'
 Plugin 'StanAngeloff/php.vim'
 Plugin 'rust-lang/rust.vim'
+Plugin 'timonv/vim-cargo'
 Plugin 'pekepeke/titanium-vim'
 Plugin 'elzr/vim-json'
+Plugin 'cespare/vim-toml'
 
 " Some colors
 set t_Co=256
@@ -197,7 +202,6 @@ if has("autocmd")
     " templates as html
     au BufNewFile,BufRead *.tpl set ft=html
     au BufNewFile,BufRead *.html.twig set ft=html
-    au BufNewFile,BufRead *.hbs set ft=html
 
     " Delete white space at end of line when save
     autocmd BufWritePre * :%s/\s\+$//e
