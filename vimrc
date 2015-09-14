@@ -206,7 +206,7 @@ if has("autocmd")
     autocmd BufWritePre * :%s/\s\+$//e
 
     " 2 spaces indent for some files
-    autocmd FileType vim,html,markdown setlocal tabstop=2 shiftwidth=2
+    autocmd FileType vim,html,markdown,coffee,coffeescript setlocal tabstop=2 shiftwidth=2
     " line limit for some files
     "autocmd FileType text,markdown setlocal textwidth=80
 
@@ -215,7 +215,7 @@ if has("autocmd")
     autocmd FileType css,scss,sass,less setlocal omnifunc=csscomplete#CompleteCSS
     autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
     autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd BufEnter .js*rc setfiletype json
+    autocmd BufEnter .js*rc,.sailsrc setfiletype json
     if !exists('g:neocomplete#sources#omni#input_patterns')
       let g:neocomplete#sources#omni#input_patterns = {}
     endif
