@@ -158,7 +158,7 @@ set number
 
 " fold method to indent, fold config
 set foldmethod=indent
-set foldcolumn=3 foldnestmax=4 foldminlines=8
+set foldcolumn=3 foldnestmax=4 foldminlines=8 foldlevelstart=3
 
 " press space to insert a single char before cursor
 nmap <Space> i_<Esc>r
