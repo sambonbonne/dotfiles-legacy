@@ -124,6 +124,8 @@ Plugin 'timonv/vim-cargo'
 Plugin 'pekepeke/titanium-vim'
 Plugin 'elzr/vim-json'
 Plugin 'cespare/vim-toml'
+Plugin 'docker/docker', { 'rtp': '/contrib/syntax/vim/' }
+Plugin 'nginx/nginx', { 'rtp': '/contrib/vim/' }
 
 " Some colors
 set t_Co=256
