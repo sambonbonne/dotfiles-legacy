@@ -3,6 +3,8 @@ if [ -f ~/.profile ]; then
     source ~/.profile
 fi
 
+[[ -f /usr/share/doc/pkgfile/command-not-found.zsh ]] && source /usr/share/doc/pkgfile/command-not-found.zsh
+
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.zsh_history
 HISTSIZE=2048
@@ -36,6 +38,7 @@ autoload -U colors && colors
 alias ll='ls -FhlX --color=always --hide="*~"'
 alias la='ls -AFhlX --color=always --hide="*~"'
 alias search='grep -rnF --exclude "*~" --color=always'
+alias zsh_history='mv ~/.zsh_history ~/.zsh_history_bad && strings ~/.zsh_history_bad > ~/.zsh_history && fc -R ~/.zsh_history && rm ~/.zsh_history_bad'
 alias ports='netstat -pln'
 alias fuck="thefuck" # fuck is thefuck in arch :/
 
