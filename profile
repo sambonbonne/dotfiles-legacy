@@ -25,6 +25,10 @@ path_append "$HOME/bin"
 path_append "$HOME/.npm/bin"
 
 # export some variables
+export EDITOR=/usr/bin/vim
+export TERMINAL=zsh
+export TERM=xterm-256color
+export JAVA_HOME=/usr/lib/jvm/default
 export ANDROID_HOME=/opt/android-sdk
 
 # Start SSH agent if not exists, thanks Julien Palard for inspiration
