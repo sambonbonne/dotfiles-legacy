@@ -194,7 +194,7 @@ set hlsearch
 set autowriteall
 
 if has("gui_running")
-  set guifont=Droid\ Sans\ Mono\ 10
+  set guifont=Fira\ Mono\ 10
   set lines=999 columns=999 " maybe the ugliest way to maximize a window
 endif " gui running
 
