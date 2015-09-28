@@ -30,7 +30,8 @@ Plugin 'majutsushi/tagbar'
 nnoremap <Leader>t :TagbarToggle<CR>
 
 " Buffers list
-Plugin 'jeetsukumaran/vim-buffergator'
+Plugin 'bling/vim-bufferline' " in a line
+Plugin 'jeetsukumaran/vim-buffergator' " quick switch
 let g:buffergator_viewport_split_policy = 'B'
 let g:buffergator_hsplit_size = 8
 let g:buffergator_sort_regime = 'mru'
