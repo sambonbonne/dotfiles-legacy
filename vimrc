@@ -128,8 +128,11 @@ Plugin 'docker/docker', { 'rtp': '/contrib/syntax/vim/' }
 Plugin 'nginx/nginx', { 'rtp': '/contrib/vim/' }
 
 " Some colors
-set t_Co=256
 Plugin 'NLKNguyen/papercolor-theme'
+Plugin 'jdkanani/vim-material-theme'
+Plugin 'jscappini/material.vim'
+Plugin 'kristijanhusak/vim-hybrid-material'
+" For hex colors
 Plugin 'vim-scripts/colorizer'
 let g:colorizer_nomap = 1
 
@@ -140,15 +143,16 @@ filetype plugin indent on
 syntax on
 set wildignore=*~,*.swp,*.orig
 
-" Some colors
-set background=dark
-colorscheme PaperColor
-
 " disable the old Ex mode
 nnoremap Q <nop>
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
+
+" Some colors configuration
+set t_Co=256
+set background=dark
+colorscheme PaperColor
 
 if has("vms")
   set nobackup		" do not keep a backup file, use versions instead
