@@ -108,9 +108,12 @@ Plugin 'bruno-/vim-man'
 
 " Some technos/languages
 Plugin 'pangloss/vim-javascript'
+Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'moll/vim-node'
+Plugin 'myhere/vim-nodejs-complete'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'aaronj1335/underscore-templates.vim'
 Plugin 'digitaltoad/vim-jade'
 Plugin 'othree/html5.vim'
 Plugin 'hail2u/vim-css3-syntax'
