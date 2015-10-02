@@ -68,7 +68,11 @@ source ~/.zsh/git
 
 setopt PROMPT_SUBST
 local prompt_always_parse='$(git_prompt_string)'
-PROMPT="%{$fg_no_bold[cyan]%}%n%{$reset_color%}@%{$fg_no_bold[blue]%}%m%{$reset_color%}:%{$fg_no_bold[yellow]%}%~ %{$fg_no_bold[white]%}>%{$reset_color%} "
+if [[ -n "$SSH_CLIENT" ]]; then
+    PROMPT="%{$fg_no_bold[cyan]%}%n%{$reset_color%}@%{$fg_no_bold[blue]%}%m%{$reset_color%}:%{$fg_no_bold[yellow]%}%~ %{$fg_no_bold[white]%}→%{$reset_color%} "
+else
+    PROMPT="%~ %(?.%{$fg_no_bold[green]%}.%{$fg_bold[red]%})→%{$reset_color%} "
+fi
 RPROMPT="[%{$fg_no_bold[white]%}%T%{$reset_color%} %(?.%{$fg_no_bold[green]%}.%{$fg_no_bold[red]%})%?%{$reset_color%}]%(1j. (%{$fg_no_bold[magenta]%}%j%{$reset_color%}J%).)${prompt_always_parse}"
 
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
