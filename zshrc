@@ -64,15 +64,17 @@ function vundle() {
 
 ### Oh yeah my prompt
 autoload -U promptinit && promptinit
-source ~/.zsh/git
-
 setopt PROMPT_SUBST
-local prompt_always_parse='$(git_prompt_string)'
+
+local nbsp=$'\u00A0'
 if [[ -n "$SSH_CLIENT" ]]; then
-    PROMPT="%{$fg_no_bold[cyan]%}%n%{$reset_color%}@%{$fg_no_bold[blue]%}%m%{$reset_color%}:%{$fg_no_bold[yellow]%}%~ %{$fg_no_bold[white]%}→%{$reset_color%} "
+    PROMPT="%{$fg_no_bold[cyan]%}%n%{$reset_color%}@%{$fg_no_bold[blue]%}%m%{$reset_color%}:%{$fg_no_bold[yellow]%}%~ %{$fg_no_bold[white]%}→%{$reset_color%}$nbsp"
 else
-    PROMPT="%{$fg_no_bold[blue]%}%~ %(?.%{$fg_no_bold[green]%}.%{$fg_bold[red]%})→%{$reset_color%} "
+    PROMPT="%{$fg_no_bold[blue]%}%~ %(?.%{$fg_no_bold[green]%}.%{$fg_bold[red]%})→%{$reset_color%}$nbsp"
 fi
+
+source ~/.zsh/git
+local prompt_always_parse='$(git_prompt_string)'
 RPROMPT="[%{$fg_no_bold[white]%}%T%{$reset_color%} %(?.%{$fg_no_bold[green]%}.%{$fg_no_bold[red]%})%?%{$reset_color%}]%(1j. (%{$fg_no_bold[magenta]%}%j%{$reset_color%}J%).)${prompt_always_parse}"
 
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
