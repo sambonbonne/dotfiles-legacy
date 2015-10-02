@@ -32,6 +32,7 @@
 [alias]
     st = status
     ca = commit -a
+    cm = commit -m
     amend = commit --amend
     lg = log --date-order --graph --pretty=format:'%C(yellow)%h%Creset %Cred%d%Creset: %s - %C(green)%cr%Creset, %C(blue)%an%Creset <%C(cyan)%ae%Creset>' --abbrev-commit --
     last = log -10 --date-order --graph --pretty=format:'%C(yellow)%h%Creset %Cred%d%Creset: %s - %C(green)%cr%Creset, %C(blue)%an%Creset <%C(cyan)%ae%Creset>' --abbrev-commit --
