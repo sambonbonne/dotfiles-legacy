@@ -71,7 +71,7 @@ local prompt_always_parse='$(git_prompt_string)'
 if [[ -n "$SSH_CLIENT" ]]; then
     PROMPT="%{$fg_no_bold[cyan]%}%n%{$reset_color%}@%{$fg_no_bold[blue]%}%m%{$reset_color%}:%{$fg_no_bold[yellow]%}%~ %{$fg_no_bold[white]%}→%{$reset_color%} "
 else
-    PROMPT="%~ %(?.%{$fg_no_bold[green]%}.%{$fg_bold[red]%})→%{$reset_color%} "
+    PROMPT="%{$fg_no_bold[blue]%}%~ %(?.%{$fg_no_bold[green]%}.%{$fg_bold[red]%})→%{$reset_color%} "
 fi
 RPROMPT="[%{$fg_no_bold[white]%}%T%{$reset_color%} %(?.%{$fg_no_bold[green]%}.%{$fg_no_bold[red]%})%?%{$reset_color%}]%(1j. (%{$fg_no_bold[magenta]%}%j%{$reset_color%}J%).)${prompt_always_parse}"
 
