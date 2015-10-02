@@ -25,9 +25,15 @@ path_append "$HOME/bin"
 path_append "$HOME/.npm/bin"
 
 # export some variables
-export EDITOR=/usr/bin/vim
+export LANG=fr_FR.UTF-8
+export LANGUAGE=fr_FR:en_US:en
+export LC_ALL="fr_FR.UTF-8"
+export EDITOR=/bin/vim
 export TERMINAL=zsh
-export TERM=xterm-256color
+if [[ $TERM == xterm ]]; then
+    export TERM=xterm-256color
+fi
+
 export JAVA_HOME=/usr/lib/jvm/default
 export ANDROID_HOME=/opt/android-sdk
 
