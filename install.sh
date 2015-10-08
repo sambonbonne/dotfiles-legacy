@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "Hi! What a good day to prepare a computer for more productivity. Let's go!"
 
