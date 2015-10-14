@@ -13,7 +13,7 @@ fi
 # Put ZSH config
 echo "ZSH"
 ln -s ~/dev/dotfiles/profile ~/.profile
-ln -s ~/dev/dotfiles/zshrc ~/.zshr
+ln -s ~/dev/dotfiles/zshrc ~/.zshrc
 ln -s ~/dev/dotfiles/zsh ~/.zsh
 type zsh >/dev/null 2>&1 && chsh -s /bin/zsh || echo "ZSH is configured but not installed, that's problematic ..."
 
