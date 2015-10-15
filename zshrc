@@ -1,4 +1,7 @@
 # Global variables
+if [ -f /etc/zsh/zprofile ]; then
+    source /etc/zsh/zprofile
+fi
 if [ -f ~/.profile ]; then
     source ~/.profile
 fi
