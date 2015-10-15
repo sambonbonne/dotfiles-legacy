@@ -22,7 +22,7 @@ export LANGUAGE=fr_FR:en_US:en
 export LC_CTYPE="fr_FR.UTF-8"
 export LC_ALL="fr_FR.UTF-8"
 export EDITOR=/bin/vim
-export TERMINAL=zsh
+
 if [[ $TERM == xterm ]]; then
     export TERM=xterm-256color
 fi
