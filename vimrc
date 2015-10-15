@@ -131,6 +131,8 @@ Plugin 'cespare/vim-toml'
 Plugin 'docker/docker', { 'rtp': '/contrib/syntax/vim/' }
 Plugin 'nginx/nginx', { 'rtp': '/contrib/vim/' }
 
+Plugin 'PotatoesMaster/i3-vim-syntax'
+
 " Some colors
 Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'jdkanani/vim-material-theme'
