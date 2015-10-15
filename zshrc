@@ -70,7 +70,7 @@ autoload -U promptinit && promptinit
 setopt PROMPT_SUBST
 
 local nbsp=$'\u00A0'
-if [[ -n "$SSH_CLIENT" ]]; then
+if [[ -n "$SSH_CLIENT" || "$LOGNAME" == "root" ]]; then
     PROMPT="%{$fg_no_bold[cyan]%}%n%{$reset_color%}@%{$fg_no_bold[blue]%}%m%{$reset_color%}:%{$fg_no_bold[yellow]%}%~ %{$fg_no_bold[white]%}→%{$reset_color%}$nbsp"
 else
     PROMPT="%{$fg_no_bold[blue]%}%~ %(?.%{$fg_no_bold[green]%}.%{$fg_bold[red]%})→%{$reset_color%}$nbsp"
