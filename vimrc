@@ -219,13 +219,14 @@ if has("autocmd")
 
     " templates as html
     au BufNewFile,BufRead *.tpl set ft=html
+    au BufNewFile,BufRead *.tpl set syntax=underscore_template
     au BufNewFile,BufRead *.html.twig set ft=html
 
     " Delete white space at end of line when save
     autocmd BufWritePre * :%s/\s\+$//e
 
     " 2 spaces indent for some files
-    autocmd FileType vim,html,markdown,coffee,coffeescript setlocal tabstop=2 shiftwidth=2
+    autocmd FileType vim,html,jade,stylus,markdown,coffee,coffeescript setlocal tabstop=2 shiftwidth=2
     " line limit for some files
     "autocmd FileType text,markdown setlocal textwidth=80
 
