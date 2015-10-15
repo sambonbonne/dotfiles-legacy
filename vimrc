@@ -159,6 +159,9 @@ set backspace=indent,eol,start
 set t_Co=256
 set background=dark
 colorscheme PaperColor
+if (has("gui_running"))
+  colorscheme material-theme
+endif
 
 if has("vms")
   set nobackup		" do not keep a backup file, use versions instead
