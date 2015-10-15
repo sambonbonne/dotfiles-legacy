@@ -7,14 +7,6 @@
 # the default umask is set in /etc/profile; for setting the umask
 # for ssh logins, install and configure the libpam-umask package.
 
-# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
-    fi
-fi
-
 # append path if not already in
 path_append() {
     if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
