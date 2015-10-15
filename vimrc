@@ -118,12 +118,16 @@ Plugin 'digitaltoad/vim-jade'
 Plugin 'othree/html5.vim'
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'wavded/vim-stylus'
+Plugin 'pekepeke/titanium-vim'
+
 Plugin 'StanAngeloff/php.vim'
+
 Plugin 'rust-lang/rust.vim'
 Plugin 'timonv/vim-cargo'
-Plugin 'pekepeke/titanium-vim'
+
 Plugin 'elzr/vim-json'
 Plugin 'cespare/vim-toml'
+
 Plugin 'docker/docker', { 'rtp': '/contrib/syntax/vim/' }
 Plugin 'nginx/nginx', { 'rtp': '/contrib/vim/' }
 
