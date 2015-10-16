@@ -109,7 +109,7 @@ Plugin 'bruno-/vim-man'
 " Some technos/languages
 Plugin 'pangloss/vim-javascript'
 Plugin 'othree/javascript-libraries-syntax.vim'
-Plugin 'moll/vim-node'
+Plugin 'mattn/jscomplete-vim'
 Plugin 'myhere/vim-nodejs-complete'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'mustache/vim-mustache-handlebars'
@@ -119,6 +119,10 @@ Plugin 'othree/html5.vim'
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'wavded/vim-stylus'
 Plugin 'pekepeke/titanium-vim'
+let g:nodejs_complete_config = {
+            \  'js_compl_fn': 'jscomplete#CompleteJS',
+            \  'max_node_compl_len': 15
+            \ }
 
 Plugin 'StanAngeloff/php.vim'
 
@@ -234,7 +238,7 @@ if has("autocmd")
     autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
     autocmd FileType css,scss,sass,less setlocal omnifunc=csscomplete#CompleteCSS
     autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType javascript setlocal omnifunc=nodejscomplete#CompleteJS
     autocmd BufEnter .js*rc,.sailsrc setfiletype json
     if !exists('g:neocomplete#sources#omni#input_patterns')
       let g:neocomplete#sources#omni#input_patterns = {}
