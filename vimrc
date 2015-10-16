@@ -117,6 +117,8 @@ let g:nodejs_complete_config = {
 
 Plugin 'StanAngeloff/php.vim'
 
+Plugin 'hdima/python-syntax'
+
 Plugin 'rust-lang/rust.vim'
 Plugin 'timonv/vim-cargo'
 
@@ -125,6 +127,8 @@ Plugin 'cespare/vim-toml'
 
 Plugin 'docker/docker', { 'rtp': '/contrib/syntax/vim/' }
 Plugin 'nginx/nginx', { 'rtp': '/contrib/vim/' }
+
+Plugin 'vim-scripts/bash-support.vim'
 
 Plugin 'PotatoesMaster/i3-vim-syntax'
 
