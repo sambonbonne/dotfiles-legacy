@@ -28,4 +28,7 @@ type vim >/dev/null 2>&1 && vim +PluginInstall +qall || echo "Vim is configured 
 echo "Tmux"
 ln -s ~/dev/dotfiles/tmux.conf ~/.tmux.conf
 
+# Git is always usefull
+ln -s ~/dev/dotfiles/gitconfig ~/.gitconfig
+
 echo "My work here is done, have a nice day!"
