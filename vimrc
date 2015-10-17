@@ -52,7 +52,12 @@ Plugin 'junegunn/vim-easy-align'
 vmap <Enter> <Plug>(EasyAlign)
 
 " Completion
+Plugin 'Shougo/context_filetype.vim'
+Plugin 'Shougo/neoinclude.vim'
+Plugin 'Shougo/neco-syntax'
 Plugin 'Shougo/neocomplete.vim'
+set completeopt=longest,preview,menu,noselect
+let g:neocomplete#use_vimproc = 1
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#enable_camel_case = 1
