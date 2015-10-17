@@ -208,55 +208,96 @@ endif " gui running
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
-  augroup reload_vimrc
+  augroup vim_config
     autocmd!
+
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
+    autocmd FileType vim setlocal tabstop=2 shiftwidth=2
+  augroup END
+
+  "augroup x_config
+  "    autocmd!
+  "    autocmd BufWritePost ~/.Xresources sh xrdb ~/.Xresources
+  "augroup END
+
+  augroup html
+    autocmd!
+
+    au BufNewFile,BufRead *.tpl set ft=html
+    au BufNewFile,BufRead *.tpl set syntax=underscore_template
+    au BufNewFile,BufRead *.html.twig set ft=html
+
+    autocmd FileType html,jade setlocal tabstop=2 shiftwidth=2
+    autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
+  augroup END
+
+  augroup javascript
+    autocmd!
+
+    autocmd FileType coffee,coffeescript setlocal tabstop=2 shiftwidth=2
+    autocmd FileType javascript,coffee,coffeescript,typescript setlocal omnifunc=nodejscomplete#CompleteJS
+
+    autocmd FileType javascript let b:syntastic_checkers = findfile('.jscsrc', '.;') != '' ? ['jscs', 'jshint'] : ['jshint']
+  augroup END
+
+  augroup json
+      autocmd!
+
+    autocmd BufEnter .js*rc,.sailsrc setfiletype json
+  augroup END
+
+  augroup css
+      autocmd!
+
+    autocmd FileType css,stylus,scss,sass,less setlocal tabstop=2 shiftwidth=2
+    autocmd FileType css,stylus,scss,sass,less setlocal omnifunc=csscomplete#CompleteCSS
+  augroup END
+
+  augroup markdown
+      autocmd!
+
+    autocmd FileType markdown setlocal tabstop=2 shiftwidth=2
+    autocmd FileType markdown setlocal omnifunc=htmlcomplete#CompleteTags
+
+    "autocmd FileType text,markdown setlocal textwidth=80
+  augroup END
+
+  augroup php
+    autocmd!
+
+    autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+  augroup END
+
+  augroup haskell
+      autocmd!
+
+      autocmd BufEnter *.hs compiler ghc
+      let g:haskellmode_completion_ghc = 0
+      autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
   augroup END
 
   augroup general
     autocmd!
 
-    " templates as html
-    au BufNewFile,BufRead *.tpl set ft=html
-    au BufNewFile,BufRead *.tpl set syntax=underscore_template
-    au BufNewFile,BufRead *.html.twig set ft=html
-
     " Delete white space at end of line when save
     autocmd BufWritePre * :%s/\s\+$//e
-
-    " 2 spaces indent for some files
-    autocmd FileType vim,html,jade,stylus,markdown,coffee,coffeescript setlocal tabstop=2 shiftwidth=2
-    " line limit for some files
-    "autocmd FileType text,markdown setlocal textwidth=80
-
-    " enable omnifunc and put it to neocomplete
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType css,scss,sass,less setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
-    autocmd FileType javascript setlocal omnifunc=nodejscomplete#CompleteJS
-    autocmd BufEnter .js*rc,.sailsrc setfiletype json
-
-    " configure sytastic checkers
-    autocmd FileType javascript let b:syntastic_checkers = findfile('.jscsrc', '.;') != '' ? ['jscs', 'jshint'] : ['jshint']
 
     " auto save/load folding
     "autocmd BufWinLeave * mkview
     "autocmd BufWinEnter * silent loadview
 
     " When editing a file, always jump to the last known cursor position.
-    " Don't do it when the position is invalid or when inside an event handler
-    " (happens when dropping a file on gvim).
-    " Also don't do it when the mark is in the first line, that is the default
-    " position when opening a file.
+    " Don't do it when the position is invalid or when inside an event handler (happens when dropping a file on gvim).
+    " Also don't do it when the mark is in the first line, that is the default position when opening a file.
     autocmd BufReadPost *
           \ if line("'\"") > 1 && line("'\"") <= line("$") |
           \   exe "normal! g`\"" |
           \ endif
 
-  augroup END
+    " Close NERDTree if this is the last buffer
+    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
-  " Close it if this is the last buffer
-  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+  augroup END
 else " what do you really need ?
   set autoindent
   set omnifunc=syntaxcomplete#Complete
