@@ -308,7 +308,6 @@ if has("autocmd")
     if !exists('g:neocomplete#sources#omni#input_patterns')
       let g:neocomplete#sources#omni#input_patterns = {}
     endif
-    autocmd VimEnter neocomplete#initialize()
 
     " Delete white space at end of line when save
     autocmd BufWritePre * :%s/\s\+$//e
