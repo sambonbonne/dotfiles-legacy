@@ -14,7 +14,10 @@ set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim " set the runtime path to include Vundle and initialize
 call vundle#begin()
-Plugin 'gmarik/Vundle.vim' " let Vundle manage Vundle, required End Vundle config
+Plugin 'VundleVim/Vundle.vim' " let Vundle manage Vundle
+
+" Vimproc, not bad
+Plugin 'Shougo/vimproc.vim'
 
 " To add .lvimrc for each project you want
 Plugin 'embear/vim-localvimrc'
