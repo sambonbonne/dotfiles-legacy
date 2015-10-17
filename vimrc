@@ -52,14 +52,23 @@ vmap <Enter> <Plug>(EasyAlign)
 Plugin 'Shougo/neocomplete.vim'
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+let g:neocomplete#enable_camel_case = 1
+let g:neocomplete#auto_completion_start_length = 3
+let g:neocomplete#min_keyword_length = 3
+"let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+let g:neocomplete#enable_auto_delimiter = 1
+
 let g:neocomplete#sources#dictionary#dictionaries = {
       \ 'default' : ''
       \ }
+
+let g:neocomplete#max_list = 10
+let g:neocomplete#max_keyword_width = 25
+let g:neocomplete#enable_auto_close_preview = 1
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-D>"
-inoremap <expr><CR> pumvisible() ? neocomplete#close_popup() : "\<CR>"
+inoremap <expr><C-TAB> neocomplete#complete_common_string()
+inoremap <expr><CR> pumvisible() ? neocomplete#smart_close_popup() : "\<CR>"
 inoremap <expr><BS> pumvisible() ? neocomplete#undo_completion()."\<BS>" : "\<BS>"
 
 " First, auto-close brackets, quotes ... Second, auto-close tags
@@ -291,6 +300,7 @@ if has("autocmd")
     if !exists('g:neocomplete#sources#omni#input_patterns')
       let g:neocomplete#sources#omni#input_patterns = {}
     endif
+    autocmd VimEnter neocomplete#initialize()
 
     " Delete white space at end of line when save
     autocmd BufWritePre * :%s/\s\+$//e
