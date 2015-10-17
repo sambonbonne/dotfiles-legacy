@@ -183,7 +183,7 @@ set backspace=indent,eol,start
 " Some colors configuration
 set t_Co=256
 set background=dark
-colorscheme PaperColor
+colorscheme hybrid_materialt
 if (has("gui_running"))
   colorscheme material-theme
 endif
