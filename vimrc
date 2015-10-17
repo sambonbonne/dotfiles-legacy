@@ -49,9 +49,18 @@ Plugin 'junegunn/vim-easy-align'
 vmap <Enter> <Plug>(EasyAlign)
 
 " Completion
-Plugin 'ervandew/supertab'
-let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabContextDefaultCompletionType = "<c-n>"
+Plugin 'Shougo/neocomplete.vim'
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+let g:neocomplete#sources#dictionary#dictionaries = {
+      \ 'default' : ''
+      \ }
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-D>"
+inoremap <expr><CR> pumvisible() ? neocomplete#close_popup() : "\<CR>"
+inoremap <expr><BS> pumvisible() ? neocomplete#undo_completion()."\<BS>" : "\<BS>"
 
 " First, auto-close brackets, quotes ... Second, auto-close tags
 Plugin 'Raimondi/delimitMate'
@@ -278,6 +287,10 @@ if has("autocmd")
 
   augroup general
     autocmd!
+
+    if !exists('g:neocomplete#sources#omni#input_patterns')
+      let g:neocomplete#sources#omni#input_patterns = {}
+    endif
 
     " Delete white space at end of line when save
     autocmd BufWritePre * :%s/\s\+$//e
