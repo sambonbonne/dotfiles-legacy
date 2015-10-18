@@ -52,28 +52,37 @@ Plugin 'junegunn/vim-easy-align'
 vmap <Enter> <Plug>(EasyAlign)
 
 " Completion
-Plugin 'Shougo/context_filetype.vim'
-Plugin 'Shougo/neoinclude.vim'
-Plugin 'Shougo/neco-syntax'
-let g:necosyntax#min_keyword_length = 3
-Plugin 'Shougo/neocomplete.vim'
-set completeopt=longest,preview,menu,noselect
-let g:neocomplete#use_vimproc = 1
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#enable_camel_case = 1
-let g:neocomplete#auto_completion_start_length = 3
-let g:neocomplete#min_keyword_length = 3
-let g:neocomplete#same_filetypes = {'_': '_'}
-let g:neocomplete#enable_auto_delimiter = 1
+if has("lua")
+  Plugin 'Shougo/context_filetype.vim'
+  Plugin 'Shougo/neoinclude.vim'
+  Plugin 'Shougo/neco-syntax'
+  let g:necosyntax#min_keyword_length = 3
+  Plugin 'Shougo/neocomplete.vim'
+  let g:neocomplete#enable_at_startup = 1
+  set completeopt=longest,preview,menu,noselect
+  let g:neocomplete#use_vimproc = 1
+  let g:neocomplete#enable_at_startup = 1
+  let g:neocomplete#enable_smart_case = 1
+  let g:neocomplete#enable_camel_case = 1
+  let g:neocomplete#auto_completion_start_length = 3
+  let g:neocomplete#min_keyword_length = 3
+  let g:neocomplete#same_filetypes = {'_': '_'}
+  let g:neocomplete#enable_auto_delimiter = 1
 
-let g:neocomplete#sources#dictionary#dictionaries = {
-      \ 'default' : ''
-      \ }
+  let g:neocomplete#sources = {}
+  let g:neocomplete#sources._ = ['member', 'buffer', 'tag', 'omni']
+  let g:neocomplete#sources#dictionary#dictionaries = {
+        \ 'default' : ''
+        \ }
 
-let g:neocomplete#max_list = 10
-let g:neocomplete#max_keyword_width = 25
-let g:neocomplete#enable_auto_close_preview = 1
+  let g:neocomplete#max_list = 10
+  let g:neocomplete#max_keyword_width = 25
+  let g:neocomplete#enable_auto_close_preview = 1
+else
+  Plugin 'ervandew/supertab'
+  let g:SuperTabDefaultCompletionType="context"
+  let g:SuperTabContextDefaultCompletionType="<c-n>"
+endif
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-D>"
 inoremap <expr><C-TAB> neocomplete#complete_common_string()
