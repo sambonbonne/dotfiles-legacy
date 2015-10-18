@@ -35,17 +35,17 @@ nnoremap <Leader>t :TagbarToggle<CR>
 " Buffers list
 Plugin 'bling/vim-bufferline' " in a line
 Plugin 'jeetsukumaran/vim-buffergator' " quick switch
-let g:buffergator_viewport_split_policy = 'B'
-let g:buffergator_hsplit_size = 8
-let g:buffergator_sort_regime = 'mru'
+let g:buffergator_viewport_split_policy='B'
+let g:buffergator_hsplit_size=8
+let g:buffergator_sort_regime='mru'
 let g:buffergator_suppress_keymaps=1
 nnoremap <Leader>b :BuffergatorOpen<CR>
 
 " Detect indentation and set defaults
 Plugin 'vim-scripts/yaifa.vim'
-set tabstop=4          " size of hard tab stop
-set shiftwidth=4       " size of an "indent"
-set expandtab          " use space instead of tab
+set tabstop=4    " size of hard tab stop
+set shiftwidth=4 " size of an "indent"
+set expandtab    " use space instead of tab
 
 " Easy align
 Plugin 'junegunn/vim-easy-align'
