@@ -55,6 +55,7 @@ vmap <Enter> <Plug>(EasyAlign)
 Plugin 'Shougo/context_filetype.vim'
 Plugin 'Shougo/neoinclude.vim'
 Plugin 'Shougo/neco-syntax'
+let g:necosyntax#min_keyword_length = 3
 Plugin 'Shougo/neocomplete.vim'
 set completeopt=longest,preview,menu,noselect
 let g:neocomplete#use_vimproc = 1
@@ -63,7 +64,7 @@ let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#enable_camel_case = 1
 let g:neocomplete#auto_completion_start_length = 3
 let g:neocomplete#min_keyword_length = 3
-"let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+let g:neocomplete#same_filetypes = {'_': '_'}
 let g:neocomplete#enable_auto_delimiter = 1
 
 let g:neocomplete#sources#dictionary#dictionaries = {
@@ -183,7 +184,7 @@ set backspace=indent,eol,start
 " Some colors configuration
 set t_Co=256
 set background=dark
-colorscheme hybrid_materialt
+colorscheme hybrid_material
 if (has("gui_running"))
   colorscheme material-theme
 endif
