@@ -30,17 +30,17 @@ Plug 'embear/vim-localvimrc'
 let g:localvimrc_ask=0
 
 " NERDTree, with Git flags
-Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
 noremap <Leader>n :NERDTreeToggle<CR>
 
 " All tags
-Plug 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 nnoremap <Leader>t :TagbarToggle<CR>
 
 " Buffers list
 Plug 'bling/vim-bufferline' " in a line
-Plug 'jeetsukumaran/vim-buffergator' " quick switch
+Plug 'jeetsukumaran/vim-buffergator', { 'on': ['BuffergatorOpen', 'BuffergatorToggle'] } " quick switch
 let g:buffergator_viewport_split_policy='B'
 let g:buffergator_hsplit_size=8
 let g:buffergator_sort_regime='mru'
@@ -54,7 +54,7 @@ set shiftwidth=4 " size of an "indent"
 set expandtab    " use space instead of tab
 
 " Easy align
-Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-easy-align', { 'on': '<Plug>(EasyAlign)' }
 vmap <Enter> <Plug>(EasyAlign)
 
 " Completion
@@ -111,8 +111,8 @@ smap <C-k>  <Plug>(neosnippet_expand_or_jump)
 xmap <C-k>  <Plug>(neosnippet_expand_target)
 
 " Replace and undo/redo improve
-Plug 'tpope/vim-abolish' " :Abolish{despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}, :Subvert/pattern/subtitute/g
-Plug 'mbbill/undotree'
+Plug 'tpope/vim-abolish', { 'on': ['Abolish', 'Subvert'] } " :Abolish{despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}, :Subvert/pattern/subtitute/g
+Plug 'mbbill/undotree', { 'on': ['UndotreeToggle', 'UndotreeShow', 'UndotreeFocus'] }
 nmap <Leader>u :UndotreeToggle<CR>
 if has("persistent_undo")
   set undodir='~/.vim/undodir/'
@@ -122,7 +122,7 @@ endif
 " Files search and advanced moves
 Plug 'kien/ctrlp.vim'
 let g:ctrlp_map = '<Leader>p'
-Plug 'Lokaltog/vim-easymotion'
+Plug 'Lokaltog/vim-easymotion', { 'on': '<Plug>(easymotion-prefix)' }
 nmap <Leader>m <Plug>(easymotion-prefix)
 vmap <Leader>m <Plug>(easymotion-prefix)
 
@@ -139,19 +139,19 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 " Man pages on the editor
-Plug 'bruno-/vim-man'
+Plug 'bruno-/vim-man',  { 'on': ['Man', 'Mangrep'] }
 
 " Some technos/languages
-Plug 'pangloss/vim-javascript'
-Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'mattn/jscomplete-vim'
-Plug 'myhere/vim-nodejs-complete'
-Plug 'kchmck/vim-coffee-script'
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'othree/javascript-libraries-syntax.vim', { 'for': 'javascript' }
+Plug 'mattn/jscomplete-vim', { 'for': 'javascript' }
+Plug 'myhere/vim-nodejs-complete', { 'for': 'javascript' }
+Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
 Plug 'mustache/vim-mustache-handlebars'
 Plug 'aaronj1335/underscore-templates.vim'
 Plug 'digitaltoad/vim-jade'
-Plug 'othree/html5.vim'
-Plug 'hail2u/vim-css3-syntax'
+Plug 'othree/html5.vim', { 'for': 'html' }
+Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'css3'] }
 Plug 'wavded/vim-stylus'
 Plug 'pekepeke/titanium-vim'
 let g:nodejs_complete_config = {
@@ -159,20 +159,20 @@ let g:nodejs_complete_config = {
             \  'max_node_compl_len': 15
             \ }
 
-Plug 'StanAngeloff/php.vim'
+Plug 'StanAngeloff/php.vim', { 'for': 'php' }
 
-Plug 'hdima/python-syntax'
+Plug 'hdima/python-syntax', { 'for': 'python' }
 
-Plug 'rust-lang/rust.vim'
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'timonv/vim-cargo'
 
-Plug 'elzr/vim-json'
-Plug 'cespare/vim-toml'
+Plug 'elzr/vim-json', { 'for': 'json' }
+Plug 'cespare/vim-toml', { 'for': 'toml' }
 
 Plug 'docker/docker', { 'rtp': '/contrib/syntax/vim/' }
 Plug 'nginx/nginx', { 'rtp': '/contrib/vim/' }
 
-Plug 'vim-scripts/bash-support.vim'
+Plug 'vim-scripts/bash-support.vim', { 'for': ['shell', 'sh', 'bash'] }
 
 Plug 'PotatoesMaster/i3-vim-syntax'
 
