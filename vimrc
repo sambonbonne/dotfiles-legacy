@@ -105,7 +105,7 @@ smap <C-k>  <Plug>(neosnippet_expand_or_jump)
 xmap <C-k>  <Plug>(neosnippet_expand_target)
 
 " Replace and undo/redo improve
-Plugin 'tpope/vim-abolish'
+Plugin 'tpope/vim-abolish' " :Abolish{despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}, :Subvert/pattern/subtitute/g
 Plugin 'mbbill/undotree'
 nmap <Leader>u :UndotreeToggle<CR>
 if has("persistent_undo")
@@ -115,8 +115,10 @@ endif
 
 " Files search and advanced moves
 Plugin 'kien/ctrlp.vim'
+let g:ctrlp_map = '<Leader>p'
 Plugin 'Lokaltog/vim-easymotion'
 nmap <Leader>m <Plug>(easymotion-prefix)
+vmap <Leader>m <Plug>(easymotion-prefix)
 
 " Syntax checking
 Plugin 'scrooloose/syntastic'
