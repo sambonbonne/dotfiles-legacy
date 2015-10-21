@@ -123,6 +123,8 @@ endif
 Plug 'kien/ctrlp.vim'
 let g:ctrlp_map = '<Leader>p'
 Plug 'Lokaltog/vim-easymotion', { 'on': '<Plug>(easymotion-prefix)' }
+let g:EasyMotion_do_mapping=0
+let g:EasyMotion_smartcase=1
 nmap <Leader>m <Plug>(easymotion-prefix)
 vmap <Leader>m <Plug>(easymotion-prefix)
 
