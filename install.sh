@@ -12,6 +12,7 @@ fi
 
 # Put ZSH config
 echo "ZSH"
+ln -s ~/dev/dotfiles/dircolors ~/.dircolors
 ln -s ~/dev/dotfiles/profile ~/.profile
 ln -s ~/dev/dotfiles/zshrc ~/.zshrc
 ln -s ~/dev/dotfiles/zsh ~/.zsh
