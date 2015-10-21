@@ -20,9 +20,9 @@ type zsh >/dev/null 2>&1 && chsh -s /bin/zsh || echo "ZSH is configured but not 
 # And Vim config
 echo "Vim"
 ln -s ~/dev/dotfiles/vimrc ~/.vimrc
-mkdir -p ~/.vim/bundle
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-type vim >/dev/null 2>&1 && vim +PluginInstall +qall || echo "Vim is configured but not installed, will you survive ?"
+mkdir -p ~/.vim/plugged
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+type vim >/dev/null 2>&1 && vim +PluInstall +qall || echo "Vim is configured but not installed, will you survive ?"
 
 # Don't forget Tmux
 echo "Tmux"

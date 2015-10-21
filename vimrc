@@ -10,31 +10,37 @@ endif
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
-" Vundle config
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim " set the runtime path to include Vundle and initialize
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim' " let Vundle manage Vundle
+" vim-plug no installed ? We can do it for you
+if empty(glob("~/.vim/autoload/plug.vim"))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+              \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+  if has("autocmd")
+      autocmd VimEnter * PlugInstall | source $MYVIMRC
+  endif
+endif
+
+call plug#begin('~/.vim/plugged')
 
 " Vimproc, not bad
-Plugin 'Shougo/vimproc.vim'
+Plug 'Shougo/vimproc.vim'
 
 " To add .lvimrc for each project you want
-Plugin 'embear/vim-localvimrc'
+Plug 'embear/vim-localvimrc'
 let g:localvimrc_ask=0
 
 " NERDTree, with Git flags
-Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 noremap <Leader>n :NERDTreeToggle<CR>
 
 " All tags
-Plugin 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar'
 nnoremap <Leader>t :TagbarToggle<CR>
 
 " Buffers list
-Plugin 'bling/vim-bufferline' " in a line
-Plugin 'jeetsukumaran/vim-buffergator' " quick switch
+Plug 'bling/vim-bufferline' " in a line
+Plug 'jeetsukumaran/vim-buffergator' " quick switch
 let g:buffergator_viewport_split_policy='B'
 let g:buffergator_hsplit_size=8
 let g:buffergator_sort_regime='mru'
@@ -42,22 +48,22 @@ let g:buffergator_suppress_keymaps=1
 nnoremap <Leader>b :BuffergatorOpen<CR>
 
 " Detect indentation and set defaults
-Plugin 'vim-scripts/yaifa.vim'
+Plug 'vim-scripts/yaifa.vim'
 set tabstop=4    " size of hard tab stop
 set shiftwidth=4 " size of an "indent"
 set expandtab    " use space instead of tab
 
 " Easy align
-Plugin 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-easy-align'
 vmap <Enter> <Plug>(EasyAlign)
 
 " Completion
 if has("lua")
-  Plugin 'Shougo/context_filetype.vim'
-  Plugin 'Shougo/neoinclude.vim'
-  Plugin 'Shougo/neco-syntax'
+  Plug 'Shougo/context_filetype.vim'
+  Plug 'Shougo/neoinclude.vim'
+  Plug 'Shougo/neco-syntax'
   let g:necosyntax#min_keyword_length = 3
-  Plugin 'Shougo/neocomplete.vim'
+  Plug 'Shougo/neocomplete.vim'
   let g:neocomplete#enable_at_startup = 1
   set completeopt=longest,preview,menu,noselect
   let g:neocomplete#use_vimproc = 1
@@ -79,7 +85,7 @@ if has("lua")
   let g:neocomplete#max_keyword_width = 25
   let g:neocomplete#enable_auto_close_preview = 1
 else
-  Plugin 'ervandew/supertab'
+  Plug 'ervandew/supertab'
   let g:SuperTabDefaultCompletionType="context"
   let g:SuperTabContextDefaultCompletionType="<c-n>"
 endif
@@ -90,23 +96,23 @@ inoremap <expr><CR> pumvisible() ? neocomplete#smart_close_popup() : "\<CR>"
 inoremap <expr><BS> pumvisible() ? neocomplete#undo_completion()."\<BS>" : "\<BS>"
 
 " First, auto-close brackets, quotes ... Second, auto-close tags
-Plugin 'Raimondi/delimitMate'
+Plug 'Raimondi/delimitMate'
 let delimitMate_expand_cr = 1
 let delimitMate_expand_space = 1
-"Plugin 'alvan/vim-closetag'
+"Plug 'alvan/vim-closetag'
 "let g:closetag_filenames = "*.html,*.erb,*.xml"
-"Plugin 'docunext/closetag.vim'
+"Plug 'docunext/closetag.vim'
 
 " Snippets
-Plugin 'Shougo/neosnippet'
-Plugin 'Shougo/neosnippet-snippets'
+Plug 'Shougo/neosnippet'
+Plug 'Shougo/neosnippet-snippets'
 imap <C-k>  <Plug>(neosnippet_expand_or_jump)
 smap <C-k>  <Plug>(neosnippet_expand_or_jump)
 xmap <C-k>  <Plug>(neosnippet_expand_target)
 
 " Replace and undo/redo improve
-Plugin 'tpope/vim-abolish' " :Abolish{despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}, :Subvert/pattern/subtitute/g
-Plugin 'mbbill/undotree'
+Plug 'tpope/vim-abolish' " :Abolish{despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}, :Subvert/pattern/subtitute/g
+Plug 'mbbill/undotree'
 nmap <Leader>u :UndotreeToggle<CR>
 if has("persistent_undo")
   set undodir='~/.vim/undodir/'
@@ -114,14 +120,14 @@ if has("persistent_undo")
 endif
 
 " Files search and advanced moves
-Plugin 'kien/ctrlp.vim'
+Plug 'kien/ctrlp.vim'
 let g:ctrlp_map = '<Leader>p'
-Plugin 'Lokaltog/vim-easymotion'
+Plug 'Lokaltog/vim-easymotion'
 nmap <Leader>m <Plug>(easymotion-prefix)
 vmap <Leader>m <Plug>(easymotion-prefix)
 
 " Syntax checking
-Plugin 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic'
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_loc_list_height = 4
@@ -129,57 +135,57 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_aggregate_errors = 1
 
 " Git wrapping and symbols
-Plugin 'tpope/vim-fugitive'
-Plugin 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 
 " Man pages on the editor
-Plugin 'bruno-/vim-man'
+Plug 'bruno-/vim-man'
 
 " Some technos/languages
-Plugin 'pangloss/vim-javascript'
-Plugin 'othree/javascript-libraries-syntax.vim'
-Plugin 'mattn/jscomplete-vim'
-Plugin 'myhere/vim-nodejs-complete'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'mustache/vim-mustache-handlebars'
-Plugin 'aaronj1335/underscore-templates.vim'
-Plugin 'digitaltoad/vim-jade'
-Plugin 'othree/html5.vim'
-Plugin 'hail2u/vim-css3-syntax'
-Plugin 'wavded/vim-stylus'
-Plugin 'pekepeke/titanium-vim'
+Plug 'pangloss/vim-javascript'
+Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'mattn/jscomplete-vim'
+Plug 'myhere/vim-nodejs-complete'
+Plug 'kchmck/vim-coffee-script'
+Plug 'mustache/vim-mustache-handlebars'
+Plug 'aaronj1335/underscore-templates.vim'
+Plug 'digitaltoad/vim-jade'
+Plug 'othree/html5.vim'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'wavded/vim-stylus'
+Plug 'pekepeke/titanium-vim'
 let g:nodejs_complete_config = {
             \  'js_compl_fn': 'jscomplete#CompleteJS',
             \  'max_node_compl_len': 15
             \ }
 
-Plugin 'StanAngeloff/php.vim'
+Plug 'StanAngeloff/php.vim'
 
-Plugin 'hdima/python-syntax'
+Plug 'hdima/python-syntax'
 
-Plugin 'rust-lang/rust.vim'
-Plugin 'timonv/vim-cargo'
+Plug 'rust-lang/rust.vim'
+Plug 'timonv/vim-cargo'
 
-Plugin 'elzr/vim-json'
-Plugin 'cespare/vim-toml'
+Plug 'elzr/vim-json'
+Plug 'cespare/vim-toml'
 
-Plugin 'docker/docker', { 'rtp': '/contrib/syntax/vim/' }
-Plugin 'nginx/nginx', { 'rtp': '/contrib/vim/' }
+Plug 'docker/docker', { 'rtp': '/contrib/syntax/vim/' }
+Plug 'nginx/nginx', { 'rtp': '/contrib/vim/' }
 
-Plugin 'vim-scripts/bash-support.vim'
+Plug 'vim-scripts/bash-support.vim'
 
-Plugin 'PotatoesMaster/i3-vim-syntax'
+Plug 'PotatoesMaster/i3-vim-syntax'
 
 " Some colors
-Plugin 'NLKNguyen/papercolor-theme'
-Plugin 'jdkanani/vim-material-theme'
-Plugin 'jscappini/material.vim'
-Plugin 'kristijanhusak/vim-hybrid-material'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'jdkanani/vim-material-theme'
+Plug 'jscappini/material.vim'
+Plug 'kristijanhusak/vim-hybrid-material'
 " For hex colors
-Plugin 'vim-scripts/colorizer'
+Plug 'vim-scripts/colorizer'
 let g:colorizer_nomap = 1
 
-call vundle#end()
+call plug#end()
 " End vundle config
 
 filetype plugin indent on
