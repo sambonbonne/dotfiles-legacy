@@ -168,10 +168,16 @@ Plug 'wavded/vim-stylus', { 'for': ['styl', 'stylus'] }
 
 Plug 'pekepeke/titanium-vim'
 
+Plug 'klen/python-mode', { 'for': 'python' }
+Plug 'hdima/python-syntax', { 'for': 'python' }
+let g:pymode_lint_write = 0
+let g:pymode_syntax_all = 1
+"let g:pymode_rope_completion = 0
+let g:pymode_breakpoint_bind = '<leader>p'
+
 Plug 'StanAngeloff/php.vim', { 'for': 'php' }
 Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
 
-Plug 'hdima/python-syntax', { 'for': 'python' }
 
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'timonv/vim-cargo', { 'for': 'rust' }
@@ -339,6 +345,12 @@ if has("autocmd")
       autocmd BufEnter *.hs compiler ghc
       let g:haskellmode_completion_ghc = 0
       autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+  augroup END
+
+  augroup python
+      autocmd!
+
+      autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   augroup END
 
   augroup general
