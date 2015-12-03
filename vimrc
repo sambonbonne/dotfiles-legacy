@@ -31,15 +31,14 @@ let g:localvimrc_ask=0
 
 " NERDTree, with Git flags
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
-Plug 'Xuyuanp/nerdtree-git-plugin'
 noremap <Leader>n :NERDTreeToggle<CR>
 
 " All tags
+Plug 'xolox/vim-misc' | Plug 'xolox/vim-easytags'
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 nnoremap <Leader>t :TagbarToggle<CR>
 
 " Buffers list
-Plug 'bling/vim-bufferline' " in a line
 Plug 'jeetsukumaran/vim-buffergator', { 'on': ['BuffergatorOpen', 'BuffergatorToggle'] } " quick switch
 let g:buffergator_viewport_split_policy='B'
 let g:buffergator_hsplit_size=8
@@ -53,11 +52,18 @@ set tabstop=4    " size of hard tab stop
 set shiftwidth=4 " size of an "indent"
 set expandtab    " use space instead of tab
 
+" Highlight whitespace
+Plug 'bronson/vim-trailing-whitespace'
+
 " Easy align
 Plug 'junegunn/vim-easy-align', { 'on': '<Plug>(EasyAlign)' }
 vmap <Enter> <Plug>(EasyAlign)
 
+" Comment better
+Plug 'scrooloose/nerdcommenter'
+
 " Completion
+set completeopt=longest,preview,menu,noselect
 if has("lua")
   Plug 'Shougo/context_filetype.vim'
   Plug 'Shougo/neoinclude.vim'
@@ -65,7 +71,6 @@ if has("lua")
   let g:necosyntax#min_keyword_length = 3
   Plug 'Shougo/neocomplete.vim'
   let g:neocomplete#enable_at_startup = 1
-  set completeopt=longest,preview,menu,noselect
   let g:neocomplete#use_vimproc = 1
   let g:neocomplete#enable_at_startup = 1
   let g:neocomplete#enable_smart_case = 1
@@ -95,27 +100,24 @@ inoremap <expr><C-TAB> neocomplete#complete_common_string()
 inoremap <expr><CR> pumvisible() ? neocomplete#smart_close_popup() : "\<CR>"
 inoremap <expr><BS> pumvisible() ? neocomplete#undo_completion()."\<BS>" : "\<BS>"
 
-" First, auto-close brackets, quotes ... Second, auto-close tags
-Plug 'Raimondi/delimitMate'
-let delimitMate_expand_cr = 1
-let delimitMate_expand_space = 1
-"Plug 'alvan/vim-closetag'
-"let g:closetag_filenames = "*.html,*.erb,*.xml"
-"Plug 'docunext/closetag.vim'
+" First, auto-close brackets, quotes ... Second, auto-close tags, third change surrounds
+Plug 'jiangmiao/auto-pairs'
+Plug 'alvan/vim-closetag' " don't put 'for', it won't work at all
+let g:closetag_filenames = "*.xml,*.html,*.tpl,*.hbs"
+Plug 'tpope/vim-surround' " cs like Change Surround, ds like Delete Surround
 
 " Snippets
-Plug 'Shougo/neosnippet'
-Plug 'Shougo/neosnippet-snippets'
-imap <C-k>  <Plug>(neosnippet_expand_or_jump)
-smap <C-k>  <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>  <Plug>(neosnippet_expand_target)
+Plug 'Shougo/neosnippet' | Plug 'Shougo/neosnippet-snippets'
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
 
 " Replace and undo/redo improve
 Plug 'tpope/vim-abolish', { 'on': ['Abolish', 'Subvert'] } " :Abolish{despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}, :Subvert/pattern/subtitute/g
 Plug 'mbbill/undotree', { 'on': ['UndotreeToggle', 'UndotreeShow', 'UndotreeFocus'] }
-nmap <Leader>u :UndotreeToggle<CR>
+nnoremap <Leader>u :UndotreeToggle<CR>
 if has("persistent_undo")
-  set undodir='~/.vim/undodir/'
+  set undodir=~/.undodir/
   set undofile
 endif
 
@@ -123,7 +125,7 @@ endif
 Plug 'kien/ctrlp.vim'
 let g:ctrlp_map = '<Leader>p'
 Plug 'Lokaltog/vim-easymotion', { 'on': '<Plug>(easymotion-prefix)' }
-let g:EasyMotion_do_mapping=0
+let g:EasyMotion_do_mapping=1
 let g:EasyMotion_smartcase=1
 nmap <Leader>m <Plug>(easymotion-prefix)
 vmap <Leader>m <Plug>(easymotion-prefix)
@@ -141,32 +143,38 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 " Man pages on the editor
-Plug 'bruno-/vim-man',  { 'on': ['Man', 'Mangrep'] }
+Plug 'bruno-/vim-man', { 'on': ['Man', 'Mangrep'] }
+
+" We want to build
+Plug 'KabbAmine/gulp-vim', { 'on': ['Gulp', 'GulpExt', 'GulpFile', 'GulpTasks'] }
+Plug 'mklabs/grunt.vim', { 'on': ['Grunt', 'Gtask', 'Gtest', 'Glint', 'Gdoc'] }
 
 " Some technos/languages
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'othree/javascript-libraries-syntax.vim', { 'for': 'javascript' }
-Plug 'mattn/jscomplete-vim', { 'for': 'javascript' }
 Plug 'myhere/vim-nodejs-complete', { 'for': 'javascript' }
+let g:nodejs_complete_config = { 'js_compl_fn': 'javascriptcomplete#CompleteJS', 'max_node_compl_len': 0 }
 Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
 Plug 'mustache/vim-mustache-handlebars'
 Plug 'aaronj1335/underscore-templates.vim'
 Plug 'digitaltoad/vim-jade'
 Plug 'othree/html5.vim', { 'for': 'html' }
+Plug 'mustache/vim-mustache-handlebars', { 'for': ['hbs', 'handlebars', 'html.handlebars'] }
+Plug 'aaronj1335/underscore-templates.vim'
+Plug 'digitaltoad/vim-jade', { 'for': 'jade' }
+
 Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'css3'] }
-Plug 'wavded/vim-stylus'
+Plug 'wavded/vim-stylus', { 'for': ['styl', 'stylus'] }
+
 Plug 'pekepeke/titanium-vim'
-let g:nodejs_complete_config = {
-            \  'js_compl_fn': 'jscomplete#CompleteJS',
-            \  'max_node_compl_len': 15
-            \ }
 
 Plug 'StanAngeloff/php.vim', { 'for': 'php' }
+Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
 
 Plug 'hdima/python-syntax', { 'for': 'python' }
 
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
-Plug 'timonv/vim-cargo'
+Plug 'timonv/vim-cargo', { 'for': 'rust' }
 
 Plug 'elzr/vim-json', { 'for': 'json' }
 Plug 'cespare/vim-toml', { 'for': 'toml' }
@@ -178,14 +186,25 @@ Plug 'vim-scripts/bash-support.vim', { 'for': ['shell', 'sh', 'bash'] }
 
 Plug 'PotatoesMaster/i3-vim-syntax'
 
+" Launch test in Vim
+Plug 'janko-m/vim-test'
+let test#strategy = "neovim"
+
 " Some colors
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'jdkanani/vim-material-theme'
 Plug 'jscappini/material.vim'
 Plug 'kristijanhusak/vim-hybrid-material'
-" For hex colors
+
+" Highlight hex colors
 Plug 'vim-scripts/colorizer'
 let g:colorizer_nomap = 1
+
+" Indent can be visible
+Plug 'Yggdroot/indentLine'
+let g:indentLine_enabled = 1
+let g:indentLine_color_term = 239
+let g:indentLine_char = '¦'
 
 call plug#end()
 " End vundle config
@@ -330,7 +349,7 @@ if has("autocmd")
     endif
 
     " Delete white space at end of line when save
-    autocmd BufWritePre * :%s/\s\+$//e
+    autocmd BufWritePre * :FixWhitespace
 
     " auto save/load folding
     "autocmd BufWinLeave * mkview
