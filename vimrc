@@ -382,7 +382,7 @@ endif
 
 " Statusline config
 set laststatus=2
-set statusline=%6(%L%)\ \ %-3(%c%)
+set statusline=%6(%L%)\ %6(%l%),%-6(%c%)
 set statusline+=\ %<%f\ %Y,%{&fenc==\"\"?&enc:&fenc}\ %{strftime(\"%H:%M\",getftime(expand(\"%%\")))}
 set statusline+=%=%m%r%{fugitive#statusline()}
 set statusline+=\ %(%#warningmsg#%{SyntasticStatuslineFlag()}%*%)
