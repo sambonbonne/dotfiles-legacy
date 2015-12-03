@@ -3,7 +3,7 @@
 echo "Hi! What a good day to prepare a computer for more productivity. Let's go!"
 
 # Clone dotfiles
-read -p "Do you need to clone dotfiles in ~/dev/dotfiles ?" -n 1 -r
+read -p "Do you need to clone dotfiles in ~/dev/dotfiles ? " -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   type git >/dev/null 2>&1 || { echo "Git doesn't exists, but what is this shitty computer ?!"; exit 1; }
   mkdir -p ~/dev
@@ -23,7 +23,7 @@ echo "Vim"
 ln -s ~/dev/dotfiles/vimrc ~/.vimrc
 mkdir -p ~/.vim/plugged
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-type vim >/dev/null 2>&1 && vim +PluInstall +qall || echo "Vim is configured but not installed, will you survive ?"
+type vim >/dev/null 2>&1 && vim +PlugInstall +qall || echo "Vim is configured but not installed, will you survive ?"
 
 # Don't forget Tmux
 echo "Tmux"
