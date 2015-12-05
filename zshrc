@@ -51,6 +51,14 @@ if ! zgen saved; then
     zgen save
 fi
 
+# Enable autosuggestions automatically and prepare prompt
+zle-line-init() {
+    zle autosuggest-start
+    zle-line-finish && zle reset-prompt
+}
+zle -N zle-line-init
+bindkey '^ ' vi-forward-blank-word
+
 ## Some alias, can belways usefull
 # Commands alias
 alias ll='ls -FhlX --color=always --hide="*~"'
@@ -60,9 +68,6 @@ alias zsh_history='mv ~/.zsh_history ~/.zsh_history_bad && strings ~/.zsh_histor
 alias ports='netstat -pln'
 alias fuck="thefuck" # fuck is thefuck in arch :/
 
-source ~/.zsh/git
-local prompt_always_parse='$(git_prompt_string)'
-RPROMPT="[%{$fg_no_bold[white]%}%T%{$reset_color%} %(?.%{$fg_no_bold[green]%}.%{$fg_no_bold[red]%})%?%{$reset_color%}]%(1j. (%{$fg_no_bold[magenta]%}%j%{$reset_color%}J%).)${prompt_always_parse}"
 
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
 
