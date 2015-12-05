@@ -28,12 +28,6 @@ autoload -Uz compinit && compinit
 
 ### My own configuration
 
-# Fish-like syntax highlighting (available in AUR for Arch)
-SYNTAX_HIGHLIGHT_FILE=/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-if [[ -a $SYNTAX_HIGHLIGHT_FILE ]]; then
-    source $SYNTAX_HIGHLIGHT_FILE
-fi
-
 ## Completion is a basic
 zstyle ':completion:*' menu select
 setopt completealiases
@@ -42,6 +36,17 @@ bindkey '^[[Z' reverse-menu-complete
 
 ## Of course we want colors
 autoload -U colors && colors
+
+# ZGEN loading
+ZGEN_INSTALL_DIR="${HOME}/.zsh/zgen"
+[[ -f "${ZGEN_INSTALL_DIR}/zgen.zsh" ]] || git clone https://github.com/tarjoilija/zgen.git "${ZGEN_INSTALL_DIR}"
+source "${ZGEN_INSTALL_DIR}/zgen.zsh"
+if ! zgen saved; then
+    zgen load zsh-users/zsh-syntax-highlighting
+    zgen load tarruda/zsh-autosuggestions
+
+    zgen save
+fi
 
 ## Some alias, can belways usefull
 # Commands alias
