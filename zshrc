@@ -37,6 +37,9 @@ bindkey '^[[Z' reverse-menu-complete
 ## Of course we want colors
 autoload -U colors && colors
 
+# Load prompt
+source ~/.zsh/prompt.zsh
+
 # ZGEN loading
 ZGEN_INSTALL_DIR="${HOME}/.zsh/zgen"
 [[ -f "${ZGEN_INSTALL_DIR}/zgen.zsh" ]] || git clone https://github.com/tarjoilija/zgen.git "${ZGEN_INSTALL_DIR}"
@@ -56,17 +59,6 @@ alias search='grep -rnF --exclude "*~" --color=always'
 alias zsh_history='mv ~/.zsh_history ~/.zsh_history_bad && strings ~/.zsh_history_bad > ~/.zsh_history && fc -R ~/.zsh_history && rm ~/.zsh_history_bad'
 alias ports='netstat -pln'
 alias fuck="thefuck" # fuck is thefuck in arch :/
-
-### Oh yeah my prompt
-autoload -U promptinit && promptinit
-setopt PROMPT_SUBST
-
-local nbsp=$'\u00A0'
-if [[ -n "$SSH_CLIENT" || "$LOGNAME" == "root" ]]; then
-    PROMPT="%{$fg_no_bold[cyan]%}%n%{$reset_color%}@%{$fg_no_bold[blue]%}%m%{$reset_color%}:%{$fg_no_bold[yellow]%}%~ %{$fg_no_bold[white]%}→%{$reset_color%}$nbsp"
-else
-    PROMPT="%{$fg_no_bold[blue]%}%~ %(?.%{$fg_no_bold[green]%}.%{$fg_bold[red]%})→%{$reset_color%}$nbsp"
-fi
 
 source ~/.zsh/git
 local prompt_always_parse='$(git_prompt_string)'
