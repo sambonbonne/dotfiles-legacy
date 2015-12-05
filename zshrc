@@ -68,6 +68,15 @@ alias zsh_history='mv ~/.zsh_history ~/.zsh_history_bad && strings ~/.zsh_histor
 alias ports='netstat -pln'
 alias fuck="thefuck" # fuck is thefuck in arch :/
 
+# python virtualenv facility
+function venv() {
+    #[[ "$VIRTUAL_ENV" == "" ]] && source "./$1/bin/activate" || deactivate
+    if [[ "$VIRTUAL_ENV" == "" ]]; then
+        [[ "$1" != "" ]] && source "./$1/bin/activate" || echo "Where is the env?"
+    else
+        deactivate || unset VIRTUAL_ENV
+    fi
+}
 
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
 
