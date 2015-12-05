@@ -66,7 +66,7 @@ alias la='ls -AFhlX --color=always --hide="*~"'
 alias search='grep -rnF --exclude "*~" --color=always'
 alias zsh_history='mv ~/.zsh_history ~/.zsh_history_bad && strings ~/.zsh_history_bad > ~/.zsh_history && fc -R ~/.zsh_history && rm ~/.zsh_history_bad'
 alias ports='netstat -pln'
-alias fuck="thefuck" # fuck is thefuck in arch :/
+eval "$(thefuck --alias)"
 
 # python virtualenv facility
 function venv() {
