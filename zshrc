@@ -11,7 +11,8 @@ if [[ $TERM == xterm-termite && -f /etc/profile.d/vte.sh ]]; then
     __vte_osc7
 fi
 
-[[ -f /usr/share/doc/pkgfile/command-not-found.zsh ]] && source /usr/share/doc/pkgfile/command-not-found.zsh
+COMMAND_NOT_FOUND_FILE=/usr/share/doc/pkgfile/command-not-found.zsh
+[[ -f $COMMAND_NOT_FOUND_FILE ]] && source $COMMAND_NOT_FOUND_FILE
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.zsh_history
@@ -37,6 +38,7 @@ fi
 zstyle ':completion:*' menu select
 setopt completealiases
 setopt HIST_IGNORE_DUPS
+bindkey '^[[Z' reverse-menu-complete
 
 ## Of course we want colors
 autoload -U colors && colors
@@ -49,26 +51,6 @@ alias search='grep -rnF --exclude "*~" --color=always'
 alias zsh_history='mv ~/.zsh_history ~/.zsh_history_bad && strings ~/.zsh_history_bad > ~/.zsh_history && fc -R ~/.zsh_history && rm ~/.zsh_history_bad'
 alias ports='netstat -pln'
 alias fuck="thefuck" # fuck is thefuck in arch :/
-
-# vim (vundle) function
-function vundle() {
-    if [ -z "$1" ] || [ $1 = "help" ]; then
-        echo "Install, update or clean Vundle plugins.\n\nUsage: vundle <operation>\nOperations:"
-        echo "\tinstall\tInstall plugins"
-        echo "\tupdate\tUpdate plugins"
-        echo "\tclean\tClean plugins"
-    else
-        if [ $1 = "install" ]; then
-            vim +PluginInstall +qall
-        elif [ $1 = "update" ]; then
-            vim +PluginUpdate +qall
-        elif [ $1 = "clean" ]; then
-            vim +PluginClean +qall
-        else
-            echo "Unknown operation $1."
-        fi
-    fi
-}
 
 ### Oh yeah my prompt
 autoload -U promptinit && promptinit
