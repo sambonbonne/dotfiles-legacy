@@ -30,12 +30,7 @@ fi
 export JAVA_HOME=/usr/lib/jvm/default
 export ANDROID_HOME=/opt/android-sdk
 
-# Start SSH agent if not exists, thanks Julien Palard for inspiration
-# Warning ! You have to launch ssh-add manually ! (not a bug, wanted feature)
-ssh_agents_number="$(ls -1 /tmp/ssh-*/* 2>&1 > /dev/null | wc -l)"
-if [ z"$ssh_agents_number" = z"1" ] ; then
-    export SSH_AUTH_SOCK="$(printf "%s" /tmp/ssh-*/*)"
-    export SSH_AGENT_PID="${SSH_AUTH_SOCK##/*/*.}"
-else
-    eval `ssh-agent` > /dev/null 2>&1
-fi
+# Start SSH agent if not exists and warn if no stored key
+pidof ssh-agent 2>&1 > /dev/null || ssh-agent -a $XDG_RUNTIME_DIR/ssh-agent.socket
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket" ; export SSH_AGENT_PID=$(pidof ssh-agent)
+ssh-add -L 2>&1 > /dev/null || echo "\033[0;31mNo SSH key stored, don't forget to add one\033[0m"
