@@ -25,6 +25,13 @@ mkdir -p ~/.vim/plugged
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 type vim >/dev/null 2>&1 && vim +PlugInstall +qall || echo "Vim is configured but not installed, will you survive ?"
 
+# And NeoVim, hope you have it here
+echo "Neovim"
+mkdir -p ~/.config/nvim
+ln -s ~/dev/dotfiles/config/config/init.vim ~/.config/nvim/init.vim
+curl -fLo ~/.config/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+type neovim >/dev/null 2>&1 && vim +PlugInstall +qall || echo "Neovim is configured but not installed, that's not a surprise"
+
 # Don't forget Tmux
 echo "Tmux"
 ln -s ~/dev/dotfiles/tmux.conf ~/.tmux.conf
