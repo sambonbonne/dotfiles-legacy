@@ -24,6 +24,7 @@ noremap <Leader>n :NERDTreeToggle<CR>
 
 " All tags
 Plug 'xolox/vim-misc' | Plug 'xolox/vim-easytags'
+let g:easytags_async = 1
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 nnoremap <Leader>t :TagbarToggle<CR>
 
