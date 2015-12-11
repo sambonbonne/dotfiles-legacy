@@ -143,12 +143,17 @@ Plug 'dag/vim2hs', { 'for': 'haskell' }
 Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
 let g:haskellmode_completion_ghc = 0
 
-Plug 'klen/python-mode', { 'for': 'python' }
 Plug 'hdima/python-syntax', { 'for': 'python' }
-let g:pymode_lint_write = 0
-let g:pymode_syntax_all = 1
-"let g:pymode_rope_completion = 0
-let g:pymode_breakpoint_bind = '<leader>p'
+Plug 'davidhalter/jedi-vim', { 'for': 'python' }
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#popup_select_first = 0
+let g:jedi#goto_command = "<leader>g"
+let g:jedi#goto_assignments_command = ""
+let g:jedi#goto_definitions_command = ""
+let g:jedi#documentation_command = "<leader>d"
+let g:jedi#usages_command = ""
+let g:jedi#completions_command = ""
+let g:jedi#rename_command = "<leader>r"
 
 Plug 'StanAngeloff/php.vim', { 'for': 'php' }
 Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
@@ -322,7 +327,7 @@ if has("autocmd")
   augroup python
       autocmd!
 
-      autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+      autocmd FileType python setlocal omnifunc=jedi#completions
   augroup END
 
   augroup general
