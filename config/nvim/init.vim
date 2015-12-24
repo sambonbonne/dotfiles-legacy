@@ -18,6 +18,9 @@ let g:localvimrc_ask=0
 " Clipboard and pasting
 Plug 'ConradIrwin/vim-bracketed-paste'
 
+" number switch to relative or not
+Plug 'jeffkreeftmeijer/vim-numbertoggle'
+
 " NERDTree, with Git flags
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 noremap <Leader>n :NERDTreeToggle<CR>
