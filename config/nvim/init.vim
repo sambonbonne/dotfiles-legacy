@@ -59,10 +59,10 @@ Plug 'scrooloose/nerdcommenter'
 
 " Completion
 set completeopt=longest,menu,noselect
-Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/deoplete.nvim' | Plug 'Shougo/neoinclude.vim'
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources = {}
-let g:deoplete#sources._ = ['member', 'tag', 'omni', 'buffer', 'file']
+let g:deoplete#sources._ = ['member', 'tag', 'omni', 'neosnippet', 'buffer', 'file']
 "let g:deoplete#omni_patterns = {}
 "let g:deoplete#omni_patterns.javascript = '[^. \t]\.\h\w*'
 "let g:deoplete#omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
