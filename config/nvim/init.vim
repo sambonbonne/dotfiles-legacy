@@ -132,7 +132,8 @@ Plug 'KabbAmine/gulp-vim', { 'on': ['Gulp', 'GulpExt', 'GulpFile', 'GulpTasks'] 
 Plug 'mklabs/grunt.vim', { 'on': ['Grunt', 'Gtask', 'Gtest', 'Glint', 'Gdoc'] }
 
 " Some technos/languages
-Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
+Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
 Plug 'othree/javascript-libraries-syntax.vim', { 'for': 'javascript' }
 "Plug 'mattn/jscomplete-vim', { 'for': 'javascript' } | Plug 'myhere/vim-nodejs-complete', { 'for': 'javascript' }
 "let g:nodejs_complete_config = { 'js_compl_fn': 'jscomplete#CompleteJS', 'max_node_compl_len': 0 }
@@ -300,7 +301,7 @@ if has("autocmd")
     autocmd!
 
     autocmd FileType coffee,coffeescript setlocal tabstop=2 shiftwidth=2
-    autocmd FileType javascript,coffee,coffeescript,typescript setlocal omnifunc=nodejscomplete#CompleteJS
+    autocmd FileType javascript,coffee,coffeescript,typescript setlocal omnifunc=tern#Complete
   augroup END
 
   augroup json
