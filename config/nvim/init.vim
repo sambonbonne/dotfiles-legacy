@@ -28,13 +28,15 @@ let g:easytags_async = 1
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 nnoremap <Leader>t :TagbarToggle<CR>
 
-" Buffers list
-Plug 'jeetsukumaran/vim-buffergator', { 'on': ['BuffergatorOpen', 'BuffergatorToggle'] } " quick switch
-let g:buffergator_viewport_split_policy='B'
-let g:buffergator_hsplit_size=8
-let g:buffergator_sort_regime='mru'
-let g:buffergator_suppress_keymaps=1
-nnoremap <Leader>b :BuffergatorOpen<CR>
+" Lot of things with Unite
+Plug 'Shougo/unite.vim' | Plug 'Shougo/neoyank.vim'
+" buffers list
+nnoremap <Leader>b :Unite -quick-match buffer<cr>
+" yank history
+let g:unite_source_history_yank_enable = 1
+nnoremap <Leader>y :Unite -quick-match history/yank<cr>
+" File search
+nnoremap <Leader>f :Unite file_rec<cr>
 
 " Detect indentation and set defaults
 Plug 'vim-scripts/yaifa.vim'
@@ -86,9 +88,7 @@ if has("persistent_undo")
   set undofile
 endif
 
-" Files search and advanced moves
-Plug 'kien/ctrlp.vim'
-let g:ctrlp_map = '<Leader>p'
+" Advanced moves
 Plug 'Lokaltog/vim-easymotion', { 'on': '<Plug>(easymotion-prefix)' }
 let g:EasyMotion_do_mapping=1
 let g:EasyMotion_smartcase=1
