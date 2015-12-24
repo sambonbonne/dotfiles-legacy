@@ -118,6 +118,15 @@ Plug 'airblade/vim-gitgutter'
 " Man pages on the editor
 Plug 'bruno-/vim-man', { 'on': ['Man', 'Mangrep'] }
 
+" Edit markdown can be fun
+function! BuildMarkdownComposer(info)
+  if a:info.status != 'unchanged' || a:info.force
+    !cargo build --release
+    UpdateRemotePlugins
+  endif
+endfunction
+Plug 'euclio/vim-markdown-composer', { 'do': function('BuildMarkdownComposer') }
+
 " We want to build
 Plug 'KabbAmine/gulp-vim', { 'on': ['Gulp', 'GulpExt', 'GulpFile', 'GulpTasks'] }
 Plug 'mklabs/grunt.vim', { 'on': ['Grunt', 'Gtask', 'Gtest', 'Glint', 'Gdoc'] }
