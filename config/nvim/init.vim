@@ -196,6 +196,12 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'jdkanani/vim-material-theme'
 Plug 'jscappini/material.vim'
 Plug 'kristijanhusak/vim-hybrid-material'
+Plug '29decibel/codeschool-vim-theme'
+Plug 'joshdick/onedark.vim'
+Plug 'wellsjo/wellsokai.vim'
+Plug 'altercation/vim-colors-solarized'
+let g:solarized_termcolors=256
+"Plug 'mattsacks/vim-eddie'
 
 " Highlight hex colors
 Plug 'vim-scripts/colorizer'
@@ -226,7 +232,11 @@ set backspace=indent,eol,start
 " Some colors configuration
 set t_Co=256
 set background=dark
-colorscheme hybrid_material
+if &diff
+  colorscheme wellsokai
+else
+  colorscheme onedark
+endif
 if (has("gui_running"))
   colorscheme material-theme
 endif
