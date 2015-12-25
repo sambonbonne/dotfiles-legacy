@@ -71,7 +71,6 @@ command -v thefuck >/dev/null 2>&1 && eval "$(thefuck --alias)"
 
 # python virtualenv facility
 function venv() {
-    #[[ "$VIRTUAL_ENV" == "" ]] && source "./$1/bin/activate" || deactivate
     if [[ "$VIRTUAL_ENV" == "" ]]; then
         [[ "$1" != "" ]] && source "./$1/bin/activate" || echo "Where is the env?"
     elif [[ "$1" == "update" ]]; then
