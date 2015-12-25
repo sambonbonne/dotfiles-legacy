@@ -16,7 +16,7 @@ COMMAND_NOT_FOUND_FILE=/usr/share/doc/pkgfile/command-not-found.zsh
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.zsh_history
-HISTSIZE=2048
+HISTSIZE=4096
 SAVEHIST=4096
 setopt appendhistory autocd beep extendedglob nomatch
 unsetopt notify
@@ -64,6 +64,7 @@ bindkey '^ ' vi-forward-blank-word
 alias ll='ls -FhlX --color=always --hide="*~"'
 alias la='ls -AFhlX --color=always --hide="*~"'
 alias search='grep -rnF --exclude "*~" --color=always'
+alias nvimdiff='nvim -d'
 alias zsh_history='mv ~/.zsh_history ~/.zsh_history_bad && strings ~/.zsh_history_bad > ~/.zsh_history && fc -R ~/.zsh_history && rm ~/.zsh_history_bad'
 alias ports='netstat -pln'
 command -v thefuck >/dev/null 2>&1 && eval "$(thefuck --alias)"
@@ -83,4 +84,4 @@ zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/s
 eval $(dircolors ~/.dircolors)
 
 # sometime I work on a mac ...
-[[ "$(uname -s)" == "Darwin" ]] && source ~/.zsh/darwin || true # we put a "true" because we have a non-zero status in not in OS X
+[[ "$(uname -s)" == "Darwin" ]] && source ~/.zsh/darwin || true # we put a "true" because we have a non-zero status if not in OS X
