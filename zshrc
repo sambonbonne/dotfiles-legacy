@@ -74,6 +74,8 @@ function venv() {
     #[[ "$VIRTUAL_ENV" == "" ]] && source "./$1/bin/activate" || deactivate
     if [[ "$VIRTUAL_ENV" == "" ]]; then
         [[ "$1" != "" ]] && source "./$1/bin/activate" || echo "Where is the env?"
+    elif [[ "$1" == "update" ]]; then
+        pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
     else
         deactivate || unset VIRTUAL_ENV
     fi
