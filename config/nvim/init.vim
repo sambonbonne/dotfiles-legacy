@@ -72,7 +72,7 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-D>"
 " First, auto-close brackets, quotes ... Second, auto-close tags, third change surrounds
 Plug 'jiangmiao/auto-pairs'
 Plug 'alvan/vim-closetag' " don't put 'for', it won't work at all
-let g:closetag_filenames = "*.xml,*.html,*.tpl,*.hbs"
+let g:closetag_filenames = "*.xml,*.html,*.tpl,*.hbs,*.blade.php"
 Plug 'tpope/vim-surround' " cs like Change Surround, ds like Delete Surround
 
 " Snippets
@@ -234,11 +234,10 @@ set t_Co=256
 set background=dark
 if &diff
   colorscheme wellsokai
+elseif has("gui_running")
+  colorscheme material-theme
 else
   colorscheme onedark
-endif
-if (has("gui_running"))
-  colorscheme material-theme
 endif
 
 if has("vms")
@@ -255,7 +254,7 @@ set number
 
 " fold method to indent, fold config
 set foldmethod=indent
-set foldcolumn=3 foldnestmax=4 foldminlines=8 foldlevelstart=3
+set foldcolumn=3 foldnestmax=4 foldminlines=8 foldlevelstart=2
 
 " press space to insert a single char before cursor
 nmap <Space> i_<Esc>r
@@ -303,8 +302,8 @@ if has("autocmd")
     au BufNewFile,BufRead *.tpl set syntax=underscore_template
     au BufNewFile,BufRead *.html.twig set ft=html
 
-    autocmd FileType html,jade setlocal tabstop=2 shiftwidth=2
-    autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType html,jade,blade setlocal tabstop=2 shiftwidth=2
+    autocmd FileType html,blade setlocal omnifunc=htmlcomplete#CompleteTags
   augroup END
 
   augroup javascript
