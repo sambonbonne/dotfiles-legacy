@@ -37,9 +37,6 @@ bindkey '^[[Z' reverse-menu-complete
 ## Of course we want colors
 autoload -U colors && colors
 
-# Load prompt
-source ~/.zsh/prompt.zsh
-
 # ZGEN loading
 ZGEN_INSTALL_DIR="${HOME}/.zsh/zgen"
 [[ -f "${ZGEN_INSTALL_DIR}/zgen.zsh" ]] || git clone https://github.com/tarjoilija/zgen.git "${ZGEN_INSTALL_DIR}"
@@ -48,16 +45,33 @@ if ! zgen saved; then
     zgen load zsh-users/zsh-syntax-highlighting
     zgen load tarruda/zsh-autosuggestions
 
+    zgen load chrissicool/zsh-256color
+    zgen load sharat87/zsh-vim-mode
+    zgen load jreese/zsh-titles
+
+    zgen load marzocchi/zsh-notify
+
+    zgen load Tarrasch/zsh-bd
+    zgen load voronkovich/gitignore.plugin.zsh
+
+    zgen load akoenig/gulp.plugin.zsh
+    zgen load zsh-users/zsh-completions
+
     zgen save
 fi
 
+bindkey "^E" zce
+
 # Enable autosuggestions automatically and prepare prompt
-zle-line-init() {
+function zle-line-init() {
     zle autosuggest-start
     zle-line-finish && zle reset-prompt
 }
 zle -N zle-line-init
 bindkey '^ ' vi-forward-blank-word
+
+# Load prompt
+source ~/.zsh/prompt.zsh
 
 ## Some alias, can belways usefull
 # Commands alias
