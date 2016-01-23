@@ -131,33 +131,16 @@ Plug 'euclio/vim-markdown-composer', { 'do': function('BuildMarkdownComposer') }
 Plug 'KabbAmine/gulp-vim', { 'on': ['Gulp', 'GulpExt', 'GulpFile', 'GulpTasks'] }
 Plug 'mklabs/grunt.vim', { 'on': ['Grunt', 'Gtask', 'Gtest', 'Glint', 'Gdoc'] }
 
-" Some technos/languages
-Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
-Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
+" Syntax and language detection
+Plug 'sheerun/vim-polyglot' " There is a grate quantity of languages in this
 Plug 'othree/javascript-libraries-syntax.vim', { 'for': 'javascript' }
-"Plug 'mattn/jscomplete-vim', { 'for': 'javascript' } | Plug 'myhere/vim-nodejs-complete', { 'for': 'javascript' }
-"let g:nodejs_complete_config = { 'js_compl_fn': 'jscomplete#CompleteJS', 'max_node_compl_len': 0 }
-Plug 'myhere/vim-nodejs-complete', { 'for': 'javascript' }
-let g:nodejs_complete_config = { 'js_compl_fn': 'javascriptcomplete#CompleteJS', 'max_node_compl_len': 0 }
-Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
-Plug 'mustache/vim-mustache-handlebars'
 Plug 'aaronj1335/underscore-templates.vim'
-Plug 'digitaltoad/vim-jade'
-Plug 'othree/html5.vim', { 'for': 'html' }
-Plug 'mustache/vim-mustache-handlebars', { 'for': ['hbs', 'handlebars', 'html.handlebars'] }
-Plug 'aaronj1335/underscore-templates.vim'
-Plug 'digitaltoad/vim-jade', { 'for': 'jade' }
+Plug 'hhvm/vim-hack', { 'for': ['hh', 'hack', 'php'] }
+Plug 'vim-scripts/bash-support.vim', { 'for': ['shell', 'sh', 'bash'] }
+Plug 'PotatoesMaster/i3-vim-syntax'
 
-Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'css3'] }
-Plug 'wavded/vim-stylus', { 'for': ['styl', 'stylus'] }
-
-Plug 'pekepeke/titanium-vim'
-
-Plug 'dag/vim2hs', { 'for': 'haskell' }
-Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
-let g:haskellmode_completion_ghc = 0
-
-Plug 'hdima/python-syntax', { 'for': 'python' }
+" Completion
+Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
 Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 let g:jedi#auto_vim_configuration = 0
 let g:jedi#popup_select_first = 0
@@ -168,24 +151,11 @@ let g:jedi#documentation_command = "<leader>d"
 let g:jedi#usages_command = ""
 let g:jedi#completions_command = ""
 let g:jedi#rename_command = "<leader>r"
-
-Plug 'StanAngeloff/php.vim', { 'for': 'php' }
 Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
+Plug 'pekepeke/titanium-vim'
 
-Plug 'hhvm/vim-hack', { 'for': ['hh', 'hack', 'php'] }
-
-Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+" Others languages/technos utils
 Plug 'timonv/vim-cargo', { 'for': 'rust' }
-
-Plug 'elzr/vim-json', { 'for': 'json' }
-Plug 'cespare/vim-toml', { 'for': 'toml' }
-
-Plug 'docker/docker', { 'rtp': '/contrib/syntax/vim/' }
-Plug 'nginx/nginx', { 'rtp': '/contrib/vim/' }
-
-Plug 'vim-scripts/bash-support.vim', { 'for': ['shell', 'sh', 'bash'] }
-
-Plug 'PotatoesMaster/i3-vim-syntax'
 
 " Launch test in Vim
 Plug 'janko-m/vim-test'
