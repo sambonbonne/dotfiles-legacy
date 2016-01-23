@@ -29,22 +29,28 @@ Plug 'Shougo/vimproc.vim'
 Plug 'embear/vim-localvimrc'
 let g:localvimrc_ask=0
 
+" number switch to relative or not
+Plug 'jeffkreeftmeijer/vim-numbertoggle'
+
 " NERDTree, with Git flags
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 noremap <Leader>n :NERDTreeToggle<CR>
 
 " All tags
 Plug 'xolox/vim-misc' | Plug 'xolox/vim-easytags'
+let g:easytags_async = 1
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 nnoremap <Leader>t :TagbarToggle<CR>
 
-" Buffers list
-Plug 'jeetsukumaran/vim-buffergator', { 'on': ['BuffergatorOpen', 'BuffergatorToggle'] } " quick switch
-let g:buffergator_viewport_split_policy='B'
-let g:buffergator_hsplit_size=8
-let g:buffergator_sort_regime='mru'
-let g:buffergator_suppress_keymaps=1
-nnoremap <Leader>b :BuffergatorOpen<CR>
+" Lot of things with Unite
+Plug 'Shougo/unite.vim' | Plug 'Shougo/neoyank.vim'
+" buffers list
+nnoremap <Leader>b :Unite -quick-match buffer<cr>
+" yank history
+let g:unite_source_history_yank_enable = 1
+nnoremap <Leader>y :Unite -quick-match history/yank<cr>
+" File search
+nnoremap <Leader>f :Unite file_rec<cr>
 
 " Detect indentation and set defaults
 Plug 'vim-scripts/yaifa.vim'
@@ -89,21 +95,22 @@ if has("lua")
   let g:neocomplete#max_list = 10
   let g:neocomplete#max_keyword_width = 25
   let g:neocomplete#enable_auto_close_preview = 1
+
+  inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-D>"
+  inoremap <expr><C-TAB> neocomplete#complete_common_string()
+  "inoremap <expr><CR> pumvisible() ? neocomplete#smart_close_popup() : "\<CR>"
+  inoremap <expr><BS> pumvisible() ? neocomplete#undo_completion()."\<BS>" : "\<BS>"
 else
   Plug 'ervandew/supertab'
   let g:SuperTabDefaultCompletionType="context"
   let g:SuperTabContextDefaultCompletionType="<c-n>"
 endif
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-D>"
-inoremap <expr><C-TAB> neocomplete#complete_common_string()
-inoremap <expr><CR> pumvisible() ? neocomplete#smart_close_popup() : "\<CR>"
-inoremap <expr><BS> pumvisible() ? neocomplete#undo_completion()."\<BS>" : "\<BS>"
 
 " First, auto-close brackets, quotes ... Second, auto-close tags, third change surrounds
 Plug 'jiangmiao/auto-pairs'
 Plug 'alvan/vim-closetag' " don't put 'for', it won't work at all
-let g:closetag_filenames = "*.xml,*.html,*.tpl,*.hbs"
+let g:closetag_filenames = "*.xml,*.html,*.tpl,*.hbs,*.blade.php"
 Plug 'tpope/vim-surround' " cs like Change Surround, ds like Delete Surround
 
 " Snippets
@@ -121,9 +128,7 @@ if has("persistent_undo")
   set undofile
 endif
 
-" Files search and advanced moves
-Plug 'kien/ctrlp.vim'
-let g:ctrlp_map = '<Leader>p'
+" Advanced moves
 Plug 'Lokaltog/vim-easymotion', { 'on': '<Plug>(easymotion-prefix)' }
 let g:EasyMotion_do_mapping=1
 let g:EasyMotion_smartcase=1
@@ -149,26 +154,16 @@ Plug 'bruno-/vim-man', { 'on': ['Man', 'Mangrep'] }
 Plug 'KabbAmine/gulp-vim', { 'on': ['Gulp', 'GulpExt', 'GulpFile', 'GulpTasks'] }
 Plug 'mklabs/grunt.vim', { 'on': ['Grunt', 'Gtask', 'Gtest', 'Glint', 'Gdoc'] }
 
-" Some technos/languages
-Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+" Syntax and language detection
+Plug 'sheerun/vim-polyglot' " There is a grate quantity of languages in this
 Plug 'othree/javascript-libraries-syntax.vim', { 'for': 'javascript' }
-Plug 'myhere/vim-nodejs-complete', { 'for': 'javascript' }
-let g:nodejs_complete_config = { 'js_compl_fn': 'javascriptcomplete#CompleteJS', 'max_node_compl_len': 0 }
-Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
-Plug 'mustache/vim-mustache-handlebars'
 Plug 'aaronj1335/underscore-templates.vim'
-Plug 'digitaltoad/vim-jade'
-Plug 'othree/html5.vim', { 'for': 'html' }
-Plug 'mustache/vim-mustache-handlebars', { 'for': ['hbs', 'handlebars', 'html.handlebars'] }
-Plug 'aaronj1335/underscore-templates.vim'
-Plug 'digitaltoad/vim-jade', { 'for': 'jade' }
+Plug 'hhvm/vim-hack', { 'for': ['hh', 'hack', 'php'] }
+Plug 'vim-scripts/bash-support.vim', { 'for': ['shell', 'sh', 'bash'] }
+Plug 'PotatoesMaster/i3-vim-syntax'
 
-Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'css3'] }
-Plug 'wavded/vim-stylus', { 'for': ['styl', 'stylus'] }
-
-Plug 'pekepeke/titanium-vim'
-
-Plug 'hdima/python-syntax', { 'for': 'python' }
+" Completion
+Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
 Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 let g:jedi#auto_vim_configuration = 0
 let g:jedi#popup_select_first = 0
@@ -179,23 +174,11 @@ let g:jedi#documentation_command = "<leader>d"
 let g:jedi#usages_command = ""
 let g:jedi#completions_command = ""
 let g:jedi#rename_command = "<leader>r"
-
-Plug 'StanAngeloff/php.vim', { 'for': 'php' }
 Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
+Plug 'pekepeke/titanium-vim'
 
-
-Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+" Others languages/technos utils
 Plug 'timonv/vim-cargo', { 'for': 'rust' }
-
-Plug 'elzr/vim-json', { 'for': 'json' }
-Plug 'cespare/vim-toml', { 'for': 'toml' }
-
-Plug 'docker/docker', { 'rtp': '/contrib/syntax/vim/' }
-Plug 'nginx/nginx', { 'rtp': '/contrib/vim/' }
-
-Plug 'vim-scripts/bash-support.vim', { 'for': ['shell', 'sh', 'bash'] }
-
-Plug 'PotatoesMaster/i3-vim-syntax'
 
 " Launch test in Vim
 Plug 'janko-m/vim-test'
@@ -252,13 +235,13 @@ set number
 
 " fold method to indent, fold config
 set foldmethod=indent
-set foldcolumn=3 foldnestmax=4 foldminlines=8 foldlevelstart=3
+set foldcolumn=3 foldnestmax=4 foldminlines=8 foldlevelstart=2
 
 " press space to insert a single char before cursor
 nmap <Space> i_<Esc>r
 
 " completion when you search a file (with :edit for exemaple)
-set wildmode=longest,full
+set wildmode=list:longest,full
 set wildmenu
 
 " Yeah just put the clipboard on X11, okay ?
@@ -303,15 +286,15 @@ if has("autocmd")
     au BufNewFile,BufRead *.tpl set syntax=underscore_template
     au BufNewFile,BufRead *.html.twig set ft=html
 
-    autocmd FileType html,jade setlocal tabstop=2 shiftwidth=2
-    autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType html,jade,blade setlocal tabstop=2 shiftwidth=2
+    autocmd FileType html,blade setlocal omnifunc=htmlcomplete#CompleteTags
   augroup END
 
   augroup javascript
     autocmd!
 
     autocmd FileType coffee,coffeescript setlocal tabstop=2 shiftwidth=2
-    autocmd FileType javascript,coffee,coffeescript,typescript setlocal omnifunc=nodejscomplete#CompleteJS
+    autocmd FileType javascript,coffee,coffeescript,typescript setlocal omnifunc=tern#Complete
 
     autocmd FileType javascript let b:syntastic_checkers = findfile('.jscsrc', '.;') != '' ? ['jscs', 'jshint'] : ['jshint']
   augroup END
@@ -347,8 +330,6 @@ if has("autocmd")
   augroup haskell
       autocmd!
 
-      autocmd BufEnter *.hs compiler ghc
-      let g:haskellmode_completion_ghc = 0
       autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
   augroup END
 
