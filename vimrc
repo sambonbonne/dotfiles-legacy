@@ -29,6 +29,9 @@ Plug 'Shougo/vimproc.vim'
 Plug 'embear/vim-localvimrc'
 let g:localvimrc_ask=0
 
+" Clipboard and pasting
+Plug 'ConradIrwin/vim-bracketed-paste'
+
 " number switch to relative or not
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
@@ -265,6 +268,13 @@ if has("gui_running")
   set lines=999 columns=999 " maybe the ugliest way to maximize a window
 endif " gui running
 
+" search what you visually selected
+vnoremap // y/<C-R>"<CR>
+
+" spell, that's something great
+set spelllang=en_us
+nnoremap <silent> <Leader>s :set spell!<CR>
+
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
   augroup vim_config
@@ -286,7 +296,7 @@ if has("autocmd")
     au BufNewFile,BufRead *.tpl set syntax=underscore_template
     au BufNewFile,BufRead *.html.twig set ft=html
 
-    autocmd FileType html,jade,blade setlocal tabstop=2 shiftwidth=2
+    autocmd FileType html,jade,blade setlocal tabstop=2 shiftwidth=2 spell
     autocmd FileType html,blade setlocal omnifunc=htmlcomplete#CompleteTags
   augroup END
 
@@ -315,7 +325,7 @@ if has("autocmd")
   augroup markdown
       autocmd!
 
-    autocmd FileType markdown setlocal tabstop=2 shiftwidth=2
+    autocmd FileType markdown setlocal tabstop=2 shiftwidth=2 spell
     autocmd FileType markdown setlocal omnifunc=htmlcomplete#CompleteTags
 
     "autocmd FileType text,markdown setlocal textwidth=80
