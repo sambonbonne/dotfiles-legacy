@@ -15,6 +15,7 @@ path_append() {
 }
 path_append "$HOME/bin"
 path_append "$HOME/.npm/bin"
+path_append "$HOME/.composer/vendor/bin"
 
 # export some variables
 export LANG=fr_FR.UTF-8
@@ -31,6 +32,12 @@ export JAVA_HOME=/usr/lib/jvm/default
 export ANDROID_HOME=/opt/android-sdk
 
 # Start SSH agent if not exists and warn if no stored key
-pidof ssh-agent 2>&1 > /dev/null || { ssh-agent -a "$XDG_RUNTIME_DIR/ssh-agent.socket" 2>&1 > /dev/null && echo "\033[0;32mSSH agent started\033[0m" }
+pidof ssh-agent 2>&1 > /dev/null || { ssh-agent -a "$XDG_RUNTIME_DIR/ssh-agent.socket" 2>&1 > /dev/null && echo "\033[0;32mSSH agent started\033[0m" ; }
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket" ; export SSH_AGENT_PID="$(pidof ssh-agent)"
 ssh-add -L 2>&1 > /dev/null || echo "\033[0;31mNo SSH key stored, don't forget to add one\033[0m"
+
+# pkgsrc config
+path_append "$HOME/pkg/bin"
+path_append "$HOME/pkg/sbin"
+export CVSEDITOR=vim
+export CVS_RSH=ssh
