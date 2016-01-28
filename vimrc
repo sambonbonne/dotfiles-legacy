@@ -23,11 +23,14 @@ endif
 call plug#begin('~/.vim/plugged')
 
 " Vimproc, not bad
-Plug 'Shougo/vimproc.vim'
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 
 " To add .lvimrc for each project you want
 Plug 'embear/vim-localvimrc'
 let g:localvimrc_ask=0
+
+" Let's start nice
+Plug 'mhinz/vim-startify'
 
 " Clipboard and pasting
 Plug 'ConradIrwin/vim-bracketed-paste'
@@ -210,11 +213,21 @@ filetype plugin indent on
 syntax on
 set wildignore=*~,*.swp,*.orig
 
+" encoding
+set encoding=utf-8
+setglobal fileencoding=utf-8
+
 " disable the old Ex mode
 nnoremap Q <nop>
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
+
+" end of line format
+set fileformat=unix
+
+" can hide edited buffers
+set hidden
 
 " Some colors configuration
 set t_Co=256
@@ -274,6 +287,10 @@ vnoremap // y/<C-R>"<CR>
 " spell, that's something great
 set spelllang=en_us
 nnoremap <silent> <Leader>s :set spell!<CR>
+
+if !exists('g:loaded_matchit')
+  runtime macros/matchit.vim
+endif
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
