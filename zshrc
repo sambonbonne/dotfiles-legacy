@@ -83,6 +83,11 @@ alias zsh_history='mv ~/.zsh_history ~/.zsh_history_bad && strings ~/.zsh_histor
 alias ports='netstat -pln'
 command -v thefuck >/dev/null 2>&1 && eval "$(thefuck --alias)"
 
+alias tnew="tmux -2"
+alias tattach="tmux -2 attach -t"
+
+alias binstean="bmake install clean; bmake clean-depends"
+
 # python virtualenv facility
 function venv() {
     if [[ "$VIRTUAL_ENV" == "" ]]; then
@@ -100,3 +105,15 @@ eval $(dircolors ~/.dircolors)
 
 # sometime I work on a mac ...
 [[ "$(uname -s)" == "Darwin" ]] && source ~/.zsh/darwin || true # we put a "true" because we have a non-zero status if not in OS X
+
+# eventually start tmux
+if [ -z $TMUX ] && command -v tmux >/dev/null 2>&1 ; then
+    tmux ls >/dev/null 2>&1
+    if [ $? -ne 0 ] ; then
+        tmux -2
+    else
+        echo "\n$fg[blue]Some tmux sessions available$fg[white]"
+        tmux ls
+        echo ""
+    fi
+fi
