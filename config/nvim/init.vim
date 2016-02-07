@@ -15,6 +15,57 @@ call plug#begin()
 Plug 'embear/vim-localvimrc'
 let g:localvimrc_ask=0
 
+" Let's start nice
+Plug 'mhinz/vim-startify'
+function! s:startify_center_header(lines) abort " this function will center your header !
+let longest_line   = max(map(copy(a:lines), 'len(v:val)'))
+  let centered_lines = map(copy(a:lines),
+        \ 'repeat(" ", (&columns / 2) - (longest_line / 2)) . v:val')
+  return centered_lines
+endfunction
+let g:startify_custom_header = s:startify_center_header([
+      \ "o          `O        o                                                 ",
+      \ "O           o       O                                                  ",
+      \ "o           O       o                                     {            ",
+      \ "O           O       O                                 {   }            ",
+      \ "o     o     o .oOo. o  .oOo  .oOo. `oOOoOO. .oOo.      }_{ __{         ",
+      \ "O     O     O OooO' O  O     O   o  O  o  o OooO'   .-{   }   }-.      ",
+      \ "`o   O o   O' O     o  o     o   O  o  O  O O      (   }     {   )     ",
+      \ " `OoO' `OoO'  `OoO' Oo `OoO' `OoO'  O  o  o `OoO'  |`-.._____..-'|     ",
+      \ "                                                   |             ;--.  ",
+      \ "                                                   |            (__  \ ",
+      \ "                        .oOOOo.                    |             | )  )",
+      \ "                        o     o                    |             |/  / ",
+      \ "                        O.                         |             /  /  ",
+      \ "                         `OOoo.                    |            (  /   ",
+      \ "                              `O .oOoO' `oOOoOO.   \\             y    ",
+      \ "                               o O   o   O  o  o    `-.._____..-'      ",
+      \ "                        O.    .O o   O   o  O  O                       ",
+      \ "                         `oooO'  `OoO'o  O  o  o                       ",
+      \ "",
+      \ ])
+let g:startify_list_order = [
+      \ [ '(>°^°)>         You are working on it' ],
+      \ 'sessions',
+      \ [ '(♥_♥)           It seems you love this places' ],
+      \ 'bookmarks',
+      \ [ '(⌐■_■)          You edited this here' ],
+      \ 'dir',
+      \ [ '(╯°□°)╯︵┻━┻    Did you ragequit this files?' ],
+      \ 'files'
+      \ ]
+let g:startify_session_dir = '~/.vim/sessions'
+let g:startify_session_autoload = 0
+let g:startify_session_persistence = 0
+let g:startify_files_number = 5
+let g:startify_bookmarks = [
+      \ '~/dev/www/catalisio/v1',
+      \ '~/dev/www/catalisio/common/',
+      \ '~/dev/www/catalisio/tools/'
+      \ ]
+let g:startify_change_to_dir = 1
+let g:startify_change_to_vcs_root = 1
+
 " Clipboard and pasting
 Plug 'ConradIrwin/vim-bracketed-paste'
 
@@ -178,9 +229,6 @@ Plug 'vim-scripts/colorizer'
 let g:colorizer_nomap = 1
 
 " Indent can be visible
-"Plug 'nathanaelkane/vim-indent-guides'
-"let g:indent_guides_enable_on_vim_startup = 1
-"let g:indent_guides_start_level = 2
 Plug 'Yggdroot/indentLine'
 let g:indentLine_enabled = 1
 let g:indentLine_color_term = 239
@@ -193,11 +241,21 @@ filetype plugin indent on
 syntax on
 set wildignore=*~,*.swp,*.orig
 
+" encoding
+set encoding=utf-8
+setglobal fileencoding=utf-8
+
 " disable the old Ex mode
 nnoremap Q <nop>
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
+
+" end of line format
+set fileformat=unix
+
+" can hide edited buffers
+set hidden
 
 " Some colors configuration
 set t_Co=256
@@ -258,6 +316,10 @@ vnoremap // y/<C-R>"<CR>
 set spelllang=en_us
 nnoremap <silent> <Leader>s :set spell!<CR>
 
+if !exists('g:loaded_matchit')
+  runtime macros/matchit.vim
+endif
+
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
   augroup neovim_config
@@ -265,6 +327,12 @@ if has("autocmd")
 
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
     autocmd FileType vim setlocal tabstop=2 shiftwidth=2
+  augroup END
+
+  augroup startify
+	  autocmd!
+
+	  autocmd FileType startify setlocal nofoldenable
   augroup END
 
   "augroup x_config
