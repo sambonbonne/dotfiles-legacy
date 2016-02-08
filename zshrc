@@ -65,6 +65,7 @@ bindkey "^E" zce
 # Enable autosuggestions automatically
 autosuggest_start
 bindkey '^ ' vi-forward-blank-word
+bindkey '^[ ' autosuggest-accept
 
 # Prepare prompt
 function zle-line-init() {
