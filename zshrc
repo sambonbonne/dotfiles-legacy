@@ -42,7 +42,7 @@ ZGEN_INSTALL_DIR="${HOME}/.zsh/zgen"
 [[ -f "${ZGEN_INSTALL_DIR}/zgen.zsh" ]] || git clone https://github.com/tarjoilija/zgen.git "${ZGEN_INSTALL_DIR}"
 source "${ZGEN_INSTALL_DIR}/zgen.zsh"
 if ! zgen saved; then
-    zgen load tarruda/zsh-autosuggestions dist
+    zgen load tarruda/zsh-autosuggestions
     zgen load zsh-users/zsh-syntax-highlighting
 
     zgen load chrissicool/zsh-256color
@@ -61,9 +61,6 @@ if ! zgen saved; then
 fi
 
 bindkey "^E" zce
-
-# Enable autosuggestions automatically
-autosuggest_start
 bindkey '^ ' vi-forward-blank-word
 bindkey '^[ ' autosuggest-accept
 
