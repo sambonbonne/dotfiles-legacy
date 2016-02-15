@@ -29,7 +29,7 @@ autoload -Uz compinit && compinit
 ### My own configuration
 
 ## Completion is a basic
-zstyle ':completion:*' menu select
+zstyle ':completion:*' menu select=2
 setopt completealiases
 setopt HIST_IGNORE_DUPS
 bindkey '^[[Z' reverse-menu-complete
@@ -83,8 +83,8 @@ alias zsh_history='mv ~/.zsh_history ~/.zsh_history_bad && strings ~/.zsh_histor
 alias ports='netstat -pln'
 command -v thefuck >/dev/null 2>&1 && eval "$(thefuck --alias)"
 
-alias tnew="tmux -2"
-alias tattach="tmux -2 attach -t"
+alias tnew="tmux -2 new -s" && compdef _tmux tnew
+alias tattach="tmux -2 attach -t"  && compdef _tmux tattach
 
 alias binstean="bmake install clean; bmake clean-depends"
 
