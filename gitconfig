@@ -30,7 +30,9 @@
     tool = vimdiff
 
 [alias]
-    st = status
+    st = status -uno
+    sta = status -u
+    ck = checkout
     ca = commit -a
     cm = commit -m
     cam = commit -am
@@ -44,5 +46,7 @@
     whitespace = strip
 [core]
     editor = vim
+    autocrlf = false
+    preloadindex = true
 [push]
     default = simple
