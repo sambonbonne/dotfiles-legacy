@@ -5,8 +5,10 @@ setopt PROMPT_SUBST
 local virtualenv_prompt_parse='$([[ "$VIRTUAL_ENV" != "" ]] && echo " $(basename $VIRTUAL_ENV)")'
 
 local nbsp=$'\u00A0'
-if [[ -n "$SSH_CLIENT" || "$LOGNAME" == "root" ]]; then
-    PROMPT="%{$fg_no_bold[cyan]%}%n%{$reset_color%}@%{$fg_no_bold[blue]%}%m%{$reset_color%}:%{$fg_no_bold[yellow]%}%~%{$fg_no_bold[red]%}${virtualenv_prompt_parse}%{$reset_color%}"
+local default_username='samuel'
+
+if [[ -n "$SSH_CLIENT" || "$LOGNAME" != "$default_username" ]]; then
+    PROMPT="%{$fg_no_bold[cyan]%}%n%{$reset_color%}@%{$fg_no_bold[blue]%}%m%{$reset_color%} %{$fg_no_bold[yellow]%}%~%{$fg_no_bold[red]%}${virtualenv_prompt_parse}%{$reset_color%}"
 else
     #PROMPT="%{$fg_no_bold[blue]%}%~ %(?.%{$fg_no_bold[green]%}→.%{$fg_bold[red]%}!)%{$reset_color%}$nbsp"
     PROMPT="%{$fg_no_bold[blue]%}%~%{$fg_no_bold[red]%}${virtualenv_prompt_parse}%{$reset_color%}"
