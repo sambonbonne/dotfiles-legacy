@@ -47,12 +47,12 @@ let g:startify_custom_header = s:startify_center_header([
       \ "`o   O o   O' O     o  o     o   O  o  O  O O      (   }     {   )     ",
       \ " `OoO' `OoO'  `OoO' Oo `OoO' `OoO'  O  o  o `OoO'  |`-.._____..-'|     ",
       \ "                                                   |             ;--.  ",
-      \ "                                                   |            (__  \ ",
+      \ "                                                   |            (__  \\ ",
       \ "                        .oOOOo.                    |             | )  )",
       \ "                        o     o                    |             |/  / ",
       \ "                        O.                         |             /  /  ",
       \ "                         `OOoo.                    |            (  /   ",
-      \ "                              `O .oOoO' `oOOoOO.   \\             y    ",
+      \ "                              `O .oOoO' `oOOoOO.   \\             y     ",
       \ "                               o O   o   O  o  o    `-.._____..-'      ",
       \ "                        O.    .O o   O   o  O  O                       ",
       \ "                         `oooO'  `OoO'o  O  o  o                       ",
@@ -68,23 +68,35 @@ let g:startify_list_order = [
       \ [ '(╯°□°)╯︵┻━┻    Did you ragequit this files?' ],
       \ 'files'
       \ ]
+set sessionoptions=blank,curdir,folds,help,options,localoptions,tabpages,winsize
 let g:startify_session_dir = '~/.vim/sessions'
 let g:startify_session_autoload = 0
-let g:startify_session_persistence = 0
+let g:startify_session_persistence = 1
 let g:startify_files_number = 5
 let g:startify_bookmarks = [
       \ '~/dev/www/catalisio/v1',
       \ '~/dev/www/catalisio/common/',
       \ '~/dev/www/catalisio/tools/'
       \ ]
+let g:startify_skiplist = [
+      \ $HOME . '/.vim/plugged/',
+      \ $HOME . '/dev/dotfiles/vim/plugged/'
+      \ ]
 let g:startify_change_to_dir = 1
-let g:startify_change_to_vcs_root = 1
+let g:startify_change_to_vcs_root = 0
+
+" Perfect tabline
+Plug 'mkitt/tabline.vim'
+
+" Specific location for a tab
+Plug 'vim-scripts/tcd.vim', { 'on': 'Tcd' }
 
 " Clipboard and pasting
 Plug 'ConradIrwin/vim-bracketed-paste'
 
 " number switch to relative or not
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
+set scrolloff=8 sidescrolloff=4
 
 " NERDTree, with Git flags
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
@@ -100,6 +112,7 @@ nnoremap <Leader>t :TagbarToggle<CR>
 Plug 'Shougo/unite.vim' | Plug 'Shougo/neoyank.vim'
 " buffers list
 nnoremap <Leader>b :Unite -quick-match buffer<cr>
+command! Buffers :Unite buffer
 " yank history
 let g:unite_source_history_yank_enable = 1
 nnoremap <Leader>y :Unite -quick-match history/yank<cr>
@@ -108,9 +121,9 @@ nnoremap <Leader>f :Unite file_rec<cr>
 
 " Detect indentation and set defaults
 Plug 'vim-scripts/yaifa.vim'
+set expandtab    " use space instead of tab
 set tabstop=4    " size of hard tab stop
 set shiftwidth=4 " size of an "indent"
-set expandtab    " use space instead of tab
 
 " Highlight whitespace
 Plug 'bronson/vim-trailing-whitespace'
@@ -122,8 +135,14 @@ vmap <Enter> <Plug>(EasyAlign)
 " Comment better
 Plug 'scrooloose/nerdcommenter'
 
+" File header
+"Plug 'vim-scripts/header.vim'
+Plug '~/dev/vim/autoHEADER'
+let g:autoHEADER_default_author = 'Samuel DENIS'
+let g:autoHEADER_fill_char_repeat = 0
+
 " Completion
-set completeopt=longest,preview,menu,noselect
+set completeopt=longest,preview,menu
 if has("lua")
   Plug 'Shougo/context_filetype.vim'
   Plug 'Shougo/neoinclude.vim'
@@ -177,6 +196,7 @@ xmap <C-k> <Plug>(neosnippet_expand_target)
 Plug 'tpope/vim-abolish', { 'on': ['Abolish', 'Subvert'] } " :Abolish{despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}, :Subvert/pattern/subtitute/g
 Plug 'mbbill/undotree', { 'on': ['UndotreeToggle', 'UndotreeShow', 'UndotreeFocus'] }
 nnoremap <Leader>u :UndotreeToggle<CR>
+"nmap <Leader>u :UndotreeToggle<CR>
 if has("persistent_undo")
   set undodir=~/.undodir/
   set undofile
@@ -235,18 +255,31 @@ Plug 'pekepeke/titanium-vim'
 Plug 'timonv/vim-cargo', { 'for': 'rust' }
 
 " Launch test in Vim
-Plug 'janko-m/vim-test'
-let test#strategy = "neovim"
+Plug 'tpope/vim-dispatch' | Plug 'janko-m/vim-test'
+let test#strategy = "dispatch"
 
 " Some colors
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'jdkanani/vim-material-theme'
 Plug 'jscappini/material.vim'
 Plug 'kristijanhusak/vim-hybrid-material'
+Plug '29decibel/codeschool-vim-theme'
+Plug 'joshdick/onedark.vim'
+Plug 'wellsjo/wellsokai.vim'
+Plug 'altercation/vim-colors-solarized'
+Plug 'zenorocha/dracula-theme', { 'rtp': 'vim/' }
+Plug 'noahfrederick/vim-hemisu'
+let g:solarized_termcolors=256
+"Plug 'mattsacks/vim-eddie'
 
 " Highlight hex colors
 Plug 'vim-scripts/colorizer'
 let g:colorizer_nomap = 1
+
+" Less distraction
+Plug 'junegunn/limelight.vim'
+nmap <Leader>l <Plug>(Limelight)
+xmap <Leader>l <Plug>(Limelight)
 
 " Indent can be visible
 Plug 'Yggdroot/indentLine'
@@ -333,20 +366,23 @@ endif " gui running
 vnoremap // y/<C-R>"<CR>
 
 " spell, that's something great
-set spelllang=en_us
+set spelllang=fr,en nospell
 nnoremap <silent> <Leader>s :set spell!<CR>
 
 if !exists('g:loaded_matchit')
   runtime macros/matchit.vim
 endif
 
+" What if I have custom commands ?
+command! FilePath echo @%
+command! ConfReload source $MYVIMRC
+
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
   augroup vim_config
     autocmd!
 
-    autocmd BufWritePost $MYVIMRC source $MYVIMRC
-    autocmd FileType vim setlocal tabstop=2 shiftwidth=2
+    autocmd FileType vim setlocal expandtab tabstop=2 shiftwidth=2
   augroup END
 
   augroup startify
@@ -364,7 +400,6 @@ if has("autocmd")
     autocmd!
 
     au BufNewFile,BufRead *.tpl set ft=html
-    au BufNewFile,BufRead *.tpl set syntax=underscore_template
     au BufNewFile,BufRead *.html.twig set ft=html
 
     autocmd FileType html,jade,blade setlocal tabstop=2 shiftwidth=2 spell
@@ -374,7 +409,6 @@ if has("autocmd")
   augroup javascript
     autocmd!
 
-    autocmd FileType coffee,coffeescript setlocal tabstop=2 shiftwidth=2
     autocmd FileType javascript,coffee,coffeescript,typescript setlocal omnifunc=tern#Complete
 
     autocmd FileType javascript let b:syntastic_checkers = findfile('.jscsrc', '.;') != '' ? ['jscs', 'jshint'] : ['jshint']
@@ -389,7 +423,6 @@ if has("autocmd")
   augroup css
       autocmd!
 
-    autocmd FileType css,stylus,scss,sass,less setlocal tabstop=2 shiftwidth=2
     autocmd FileType css,stylus,scss,sass,less setlocal omnifunc=csscomplete#CompleteCSS
   augroup END
 
@@ -423,10 +456,6 @@ if has("autocmd")
   augroup general
     autocmd!
 
-    if !exists('g:neocomplete#sources#omni#input_patterns')
-      let g:neocomplete#sources#omni#input_patterns = {}
-    endif
-
     " Delete white space at end of line when save
     autocmd BufWritePre * :FixWhitespace
 
@@ -444,7 +473,6 @@ if has("autocmd")
 
     " Close NERDTree if this is the last buffer
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-
   augroup END
 else " what do you really need ?
   set autoindent
