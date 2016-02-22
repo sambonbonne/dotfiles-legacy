@@ -110,7 +110,7 @@ eval $(dircolors ~/.dircolors)
 if [ -z $TMUX ] && command -v tmux >/dev/null 2>&1 ; then
     tmux ls >/dev/null 2>&1
     if [ $? -ne 0 ] ; then
-        tmux -2 new-session
+        tmux -2 new -s default
     else
         echo "\n$fg[blue]Some tmux sessions available$fg[white]"
         tmux ls
