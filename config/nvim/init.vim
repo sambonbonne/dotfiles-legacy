@@ -313,7 +313,7 @@ endif " gui running
 vnoremap // y/<C-R>"<CR>
 
 " spell, that's something great
-set spelllang=en_us
+set spelllang=fr,en
 nnoremap <silent> <Leader>s :set spell!<CR>
 
 if !exists('g:loaded_matchit')
