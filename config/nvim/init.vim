@@ -10,12 +10,13 @@ endif
 
 " vim-plug config
 call plug#begin()
+Plug 'Shougo/vimproc.vim'
 
 " To add .lvimrc for each project you want
 Plug 'embear/vim-localvimrc'
 let g:localvimrc_ask=0
 
-" Let's start nice
+" Let's start nice and manage sessions
 Plug 'mhinz/vim-startify'
 function! s:startify_center_header(lines) abort " this function will center your header !
 let longest_line   = max(map(copy(a:lines), 'len(v:val)'))
@@ -33,12 +34,12 @@ let g:startify_custom_header = s:startify_center_header([
       \ "`o   O o   O' O     o  o     o   O  o  O  O O      (   }     {   )     ",
       \ " `OoO' `OoO'  `OoO' Oo `OoO' `OoO'  O  o  o `OoO'  |`-.._____..-'|     ",
       \ "                                                   |             ;--.  ",
-      \ "                                                   |            (__  \ ",
+      \ "                                                   |            (__  \\ ",
       \ "                        .oOOOo.                    |             | )  )",
       \ "                        o     o                    |             |/  / ",
       \ "                        O.                         |             /  /  ",
       \ "                         `OOoo.                    |            (  /   ",
-      \ "                              `O .oOoO' `oOOoOO.   \\             y    ",
+      \ "                              `O .oOoO' `oOOoOO.   \\             y     ",
       \ "                               o O   o   O  o  o    `-.._____..-'      ",
       \ "                        O.    .O o   O   o  O  O                       ",
       \ "                         `oooO'  `OoO'o  O  o  o                       ",
@@ -54,9 +55,10 @@ let g:startify_list_order = [
       \ [ '(╯°□°)╯︵┻━┻    Did you ragequit this files?' ],
       \ 'files'
       \ ]
+set sessionoptions=blank,curdir,folds,help,options,localoptions,tabpages,winsize
 let g:startify_session_dir = '~/.vim/sessions'
 let g:startify_session_autoload = 0
-let g:startify_session_persistence = 0
+let g:startify_session_persistence = 1
 let g:startify_files_number = 5
 let g:startify_bookmarks = [
       \ '~/dev/www/catalisio/v1',
@@ -64,13 +66,24 @@ let g:startify_bookmarks = [
       \ '~/dev/www/catalisio/tools/'
       \ ]
 let g:startify_change_to_dir = 1
-let g:startify_change_to_vcs_root = 1
+let g:startify_change_to_vcs_root = 0
+
+" And auto save and restore views
+Plug 'kopischke/vim-stay'
+set viewoptions=cursor,folds,slash,unix
+
+" Perfect tabline
+Plug 'mkitt/tabline.vim'
+
+" Specific location for a tab
+Plug 'vim-scripts/tcd.vim', { 'on': 'Tcd' }
 
 " Clipboard and pasting
 Plug 'ConradIrwin/vim-bracketed-paste'
 
 " number switch to relative or not
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
+set scrolloff=8 sidescrolloff=4
 
 " NERDTree, with Git flags
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
@@ -86,17 +99,18 @@ nnoremap <Leader>t :TagbarToggle<CR>
 Plug 'Shougo/unite.vim' | Plug 'Shougo/neoyank.vim'
 " buffers list
 nnoremap <Leader>b :Unite -quick-match buffer<cr>
+command! Buffers :Unite buffer
 " yank history
 let g:unite_source_history_yank_enable = 1
 nnoremap <Leader>y :Unite -quick-match history/yank<cr>
 " File search
-nnoremap <Leader>f :Unite file_rec<cr>
+nnoremap <Leader>f :Unite file_rec/async<cr>
 
 " Detect indentation and set defaults
 Plug 'vim-scripts/yaifa.vim'
+set expandtab    " use space instead of tab
 set tabstop=4    " size of hard tab stop
 set shiftwidth=4 " size of an "indent"
-set expandtab    " use space instead of tab
 
 " Highlight whitespace
 Plug 'bronson/vim-trailing-whitespace'
@@ -107,18 +121,6 @@ vmap <Enter> <Plug>(EasyAlign)
 
 " Comment better
 Plug 'scrooloose/nerdcommenter'
-
-" Completion
-set completeopt=longest,preview,menu,noselect
-Plug 'Shougo/deoplete.nvim' | Plug 'Shougo/neoinclude.vim'
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources = {}
-let g:deoplete#sources._ = ['member', 'tag', 'omni', 'neosnippet', 'buffer', 'file']
-"let g:deoplete#omni_patterns = {}
-"let g:deoplete#omni_patterns.javascript = '[^. \t]\.\h\w*'
-"let g:deoplete#omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-D>"
 
 " First, auto-close brackets, quotes ... Second, auto-close tags, third change surrounds
 Plug 'jiangmiao/auto-pairs'
@@ -138,9 +140,12 @@ Plug 'mbbill/undotree', { 'on': ['UndotreeToggle', 'UndotreeShow', 'UndotreeFocu
 nnoremap <Leader>u :UndotreeToggle<CR>
 "nmap <Leader>u :UndotreeToggle<CR>
 if has("persistent_undo")
-  set undodir=~/.undodir/
+  set undolevels=2048 undodir=~/.undodir/
   set undofile
 endif
+
+" Faster editing
+Plug 'Konfekt/FastFold'
 
 " Advanced moves
 Plug 'Lokaltog/vim-easymotion', { 'on': '<Plug>(easymotion-prefix)' }
@@ -148,6 +153,7 @@ let g:EasyMotion_do_mapping=1
 let g:EasyMotion_smartcase=1
 nmap <Leader>m <Plug>(easymotion-prefix)
 vmap <Leader>m <Plug>(easymotion-prefix)
+Plug 'bkad/CamelCaseMotion'
 
 " Syntax checking
 Plug 'benekastah/neomake'
@@ -191,8 +197,23 @@ Plug 'vim-scripts/bash-support.vim', { 'for': ['shell', 'sh', 'bash'] }
 Plug 'PotatoesMaster/i3-vim-syntax'
 
 " Completion
-Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
-Plug 'davidhalter/jedi-vim', { 'for': 'python' }
+set completeopt=longest,menuone,noselect
+Plug 'Shougo/deoplete.nvim' | Plug 'Shougo/neoinclude.vim'
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#sources = {}
+let g:deoplete#sources._ = ['member', 'tag', 'omni', 'neosnippet', 'buffer', 'file']
+let g:deoplete#sources.javascript = ['ternjs', 'neosnippet']
+let g:deoplete#sources.python     = ['jedi', 'neosnippet']
+let g:deoplete#sources.php        = ['omni', 'member', 'tag', 'neosnippet', 'buffer', 'file']
+let g:deoplete#sources.vim        = ['vim', 'neosnippet']
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-D>"
+
+" Completion engines
+"Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' } |
+Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript', 'do': 'npm install tern -g'}
+"Plug 'davidhalter/jedi-vim', { 'for': 'python' }
+Plug 'zchee/deoplete-jedi', { 'for': 'python', 'do': 'pip3 install jedi --user' }
 let g:jedi#auto_vim_configuration = 0
 let g:jedi#popup_select_first = 0
 let g:jedi#goto_command = "<leader>g"
@@ -203,10 +224,15 @@ let g:jedi#usages_command = ""
 let g:jedi#completions_command = ""
 let g:jedi#rename_command = "<leader>r"
 Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
+Plug 'Shougo/neco-vim'
 Plug 'pekepeke/titanium-vim'
 
 " Others languages/technos utils
+Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 Plug 'timonv/vim-cargo', { 'for': 'rust' }
+
+" Some Unix commands directly inside the editor
+Plug 'tpope/vim-eunuch'
 
 " Launch test in Vim
 Plug 'janko-m/vim-test'
@@ -273,9 +299,9 @@ if has("vms")
 else
   set backup		" keep a backup file
 endif
-set history=100	" keep 100 lines of command line history
-set showcmd     " display incomplete commands
-set incsearch   " do incremental searching
+set history=64 " keep some lines of command line history
+set showcmd    " display incomplete commands
+set incsearch  " do incremental searching
 
 " display line number
 set number
@@ -313,20 +339,57 @@ endif " gui running
 vnoremap // y/<C-R>"<CR>
 
 " spell, that's something great
-set spelllang=fr,en
+set spelllang=fr,en nospell
 nnoremap <silent> <Leader>s :set spell!<CR>
+
+" disable automatic line breaking
+set textwidth=0 wrapmargin=0
+
+" more natural split opening
+set splitbelow splitright
+
+" move between splits
+nnoremap <C-J> <C-W>j
+vnoremap <C-J> <C-W>j
+nnoremap <C-K> <C-W>k
+vnoremap <C-K> <C-W>k
+nnoremap <C-L> <C-W>l
+vnoremap <C-L> <C-W>l
+nnoremap <C-H> <C-W>h
+vnoremap <C-H> <C-W>h
+
+" better tabs usage
+nnoremap <S-T> :tabnew<CR>:Explore<CR>
+nnoremap <S-H> gT
+nnoremap <S-L> gt
+
+" quickfix really quick
+nnoremap <S-J> :cnext<CR>
+nnoremap <S-K> :cprev<CR>
+
+" visual (or not) indent with tab
+nnoremap <TAB> >>
+nnoremap <S-TAB> <<
+vnoremap <TAB> >gv
+vnoremap <S-TAB> <gv
+
+" <C-C> doesn't trigger InsertLeave ...
+inoremap <C-C> <Esc>
 
 if !exists('g:loaded_matchit')
   runtime macros/matchit.vim
 endif
+
+" What if I have custom commands ?
+command! FilePath echo @%
+command! ConfReload source $MYVIMRC
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
   augroup neovim_config
     autocmd!
 
-    autocmd BufWritePost $MYVIMRC source $MYVIMRC
-    autocmd FileType vim setlocal tabstop=2 shiftwidth=2
+    autocmd FileType vim setlocal expandtab tabstop=2 shiftwidth=2
   augroup END
 
   augroup startify
@@ -344,7 +407,6 @@ if has("autocmd")
     autocmd!
 
     au BufNewFile,BufRead *.tpl set ft=html
-    au BufNewFile,BufRead *.tpl set syntax=underscore_template
     au BufNewFile,BufRead *.html.twig set ft=html
 
     autocmd FileType html,jade,blade setlocal tabstop=2 shiftwidth=2 spell
@@ -387,15 +449,38 @@ if has("autocmd")
   augroup END
 
   augroup haskell
-      autocmd!
+    autocmd!
 
-      autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+    autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
   augroup END
 
   augroup python
-      autocmd!
+    autocmd!
 
-      autocmd FileType python setlocal omnifunc=jedi#completions
+    autocmd FileType python setlocal omnifunc=jedi#completions
+  augroup END
+
+  augroup statusline
+    autocmd!
+
+    function! InsertStatuslineColor(mode)
+      if a:mode == 'i'
+        highlight statusline ctermbg=red guibg=red
+      else
+        highlight statusline ctermbg=yellow guibg=yellow
+      endif
+    endfunction
+
+    autocmd InsertEnter  * call InsertStatuslineColor(v:insertmode)
+    autocmd InsertChange * call InsertStatuslineColor(v:insertmode)
+    autocmd InsertLeave  * highlight StatusLine ctermbg=green guibg=green
+  augroup END
+
+  augroup compilation
+    autocmd!
+
+    " Run Neomake on write
+    autocmd! BufWritePost * Neomake
   augroup END
 
   augroup general
@@ -403,9 +488,6 @@ if has("autocmd")
 
     " Delete white space at end of line when save
     autocmd BufWritePre * :FixWhitespace
-
-    " Run Neomake on write
-    autocmd! BufWritePost * Neomake
 
     " auto save/load folding
     "autocmd BufWinLeave * mkview
@@ -421,7 +503,6 @@ if has("autocmd")
 
     " Close NERDTree if this is the last buffer
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-
   augroup END
 else " what do you really need ?
   set autoindent
