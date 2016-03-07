@@ -42,7 +42,7 @@ ZGEN_INSTALL_DIR="${HOME}/.zsh/zgen"
 [[ -f "${ZGEN_INSTALL_DIR}/zgen.zsh" ]] || git clone https://github.com/tarjoilija/zgen.git "${ZGEN_INSTALL_DIR}"
 source "${ZGEN_INSTALL_DIR}/zgen.zsh"
 if ! zgen saved; then
-    zgen load tarruda/zsh-autosuggestions
+    zgen load zsh-users/zsh-autosuggestions
     zgen load zsh-users/zsh-syntax-highlighting
 
     zgen load chrissicool/zsh-256color
@@ -78,15 +78,16 @@ source ~/.zsh/prompt.zsh
 alias ll='ls -FhlX --color=always --hide="*~"'
 alias la='ls -AFhlX --color=always --hide="*~"'
 alias search='grep -rnF --exclude "*~" --color=always'
-alias nvimdiff='nvim -d'
 alias zsh_history='mv ~/.zsh_history ~/.zsh_history_bad && strings ~/.zsh_history_bad > ~/.zsh_history && fc -R ~/.zsh_history && rm ~/.zsh_history_bad'
 alias ports='netstat -pln'
 command -v thefuck >/dev/null 2>&1 && eval "$(thefuck --alias)"
 
+alias tlist="tmux -2 ls | cut -d ":" -f 1"
 alias tnew="tmux -2 new -s" && compdef _tmux tnew
 alias tattach="tmux -2 attach -t"  && compdef _tmux tattach
 
-alias binstean="bmake install clean; bmake clean-depends"
+alias vim_clean_swp='find ./ -type f -name "\.*sw[klmnop]" -delete'
+alias nvimdiff='nvim -d'
 
 # python virtualenv facility
 function venv() {
@@ -113,7 +114,7 @@ if [ -z $TMUX ] && command -v tmux >/dev/null 2>&1 ; then
         tmux -2 new -s default
     else
         echo "\n$fg[blue]Some tmux sessions available$fg[white]"
-        tmux ls
+        tmux -2 ls | cut -d ":" -f 1
         echo ""
     fi
 fi
