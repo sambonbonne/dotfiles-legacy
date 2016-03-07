@@ -14,6 +14,7 @@ path_append() {
     fi
 }
 path_append "$HOME/bin"
+path_append "$HOME/.local/bin"
 path_append "$HOME/.npm/bin"
 path_append "$HOME/.composer/vendor/bin"
 
