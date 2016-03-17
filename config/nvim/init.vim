@@ -25,25 +25,23 @@ let longest_line   = max(map(copy(a:lines), 'len(v:val)'))
   return centered_lines
 endfunction
 let g:startify_custom_header = s:startify_center_header([
-      \ "o          `O        o                                                 ",
-      \ "O           o       O                                                  ",
-      \ "o           O       o                                     {            ",
-      \ "O           O       O                                 {   }            ",
-      \ "o     o     o .oOo. o  .oOo  .oOo. `oOOoOO. .oOo.      }_{ __{         ",
-      \ "O     O     O OooO' O  O     O   o  O  o  o OooO'   .-{   }   }-.      ",
-      \ "`o   O o   O' O     o  o     o   O  o  O  O O      (   }     {   )     ",
-      \ " `OoO' `OoO'  `OoO' Oo `OoO' `OoO'  O  o  o `OoO'  |`-.._____..-'|     ",
-      \ "                                                   |             ;--.  ",
-      \ "                                                   |            (__  \\ ",
-      \ "                        .oOOOo.                    |             | )  )",
-      \ "                        o     o                    |             |/  / ",
-      \ "                        O.                         |             /  /  ",
-      \ "                         `OOoo.                    |            (  /   ",
-      \ "                              `O .oOoO' `oOOoOO.   \\             y     ",
-      \ "                               o O   o   O  o  o    `-.._____..-'      ",
-      \ "                        O.    .O o   O   o  O  O                       ",
-      \ "                         `oooO'  `OoO'o  O  o  o                       ",
-      \ "",
+      \ "                                                          {",
+      \ "                                                       {   }",
+      \ "o      O                 .oOOOo.                        }_{ __{",
+      \ "O      o                 o     o                     .-{   }   }-.",
+      \ "o      O                 O.                         (   }     {   )",
+      \ "OoOooOOo                  `OOoo.                    |`-.._____..-’|",
+      \ "o      O .oOo. O   o           `O .oOoO' `oOOoOO.   |             ;--.",
+      \ "O      o OooO' o   O            o O   o   O  o  o   |            (__  \\",
+      \ "o      o O     O   o     O.    .O o   O   o  O  O   |             | )  )",
+      \ "o      O `OoO' `OoOO      `oooO'  `OoO'o  O  o  o   |             |/  /",
+      \ "                   o                                |             /  /",
+      \ "                OoO'                                |            (  /",
+      \ "                                                    \\             y’",
+      \ "                                                     `-.._____..-'",
+      \ ])
+let g:startify_custom_footer = s:startify_center_header([
+      \ "You reached the end of this screen, what will you do?"
       \ ])
 let g:startify_list_order = [
       \ [ '(>°^°)>         You are working on it' ],
@@ -74,6 +72,7 @@ set viewoptions=cursor,folds,slash,unix
 
 " Perfect tabline
 Plug 'mkitt/tabline.vim'
+set showtabline=2
 
 " Specific location for a tab
 Plug 'vim-scripts/tcd.vim', { 'on': 'Tcd' }
@@ -135,6 +134,7 @@ smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xmap <C-k> <Plug>(neosnippet_expand_target)
 
 " Replace and undo/redo improve
+Plug 'osyo-manga/vim-over' " highlight while writing a regex
 Plug 'tpope/vim-abolish', { 'on': ['Abolish', 'Subvert'] } " :Abolish{despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}, :Subvert/pattern/subtitute/g
 Plug 'mbbill/undotree', { 'on': ['UndotreeToggle', 'UndotreeShow', 'UndotreeFocus'] }
 nnoremap <Leader>u :UndotreeToggle<CR>
@@ -143,6 +143,17 @@ if has("persistent_undo")
   set undolevels=2048 undodir=~/.undodir/
   set undofile
 endif
+
+" Better splits management
+Plug 'roman/golden-ratio'
+nnoremap <C-H> <C-W>h
+vnoremap <C-H> <C-W>h
+nnoremap <C-J> <C-W>j
+vnoremap <C-J> <C-W>j
+nnoremap <C-K> <C-W>k
+vnoremap <C-K> <C-W>k
+nnoremap <C-L> <C-W>l
+vnoremap <C-L> <C-W>l
 
 " Faster editing
 Plug 'Konfekt/FastFold'
@@ -167,6 +178,14 @@ let g:neomake_warning_sign = {
             \ }
 let g:neomake_open_list = 2
 let g:neomake_list_height = 4
+function! NeomakeOpenList()
+  if (g:neomake_open_list > 0)
+    let g:neomake_open_list = 0
+  else
+    let g:neomake_open_list = 2
+  endif
+endfunction
+command! NeomakeListToggleAuto call NeomakeOpenList
 
 " Git wrapping and symbols
 Plug 'tpope/vim-fugitive'
@@ -243,16 +262,18 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'jdkanani/vim-material-theme'
 Plug 'jscappini/material.vim'
 Plug 'kristijanhusak/vim-hybrid-material'
-Plug '29decibel/codeschool-vim-theme'
 Plug 'joshdick/onedark.vim'
 Plug 'wellsjo/wellsokai.vim'
-Plug 'altercation/vim-colors-solarized'
-let g:solarized_termcolors=256
-"Plug 'mattsacks/vim-eddie'
 
 " Highlight hex colors
 Plug 'vim-scripts/colorizer'
 let g:colorizer_nomap = 1
+
+" Less distraction
+Plug 'junegunn/limelight.vim', { 'on': 'Limelight' }
+let g:limelight_conceal_ctermfg = 240
+let g:limelight_conceal_guifg = 'DarkGray'
+let g:limelight_paragraph_span = 3
 
 " Indent can be visible
 Plug 'Yggdroot/indentLine'
@@ -265,6 +286,7 @@ call plug#end()
 
 filetype plugin indent on
 syntax on
+set synmaxcol=500
 set wildignore=*~,*.swp,*.orig
 
 " encoding
@@ -300,8 +322,8 @@ else
   set backup		" keep a backup file
 endif
 set history=64 " keep some lines of command line history
-set showcmd    " display incomplete commands
-set incsearch  " do incremental searching
+set showcmd   " display incomplete commands
+set incsearch " do incremental searching
 
 " display line number
 set number
@@ -309,9 +331,6 @@ set number
 " fold method to indent, fold config
 set foldmethod=indent
 set foldcolumn=3 foldnestmax=4 foldminlines=8 foldlevelstart=2
-
-" press space to insert a single char before cursor
-nmap <Space> i_<Esc>r
 
 " completion when you search a file (with :edit for exemaple)
 set wildmode=list:longest,full
@@ -324,6 +343,7 @@ endif
 
 " highlight line, light line number
 set cursorline
+command! CursorColumn set cursorcolumn!
 " Also switch on highlighting the last used search pattern.
 set hlsearch
 
@@ -342,21 +362,24 @@ vnoremap // y/<C-R>"<CR>
 set spelllang=fr,en nospell
 nnoremap <silent> <Leader>s :set spell!<CR>
 
-" disable automatic line breaking
+" move cursor after line end
+set virtualedit=onemore
+
+" disable automatic line breaking while inserting
 set textwidth=0 wrapmargin=0
+set linebreak
 
 " more natural split opening
 set splitbelow splitright
 
-" move between splits
-nnoremap <C-J> <C-W>j
-vnoremap <C-J> <C-W>j
-nnoremap <C-K> <C-W>k
-vnoremap <C-K> <C-W>k
-nnoremap <C-L> <C-W>l
-vnoremap <C-L> <C-W>l
-nnoremap <C-H> <C-W>h
-vnoremap <C-H> <C-W>h
+" yes, I'm really lazy
+nnoremap ; :
+
+" toggle hlsearch
+nnoremap <Leader>hl :nohlsearch<CR>
+
+" press space to insert a single char before cursor
+nmap <Space> i_<Esc>r
 
 " better tabs usage
 nnoremap <S-T> :tabnew<CR>:Explore<CR>
@@ -465,15 +488,23 @@ if has("autocmd")
 
     function! InsertStatuslineColor(mode)
       if a:mode == 'i'
-        highlight statusline ctermbg=red guibg=red
+        highlight statusline ctermbg=52 guibg=red
       else
-        highlight statusline ctermbg=yellow guibg=yellow
+        highlight statusline ctermbg=130 guibg=yellow
       endif
     endfunction
 
     autocmd InsertEnter  * call InsertStatuslineColor(v:insertmode)
     autocmd InsertChange * call InsertStatuslineColor(v:insertmode)
-    autocmd InsertLeave  * highlight StatusLine ctermbg=green guibg=green
+    autocmd InsertLeave  * highlight StatusLine ctermbg=23 guibg=green
+  augroup END
+
+  augroup distraction
+    autocmd!
+
+    autocmd InsertEnter  * set nocursorline nocursorcolumn | Limelight
+    autocmd InsertChange * set nocursorline nocursorcolumn | Limelight
+    autocmd InsertLeave  * set cursorline | Limelight!
   augroup END
 
   augroup compilation
@@ -513,13 +544,16 @@ endif " has("autocmd")
 " file it was loaded from, thus the changes you made.
 " Only define it when not defined already.
 if !exists(":DiffOrig")
-  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+  command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
         \ | wincmd p | diffthis
 endif
 
 " Statusline config
 set laststatus=2
-set statusline=%6(%L%)\ %6(%l%),%-6(%c%)
-set statusline+=\ %<%f\ %Y,%{&fenc==\"\"?&enc:&fenc}\ %{strftime(\"%H:%M\",getftime(expand(\"%%\")))}
-set statusline+=%=%m%r%{fugitive#statusline()}
-set statusline+=\ %(%#ErrorMsg#%{neomake#statusline#LoclistStatus()}%*%)
+set statusline=%6(%L%)\ %6(%l%),%-6(%c%)                                 " max line, current line and current column
+set statusline+=\ %f
+set statusline+=\ %Y,%{&fenc==\"\"?&enc:&fenc}                           " encoding
+set statusline+=\ %{strftime(\"%H:%M\",getftime(expand(\"%%\")))}        " filename and last write
+set statusline+=%=%<                                                     " got to the right and eventually truncate
+set statusline+=%m%r%{fugitive#statusline()}                             " Git infos (if useing git)
+set statusline+=\ %(%#ErrorMsg#%{neomake#statusline#LoclistStatus()}%*%) " lint/compile warnings/errors
