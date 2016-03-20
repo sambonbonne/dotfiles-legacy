@@ -93,10 +93,12 @@ alias nvimdiff='nvim -d'
 function venv() {
     if [[ "$VIRTUAL_ENV" == "" ]]; then
         [[ "$1" != "" ]] && source "./$1/bin/activate" || echo "Where is the env?"
+        rehash
     elif [[ "$1" == "update" ]]; then
         pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
     else
         deactivate || unset VIRTUAL_ENV
+        rehash
     fi
 }
 
@@ -108,7 +110,7 @@ eval $(dircolors ~/.dircolors)
 [[ "$(uname -s)" == "Darwin" ]] && source ~/.zsh/darwin || true # we put a "true" because we have a non-zero status if not in OS X
 
 # eventually start tmux
-if [ -z $TMUX ] && command -v tmux >/dev/null 2>&1 ; then
+if [[ $- == *i* ]] && [ -z $TMUX ] && command -v tmux >/dev/null 2>&1 ; then
     tmux ls >/dev/null 2>&1
     if [ $? -ne 0 ] ; then
         tmux -2 new -s default
