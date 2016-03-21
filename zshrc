@@ -87,7 +87,9 @@ alias tnew="tmux -2 new -s" && compdef _tmux tnew
 alias tattach="tmux -2 attach -t"  && compdef _tmux tattach
 
 alias vim_clean_swp='find ./ -type f -name "\.*sw[klmnop]" -delete'
+alias vimlog='vim -w ~/.vimlog'
 alias nvimdiff='nvim -d'
+alias nvimlog='nvim -w ~/.nvimlog'
 
 # python virtualenv facility
 function venv() {
