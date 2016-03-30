@@ -37,28 +37,8 @@ bindkey '^[[Z' reverse-menu-complete
 ## Of course we want colors
 autoload -U colors && colors
 
-# ZGEN loading
-ZGEN_INSTALL_DIR="${HOME}/.zsh/zgen"
-[[ -f "${ZGEN_INSTALL_DIR}/zgen.zsh" ]] || git clone https://github.com/tarjoilija/zgen.git "${ZGEN_INSTALL_DIR}"
-source "${ZGEN_INSTALL_DIR}/zgen.zsh"
-if ! zgen saved; then
-    zgen load zsh-users/zsh-autosuggestions
-    zgen load zsh-users/zsh-syntax-highlighting
-
-    zgen load chrissicool/zsh-256color
-    zgen load sharat87/zsh-vim-mode
-    zgen load jreese/zsh-titles
-
-    zgen load marzocchi/zsh-notify
-
-    zgen load Tarrasch/zsh-bd
-    zgen load voronkovich/gitignore.plugin.zsh
-
-    zgen load akoenig/gulp.plugin.zsh
-    zgen load zsh-users/zsh-completions
-
-    zgen save
-fi
+# plugins, something we love
+source ~/.zsh/plugins.zsh
 
 bindkey "^E" zce
 bindkey '^ ' vi-forward-blank-word
