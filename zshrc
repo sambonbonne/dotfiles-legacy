@@ -82,14 +82,30 @@ alias zsh_history='mv ~/.zsh_history ~/.zsh_history_bad && strings ~/.zsh_histor
 alias ports='netstat -pln'
 command -v thefuck >/dev/null 2>&1 && eval "$(thefuck --alias)"
 
-alias tlist="tmux -2 ls | cut -d ":" -f 1"
-alias tnew="tmux -2 new -s" && compdef _tmux tnew
-alias tattach="tmux -2 attach -t"  && compdef _tmux tattach
-
 alias vim_clean_swp='find ./ -type f -name "\.*sw[klmnop]" -delete'
 alias vimlog='vim -w ~/.vimlog'
 alias nvimdiff='nvim -d'
+alias nview='nvim -R'
 alias nvimlog='nvim -w ~/.nvimlog'
+
+tmx() {
+    if [[ -z "$1" ]]; then
+		tmux -2 list-sessions -F "#{?session_attached,$fg[cyan],$fg[white]}#{session_name}$fg[white] - #{session_windows} window(s)"
+    elif tmux has -t "$1" 2>&1 > /dev/null; then
+        [ -z $TMUX ] && tmux -2 attach -t "$1" || tmux -2 switch -t "$1"
+    else
+        TMUX="" tmux -2 new-session -s "$1" -d
+        [ -z $TMUX ] && tmux -2 attach -t "$1" || tmux -2 switch -t "$1"
+    fi
+}
+function __tmux_sessions() {
+    local expl
+    local -a sessions
+
+    sessions=( ${${(f)"$(command tmux list-sessions)"}/:[ $'\t']##/:} )
+    _describe -t sessions 'sessions' sessions "$@"
+}
+compdef __tmux_sessions tmx
 
 # python virtualenv facility
 function venv() {
