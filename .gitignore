@@ -1,5 +1,9 @@
-# Sub-repos
-zsh/zgen
+# Linked folders
+zsh/zplug
+vim/plugged
+vim/sessions
+vim/spell
+config/nvim/plugged
 
 ### Vim ###
 [._]*.s[a-w][a-z]

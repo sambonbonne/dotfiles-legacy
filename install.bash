@@ -37,6 +37,12 @@ echo "Tmux"
 ln -s ~/dev/dotfiles/tmux.conf ~/.tmux.conf
 
 # Git is always usefull
+echo "Git"
 ln -s ~/dev/dotfiles/gitconfig ~/.gitconfig
+ln -s ~/dev/dotfiles/gitignore_global ~/.gitignore_global
+
+# NPM, haters gonna hate
+echo "NPM"
+ln -s ~/dev/dotfiles/npmrc ~/.npmrc
 
 echo "My work here is done, have a nice day!"
