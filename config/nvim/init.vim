@@ -145,15 +145,19 @@ if has("persistent_undo")
 endif
 
 " Better splits management
-Plug 'roman/golden-ratio'
+Plug 'AndrewRadev/undoquit.vim'
 nnoremap <C-H> <C-W>h
 vnoremap <C-H> <C-W>h
+tnoremap <C-H> <C-\><C-N><C-W>h
 nnoremap <C-J> <C-W>j
 vnoremap <C-J> <C-W>j
+tnoremap <C-J> <C-\><C-N><C-W>j
 nnoremap <C-K> <C-W>k
 vnoremap <C-K> <C-W>k
+tnoremap <C-K> <C-\><C-N><C-W>k
 nnoremap <C-L> <C-W>l
 vnoremap <C-L> <C-W>l
+tnoremap <C-L> <C-\><C-N><C-W>l
 
 " Faster editing
 Plug 'Konfekt/FastFold'
@@ -165,6 +169,9 @@ let g:EasyMotion_smartcase=1
 nmap <Leader>m <Plug>(easymotion-prefix)
 vmap <Leader>m <Plug>(easymotion-prefix)
 Plug 'bkad/CamelCaseMotion'
+
+" Better selection expanding
+Plug 'terryma/vim-expand-region'
 
 " Syntax checking
 Plug 'benekastah/neomake'
@@ -185,7 +192,7 @@ function! NeomakeOpenList()
     let g:neomake_open_list = 2
   endif
 endfunction
-command! NeomakeListToggleAuto call NeomakeOpenList
+command! NeomakeListToggleAuto call NeomakeOpenList()
 
 " Git wrapping and symbols
 Plug 'tpope/vim-fugitive'
@@ -221,10 +228,10 @@ Plug 'Shougo/deoplete.nvim' | Plug 'Shougo/neoinclude.vim'
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources = {}
 let g:deoplete#sources._ = ['member', 'tag', 'omni', 'neosnippet', 'buffer', 'file']
-let g:deoplete#sources.javascript = ['ternjs', 'neosnippet']
+let g:deoplete#sources.javascript = ['ternjs', 'buffer', 'neosnippet']
 let g:deoplete#sources.python     = ['jedi', 'neosnippet']
 let g:deoplete#sources.php        = ['omni', 'member', 'tag', 'neosnippet', 'buffer', 'file']
-let g:deoplete#sources.vim        = ['vim', 'neosnippet']
+let g:deoplete#sources.vim        = ['vim', 'buffer', 'neosnippet']
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-D>"
 
@@ -256,6 +263,9 @@ Plug 'tpope/vim-eunuch'
 " Launch test in Vim
 Plug 'janko-m/vim-test'
 let test#strategy = "neovim"
+
+" Mispelling is so common ...
+Plug 'reedes/vim-litecorrect' ", { 'on': 'litecorrect#init()' }
 
 " Some colors
 Plug 'NLKNguyen/papercolor-theme'
@@ -331,6 +341,7 @@ set number
 " fold method to indent, fold config
 set foldmethod=indent
 set foldcolumn=3 foldnestmax=4 foldminlines=8 foldlevelstart=2
+set foldopen+=jump
 
 " completion when you search a file (with :edit for exemaple)
 set wildmode=list:longest,full
@@ -381,6 +392,9 @@ nnoremap <Leader>hl :nohlsearch<CR>
 " press space to insert a single char before cursor
 nmap <Space> i_<Esc>r
 
+" sometimes I forget to use sudo
+cnoremap w!! w !sudo tee % >/dev/null
+
 " better tabs usage
 nnoremap <S-T> :tabnew<CR>:Explore<CR>
 nnoremap <S-H> gT
@@ -398,6 +412,9 @@ vnoremap <S-TAB> <gv
 
 " <C-C> doesn't trigger InsertLeave ...
 inoremap <C-C> <Esc>
+
+" Neovim terminal is good but going out of it is a pain in the ass
+tnoremap <C-T> <C-\><C-N>
 
 if !exists('g:loaded_matchit')
   runtime macros/matchit.vim
