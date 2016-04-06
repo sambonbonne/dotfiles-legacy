@@ -34,6 +34,9 @@ setopt completealiases
 setopt HIST_IGNORE_DUPS
 bindkey '^[[Z' reverse-menu-complete
 
+## autocorrect is really good
+setopt correct
+
 ## Of course we want colors
 autoload -U colors && colors
 
@@ -44,30 +47,13 @@ bindkey "^E" zce
 bindkey '^ ' vi-forward-blank-word
 bindkey '^[ ' autosuggest-accept
 
-# Prepare prompt
-function zle-line-init() {
-    zle-line-finish && zle reset-prompt
-}
-zle -N zle-line-init
-
 # Load prompt
 source ~/.zsh/prompt.zsh
 
 ## Some alias, can belways usefull
-# Commands alias
-alias ll='ls -FhlX --color=always --hide="*~"'
-alias la='ls -AFhlX --color=always --hide="*~"'
-alias search='grep -rnF --exclude "*~" --color=always'
-alias zsh_history='mv ~/.zsh_history ~/.zsh_history_bad && strings ~/.zsh_history_bad > ~/.zsh_history && fc -R ~/.zsh_history && rm ~/.zsh_history_bad'
-alias ports='netstat -pln'
-command -v thefuck >/dev/null 2>&1 && eval "$(thefuck --alias)"
+source "${HOME}/.zsh/alias.zsh"
 
-alias vim_clean_swp='find ./ -type f -name "\.*sw[klmnop]" -delete'
-alias vimlog='vim -w ~/.vimlog'
-alias nvimdiff='nvim -d'
-alias nview='nvim -R'
-alias nvimlog='nvim -w ~/.nvimlog'
-
+# Tmux custom function
 tmx() {
     if [[ -z "$1" ]]; then
 		tmux -2 list-sessions -F "#{?session_attached,$fg[cyan],$fg[white]}#{session_name}$fg[white] - #{session_windows} window(s)"
