@@ -32,6 +32,7 @@ autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select=2
 setopt completealiases
 setopt HIST_IGNORE_DUPS
+bindkey '^I' expand-or-complete-prefix
 bindkey '^[[Z' reverse-menu-complete
 
 ## autocorrect is really good
