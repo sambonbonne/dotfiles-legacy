@@ -427,6 +427,17 @@ inoremap <C-E> <C-O>A
 " Neovim terminal is good but going out of it is a pain in the ass
 tnoremap <C-T> <C-\><C-N>
 
+" You want to quit quickly
+function! CloseOrQuit()
+  if (tabpagenr('$') == 1)
+    :quitall
+  else
+    :tabclose
+  endif
+endfunction
+nnoremap <S-Q> :call CloseOrQuit()<CR>
+nnoremap <C-Q> :quit<CR>
+
 if !exists('g:loaded_matchit')
   runtime macros/matchit.vim
 endif
