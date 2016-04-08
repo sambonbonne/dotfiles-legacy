@@ -15,6 +15,7 @@ zplug "b4b4r07/zplug"
 
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-syntax-highlighting", nice:10
+zplug "hlissner/zsh-autopair"
 
 zplug "chrissicool/zsh-256color"
 zplug "sharat87/zsh-vim-mode"
