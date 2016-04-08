@@ -421,6 +421,9 @@ vnoremap <S-TAB> <gv
 " <C-C> doesn't trigger InsertLeave ...
 inoremap <C-C> <Esc>
 
+" End of line in insert mode
+inoremap <C-E> <C-O>A
+
 " Neovim terminal is good but going out of it is a pain in the ass
 tnoremap <C-T> <C-\><C-N>
 
