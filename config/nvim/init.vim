@@ -530,6 +530,9 @@ if has("autocmd")
     autocmd InsertEnter  * set nocursorline nocursorcolumn | Limelight
     autocmd InsertChange * set nocursorline nocursorcolumn | Limelight
     autocmd InsertLeave  * set cursorline | Limelight!
+
+    autocmd WinEnter * set cursorline
+    autocmd WinLeave * set nocursorline
   augroup END
 
   augroup compilation
