@@ -74,19 +74,12 @@ set viewoptions=cursor,folds,slash,unix
 Plug 'mkitt/tabline.vim'
 set showtabline=2
 
-" Specific location for a tab
-Plug 'vim-scripts/tcd.vim', { 'on': 'Tcd' }
-
 " Clipboard and pasting
 Plug 'ConradIrwin/vim-bracketed-paste'
 
 " number switch to relative or not
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 set scrolloff=8 sidescrolloff=4
-
-" NERDTree, with Git flags
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
-noremap <Leader>n :NERDTreeToggle<CR>
 
 " All tags
 Plug 'xolox/vim-misc' | Plug 'xolox/vim-easytags'
@@ -99,11 +92,20 @@ Plug 'Shougo/unite.vim' | Plug 'Shougo/neoyank.vim'
 " buffers list
 nnoremap <Leader>b :Unite -quick-match buffer<cr>
 command! Buffers :Unite buffer
-" yank history
+" registers and yank history
 let g:unite_source_history_yank_enable = 1
 nnoremap <Leader>y :Unite -quick-match history/yank<cr>
-" File search
+nnoremap <Leader>r :Unite register<cr>
+" File/content search
 nnoremap <Leader>f :Unite file_rec/async<cr>
+command! Search :Unite grep
+" Jumps list
+nnoremap <Leader>j :Unite -quick-match jump
+
+" A better file manager
+Plug 'Shougo/vimfiler.vim', { 'on': ['Explore', 'VimFilerExplorer'] }
+let g:vimfiler_as_default_explorer = 1
+nnoremap <Leader>e :VimFilerExplorer -toggle -buffer-name='vimfiler_tree'<CR>
 
 " Detect indentation and set defaults
 Plug 'vim-scripts/yaifa.vim'
@@ -146,6 +148,8 @@ endif
 
 " Better splits management
 Plug 'AndrewRadev/undoquit.vim'
+Plug 'zhaocai/GoldenView.Vim'
+let g:goldenview__enable_default_mapping = 0
 nnoremap <C-H> <C-W>h
 vnoremap <C-H> <C-W>h
 tnoremap <C-H> <C-\><C-N><C-W>h
@@ -226,6 +230,8 @@ Plug 'PotatoesMaster/i3-vim-syntax'
 set completeopt=longest,menuone,noselect
 Plug 'Shougo/deoplete.nvim' | Plug 'Shougo/neoinclude.vim'
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#max_list = 20
+let g:deoplete#max_menu_width = 80
 let g:deoplete#sources = {}
 let g:deoplete#sources._ = ['member', 'tag', 'omni', 'neosnippet', 'buffer', 'file']
 let g:deoplete#sources.javascript = ['ternjs', 'buffer', 'neosnippet']
@@ -239,7 +245,7 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-D>"
 "Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' } |
 Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript', 'do': 'npm install tern -g'}
 "Plug 'davidhalter/jedi-vim', { 'for': 'python' }
-Plug 'zchee/deoplete-jedi', { 'for': 'python', 'do': 'pip3 install jedi --user' }
+Plug 'zchee/deoplete-jedi', { 'for': 'python', 'do': 'pip3 install --user --upgrade jedi' }
 let g:jedi#auto_vim_configuration = 0
 let g:jedi#popup_select_first = 0
 let g:jedi#goto_command = "<leader>g"
@@ -300,7 +306,9 @@ set synmaxcol=500
 set wildignore=*~,*.swp,*.orig
 
 " encoding
-set encoding=utf-8
+if !has('nvim')
+  set encoding="utf-8"
+endif
 setglobal fileencoding=utf-8
 
 " disable the old Ex mode
