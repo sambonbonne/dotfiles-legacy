@@ -19,20 +19,17 @@ source ~/.zsh/git
 local git_prompt_parse='$(git_prompt_string)'
 RPROMPT="[%{$fg_no_bold[white]%}%T%{$reset_color%} %(?.%{$fg_no_bold[green]%}.%{$fg_no_bold[red]%})%?%{$reset_color%}]%(1j. (%{$fg_no_bold[magenta]%}%j%{$reset_color%}J%).)${git_prompt_parse}"
 
-function zle-line-finish {
-    PROMPT="$BASE_PROMPT %(?.%{$fg_no_bold[green]%}→.%{$fg_bold[red]%}!)%{$reset_color%}$nbsp"
-}
-zle -N zle-line-finish
-
-function zle-keymap-select {
-    case "$KEYMAP" in
+function zle-line-finish zle-keymap-select {
+    case "${KEYMAP}" in
         vicmd)
             PROMPT="$BASE_PROMPT %{$fg_no_bold[yellow]%}?%{$reset_color%} "
             ;;
-        main|viins)
-            zle-line-finish
+        *)
+	    	PROMPT="$BASE_PROMPT %(?.%{$fg_no_bold[green]%}→.%{$fg_bold[red]%}!)%{$reset_color%}$nbsp"
             ;;
     esac
-    zle reset-prompt
+	zle && zle reset-prompt
 }
+zle -N zle-line-finish
 zle -N zle-keymap-select
+zle-line-finish
