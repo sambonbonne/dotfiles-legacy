@@ -14,7 +14,10 @@ installPluginManager() {
 zplug "b4b4r07/zplug"
 
 zplug "zsh-users/zsh-autosuggestions"
+
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 zplug "zsh-users/zsh-syntax-highlighting", nice:10
+
 zplug "hlissner/zsh-autopair"
 
 zplug "chrissicool/zsh-256color"
