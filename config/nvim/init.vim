@@ -70,6 +70,10 @@ let g:startify_change_to_vcs_root = 0
 Plug 'kopischke/vim-stay'
 set viewoptions=cursor,folds,slash,unix
 
+" More informations on the command line
+Plug 'Shougo/echodoc.vim'
+let g:echodoc_enabled_at_startup = 1
+
 " Perfect tabline
 Plug 'mkitt/tabline.vim'
 set showtabline=2
@@ -103,22 +107,33 @@ command! Search :Unite grep
 nnoremap <Leader>j :Unite -quick-match jump
 
 " A better file manager
-Plug 'Shougo/vimfiler.vim', { 'on': ['Explore', 'VimFilerExplorer'] }
+Plug 'Shougo/vimfiler.vim'
 let g:vimfiler_as_default_explorer = 1
 nnoremap <Leader>e :VimFilerExplorer -toggle -buffer-name='vimfiler_tree'<CR>
 
-" Detect indentation and set defaults
+" Indentation
 Plug 'vim-scripts/yaifa.vim'
 set expandtab    " use space instead of tab
 set tabstop=4    " size of hard tab stop
 set shiftwidth=4 " size of an "indent"
+Plug 'Yggdroot/indentLine' " indent can be visible
+let g:indentLine_enabled = 1
+let g:indentLine_color_term = 239
+let g:indentLine_char = '¦'
+" indent with tab (normal/visual mode)
+nnoremap <TAB> >>
+nnoremap <S-TAB> <<
+vnoremap <TAB> >gv
+vnoremap <S-TAB> <gv
+" re-indent file
+nnoremap g= gg=Gg``
 
 " Highlight whitespace
 Plug 'bronson/vim-trailing-whitespace'
 
 " Easy align
 Plug 'junegunn/vim-easy-align', { 'on': '<Plug>(EasyAlign)' }
-vmap <Enter> <Plug>(EasyAlign)
+vmap <Space> <Plug>(EasyAlign)
 
 " Comment better
 Plug 'scrooloose/nerdcommenter'
@@ -136,11 +151,13 @@ smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xmap <C-k> <Plug>(neosnippet_expand_target)
 
 " Replace and undo/redo improve
-Plug 'osyo-manga/vim-over' " highlight while writing a regex
-Plug 'tpope/vim-abolish', { 'on': ['Abolish', 'Subvert'] } " :Abolish{despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}, :Subvert/pattern/subtitute/g
-Plug 'mbbill/undotree', { 'on': ['UndotreeToggle', 'UndotreeShow', 'UndotreeFocus'] }
+set incsearch " do incremental searching
+Plug 'haya14busa/incsearch.vim', { 'on' : [ '<Plug>(incsearch-stay)' ] }
+map / <Plug>(incsearch-stay)
+map ? <Plug>(incsearch-stay)
+Plug 'tpope/vim-abolish', { 'on': [ 'Abolish', 'Subvert' ] } " :Abolish{despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}, :Subvert/pattern/subtitute/g
+Plug 'mbbill/undotree', { 'on': [ 'UndotreeToggle', 'UndotreeShow', 'UndotreeFocus' ] }
 nnoremap <Leader>u :UndotreeToggle<CR>
-"nmap <Leader>u :UndotreeToggle<CR>
 if has("persistent_undo")
   set undolevels=2048 undodir=~/.undodir/
   set undofile
@@ -168,8 +185,10 @@ Plug 'Konfekt/FastFold'
 
 " Advanced moves
 Plug 'Lokaltog/vim-easymotion', { 'on': '<Plug>(easymotion-prefix)' }
-let g:EasyMotion_do_mapping=1
-let g:EasyMotion_smartcase=1
+let g:EasyMotion_do_mapping = 1
+let g:EasyMotion_smartcase = 1
+nmap <Return> <Plug>(easymotion-prefix)
+vmap <Return> <Plug>(easymotion-prefix)
 nmap <Leader>m <Plug>(easymotion-prefix)
 vmap <Leader>m <Plug>(easymotion-prefix)
 Plug 'bkad/CamelCaseMotion'
@@ -181,11 +200,11 @@ Plug 'terryma/vim-expand-region'
 Plug 'benekastah/neomake'
 let g:neomake_error_sign = {
             \ 'text': '!',
-            \ 'texthl': 'ErrorMsg',
+            \ 'texthl': 'ErrorSign',
             \ }
 let g:neomake_warning_sign = {
             \ 'text': '?',
-            \ 'texthl': 'WarningMsg',
+            \ 'texthl': 'WarningSign',
             \ }
 let g:neomake_open_list = 2
 let g:neomake_list_height = 4
@@ -291,12 +310,6 @@ let g:limelight_conceal_ctermfg = 240
 let g:limelight_conceal_guifg = 'DarkGray'
 let g:limelight_paragraph_span = 3
 
-" Indent can be visible
-Plug 'Yggdroot/indentLine'
-let g:indentLine_enabled = 1
-let g:indentLine_color_term = 239
-let g:indentLine_char = '¦'
-
 call plug#end()
 " End vundle config
 
@@ -331,8 +344,10 @@ if &diff
 elseif has("gui_running")
   colorscheme material-theme
 else
-  colorscheme onedark
+  colorscheme PaperColor
 endif
+
+source /home/samuel/.config/nvim/highlight.vim
 
 if has("vms")
   set nobackup		" do not keep a backup file, use versions instead
@@ -341,7 +356,6 @@ else
 endif
 set history=64 " keep some lines of command line history
 set showcmd   " display incomplete commands
-set incsearch " do incremental searching
 
 " display line number
 set number
@@ -352,7 +366,7 @@ set foldcolumn=3 foldnestmax=4 foldminlines=8 foldlevelstart=2
 set foldopen+=jump
 
 " completion when you search a file (with :edit for exemaple)
-set wildmode=list:longest,full
+set wildmode=longest,list,full
 set wildmenu
 
 " In many terminal emulators the mouse works just fine, thus enable it.
@@ -400,8 +414,11 @@ nnoremap <Leader>hl :nohlsearch<CR>
 " press space to insert a single char before cursor
 nmap <Space> i_<Esc>r
 
-" sometimes I forget to use sudo
-cnoremap w!! w !sudo tee % >/dev/null
+" move in insert mode
+inoremap <M-H> <C-O>h
+inoremap <M-J> <C-O>j
+inoremap <M-K> <C-O>k
+inoremap <M-L> <C-O>l
 
 " better tabs usage
 nnoremap <S-T> :tabnew<CR>:Explore<CR>
@@ -411,12 +428,6 @@ nnoremap <S-L> gt
 " quickfix really quick
 nnoremap <S-J> :cnext<CR>
 nnoremap <S-K> :cprev<CR>
-
-" visual (or not) indent with tab
-nnoremap <TAB> >>
-nnoremap <S-TAB> <<
-vnoremap <TAB> >gv
-vnoremap <S-TAB> <gv
 
 " <C-C> doesn't trigger InsertLeave ...
 inoremap <C-C> <Esc>
@@ -448,6 +459,8 @@ command! ConfReload source $MYVIMRC
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
+  set noshowmode
+
   augroup neovim_config
     autocmd!
 
@@ -527,15 +540,15 @@ if has("autocmd")
 
     function! InsertStatuslineColor(mode)
       if a:mode == 'i'
-        highlight statusline ctermbg=52 guibg=red
+        call Colorize('statusline', g:statusline_mode_colors.insert)
       else
-        highlight statusline ctermbg=130 guibg=yellow
+        call Colorize('statusline', g:statusline_mode_colors.replace)
       endif
     endfunction
 
     autocmd InsertEnter  * call InsertStatuslineColor(v:insertmode)
     autocmd InsertChange * call InsertStatuslineColor(v:insertmode)
-    autocmd InsertLeave  * highlight StatusLine ctermbg=23 guibg=green
+    autocmd InsertLeave  * call Colorize('statusline', g:statusline_mode_colors.normal)
   augroup END
 
   augroup distraction
@@ -578,6 +591,7 @@ if has("autocmd")
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
   augroup END
 else " what do you really need ?
+  set cmdheight=2 " echodoc would be hidden by mode indicator
   set autoindent
   set omnifunc=syntaxcomplete#Complete
 endif " has("autocmd")
@@ -592,10 +606,10 @@ endif
 
 " Statusline config
 set laststatus=2
-set statusline=%6(%L%)\ %6(%l%),%-6(%c%)                                 " max line, current line and current column
+set statusline=%6(%L%)\ %6(%l%),%-6(%c%)                                  " max line, current line and current column
 set statusline+=\ %f
-set statusline+=\ %Y,%{&fenc==\"\"?&enc:&fenc}                           " encoding
-set statusline+=\ %{strftime(\"%H:%M\",getftime(expand(\"%%\")))}        " filename and last write
-set statusline+=%=%<                                                     " got to the right and eventually truncate
-set statusline+=%m%r%{fugitive#statusline()}                             " Git infos (if useing git)
-set statusline+=\ %(%#ErrorMsg#%{neomake#statusline#LoclistStatus()}%*%) " lint/compile warnings/errors
+set statusline+=\ %Y,%{&fenc==\"\"?&enc:&fenc}                            " encoding
+set statusline+=\ %{strftime(\"%H:%M\",getftime(expand(\"%%\")))}         " filename and last write
+set statusline+=%=%<                                                      " got to the right and eventually truncate
+set statusline+=%m%r%{fugitive#statusline()}                              " Git infos (if useing git)
+set statusline+=\ %(%#ErrorSign#%{neomake#statusline#LoclistStatus()}%*%) " lint/compile warnings/errors
