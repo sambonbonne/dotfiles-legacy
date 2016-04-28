@@ -2,6 +2,8 @@
 autoload -U promptinit && promptinit
 setopt PROMPT_SUBST
 
+## Left prompt
+
 local virtualenv_prompt_parse='$([[ "${VIRTUAL_ENV}" != "" ]] && echo " $(basename ${VIRTUAL_ENV})")'
 
 PROMPT=""
@@ -22,11 +24,6 @@ fi
 
 PROMPT="${PROMPT} %{$fg_no_bold[yellow]%}%~%{$fg_no_bold[red]%}${virtualenv_prompt_parse}%{$reset_color%}"
 BASE_PROMPT="${PROMPT}"
-
-# right prompt
-source ~/.zsh/git
-local git_prompt_parse='$(git_prompt_string)'
-RPROMPT="[%{$fg_no_bold[white]%}%T%{$reset_color%} %(?.%{$fg_no_bold[green]%}.%{$fg_no_bold[red]%})%?%{$reset_color%}]%(1j. (%{$fg_no_bold[magenta]%}%j%{$reset_color%}J%).)${git_prompt_parse}"
 
 # current vi mode and last status
 function zle-line-finish zle-keymap-select {
@@ -49,3 +46,32 @@ function zle-line-finish zle-keymap-select {
 zle -N zle-line-finish
 zle -N zle-keymap-select
 zle-line-finish
+
+
+## Right prompt
+source ~/.zsh/git
+function rprompt_cmd() {
+    echo "[%{$fg_no_bold[white]%}%T%{$reset_color%} %(?.%{$fg_no_bold[green]%}.%{$fg_no_bold[red]%})%?%{$reset_color%}]%(1j. (%{$fg_no_bold[magenta]%}%j%{$reset_color%}J%).)$(git_prompt_string)"
+}
+
+ASYNC_RPROMPT_PROC=0
+_async_rprompt_tmp_file="${HOME}/.zsh/.tmp_rprompt"
+function precmd() {
+    function async() {
+        printf "%s" "$(rprompt_cmd)" > "${_async_rprompt_tmp_file}"
+        kill -s USR1 $$
+    }
+
+    if [[ "${ASYNC_RPROMPT_PROC}" != 0 ]]; then
+        kill -s HUP $ASYNC_RPROMPT_PROC >/dev/null 2>&1 || :
+    fi
+
+    async &!
+    ASYNC_RPROMPT_PROC=$!
+}
+
+function TRAPUSR1() {
+    RPROMPT="$(cat ${_async_rprompt_tmp_file})"
+    ASYNC_RPROMPT_PROC=0
+    zle && zle reset-prompt
+}
