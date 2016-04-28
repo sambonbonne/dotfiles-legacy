@@ -49,16 +49,20 @@ zle-line-finish
 
 
 ## Right prompt
-source ~/.zsh/git
-function rprompt_cmd() {
-    echo "[%{$fg_no_bold[white]%}%T%{$reset_color%} %(?.%{$fg_no_bold[green]%}.%{$fg_no_bold[red]%})%?%{$reset_color%}]%(1j. (%{$fg_no_bold[magenta]%}%j%{$reset_color%}J%).)$(git_prompt_string)"
+BASE_RPROMPT="[%{$fg_no_bold[white]%}%T%{$reset_color%} %(?.%{$fg_no_bold[green]%}.%{$fg_no_bold[red]%})%?%{$reset_color%}]%(1j. (%{$fg_no_bold[magenta]%}%j%{$reset_color%}J%).)"
+source ~/.zsh/git.prompt.zsh
+
+function rprompt_slow_cmd() {
+    echo "$(git_prompt_string)"
 }
 
 ASYNC_RPROMPT_PROC=0
-_async_rprompt_tmp_file="${HOME}/.zsh/.tmp_rprompt"
+_async_rprompt_tmp_file="/tmp/zsh_rprompt_$(date +%Y%m%d_%H%M%S)"
 function precmd() {
+    RPROMPT="${BASE_RPROMPT} …"
+
     function async() {
-        printf "%s" "$(rprompt_cmd)" > "${_async_rprompt_tmp_file}"
+        printf "%s" "$(rprompt_slow_cmd)" > "${_async_rprompt_tmp_file}"
         kill -s USR1 $$
     }
 
@@ -71,7 +75,7 @@ function precmd() {
 }
 
 function TRAPUSR1() {
-    RPROMPT="$(cat ${_async_rprompt_tmp_file})"
+    RPROMPT="${BASE_RPROMPT}$(cat ${_async_rprompt_tmp_file})"
     ASYNC_RPROMPT_PROC=0
-    zle && zle reset-prompt
+    zle && zle .reset-prompt
 }
