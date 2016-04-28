@@ -10,6 +10,8 @@ installPluginManager() {
 
 [[ -f "${ZPLUG_MAIN}" ]] && source "${ZPLUG_MAIN}" || installPluginManager
 
+ZPLUG_CLONE_DEPTH=10
+
 
 zplug "b4b4r07/zplug"
 
