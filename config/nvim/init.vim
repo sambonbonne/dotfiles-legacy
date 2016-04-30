@@ -365,9 +365,8 @@ set foldmethod=indent
 set foldcolumn=3 foldnestmax=4 foldminlines=8 foldlevelstart=2
 set foldopen+=jump
 
-" completion when you search a file (with :edit for exemaple)
-set wildmode=longest,list,full
-set wildmenu
+" command completion
+set wildmenu wildmode=longest,list,full wildignore=*~,*.swp,*.orig
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
