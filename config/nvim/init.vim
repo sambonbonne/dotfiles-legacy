@@ -83,6 +83,7 @@ Plug 'ConradIrwin/vim-bracketed-paste'
 
 " number switch to relative or not
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
+set number
 set scrolloff=8 sidescrolloff=4
 
 " All tags
@@ -274,6 +275,7 @@ let g:jedi#documentation_command = "<leader>d"
 let g:jedi#usages_command = ""
 let g:jedi#completions_command = ""
 let g:jedi#rename_command = "<leader>r"
+Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
 Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
 Plug 'Shougo/neco-vim'
 Plug 'pekepeke/titanium-vim'
@@ -295,8 +297,6 @@ Plug 'reedes/vim-litecorrect' ", { 'on': 'litecorrect#init()' }
 " Some colors
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'jdkanani/vim-material-theme'
-Plug 'jscappini/material.vim'
-Plug 'kristijanhusak/vim-hybrid-material'
 Plug 'joshdick/onedark.vim'
 Plug 'wellsjo/wellsokai.vim'
 
@@ -347,7 +347,8 @@ else
   colorscheme PaperColor
 endif
 
-source /home/samuel/.config/nvim/highlight.vim
+let $NVIMHOME = fnamemodify($MYVIMRC, ':p:h')
+source $NVIMHOME/highlight.vim
 
 if has("vms")
   set nobackup		" do not keep a backup file, use versions instead
@@ -356,9 +357,6 @@ else
 endif
 set history=64 " keep some lines of command line history
 set showcmd   " display incomplete commands
-
-" display line number
-set number
 
 " fold method to indent, fold config
 set foldmethod=indent
@@ -413,6 +411,10 @@ nnoremap <Leader>hl :nohlsearch<CR>
 " press space to insert a single char before cursor
 nmap <Space> i_<Esc>r
 
+" start/end of line in insert mode
+inoremap <C-A> <Esc><S-I>
+inoremap <C-E> <Esc><S-A>
+
 " move in insert mode
 inoremap <M-H> <C-O>h
 inoremap <M-J> <C-O>j
@@ -424,9 +426,9 @@ nnoremap <S-T> :tabnew<CR>:Explore<CR>
 nnoremap <S-H> gT
 nnoremap <S-L> gt
 
-" quickfix really quick
-nnoremap <S-J> :cnext<CR>
-nnoremap <S-K> :cprev<CR>
+" locationlist really quick
+nnoremap <S-J> :lnext<CR>
+nnoremap <S-K> :lprev<CR>
 
 " <C-C> doesn't trigger InsertLeave ...
 inoremap <C-C> <Esc>
@@ -525,6 +527,7 @@ if has("autocmd")
   augroup haskell
     autocmd!
 
+    autocmd FileType haskell setlocal expandtab tabstop=8 softtabstop=4 shiftwidth=4 shiftround
     autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
   augroup END
 
@@ -574,6 +577,9 @@ if has("autocmd")
     " Delete white space at end of line when save
     autocmd BufWritePre * :FixWhitespace
 
+    " Center view on cursor
+    autocmd WinLeave * normal zz
+
     " auto save/load folding
     "autocmd BufWinLeave * mkview
     "autocmd BufWinEnter * silent loadview
@@ -605,10 +611,10 @@ endif
 
 " Statusline config
 set laststatus=2
-set statusline=%6(%L%)\ %6(%l%),%-6(%c%)                                  " max line, current line and current column
-set statusline+=\ %f
-set statusline+=\ %Y,%{&fenc==\"\"?&enc:&fenc}                            " encoding
-set statusline+=\ %{strftime(\"%H:%M\",getftime(expand(\"%%\")))}         " filename and last write
-set statusline+=%=%<                                                      " got to the right and eventually truncate
-set statusline+=%m%r%{fugitive#statusline()}                              " Git infos (if useing git)
+set statusline=%6(%L%)\ %6(%l%),%-6(%c%)                                 " current line and current column
+set statusline+=\ %f                                                     " current file
+set statusline+=\ %Y,%{&fenc==\"\"?&enc:&fenc}                           " encoding
+set statusline+=\ %{strftime(\"%H:%M\",getftime(expand(\"%%\")))}        " filename and last write
+set statusline+=%=%<                                                     " got to the right and eventually truncate
+set statusline+=%m%r%{fugitive#statusline()}                             " Git infos (if useing git)
 set statusline+=\ %(%#ErrorSign#%{neomake#statusline#LoclistStatus()}%*%) " lint/compile warnings/errors
