@@ -151,11 +151,13 @@ imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xmap <C-k> <Plug>(neosnippet_expand_target)
 
-" Replace and undo/redo improve
+" search improvements
 set incsearch " do incremental searching
 Plug 'haya14busa/incsearch.vim', { 'on' : [ '<Plug>(incsearch-stay)' ] }
 map / <Plug>(incsearch-stay)
 map ? <Plug>(incsearch-stay)
+
+" Replace and undo/redo improve
 Plug 'tpope/vim-abolish', { 'on': [ 'Abolish', 'Subvert' ] } " :Abolish{despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}, :Subvert/pattern/subtitute/g
 Plug 'mbbill/undotree', { 'on': [ 'UndotreeToggle', 'UndotreeShow', 'UndotreeFocus' ] }
 nnoremap <Leader>u :UndotreeToggle<CR>
@@ -406,7 +408,7 @@ set splitbelow splitright
 nnoremap ; :
 
 " toggle hlsearch
-nnoremap <Leader>hl :nohlsearch<CR>
+nnoremap <Leader>/ :nohlsearch<CR>
 
 " press space to insert a single char before cursor
 nmap <Space> i_<Esc>r
@@ -450,8 +452,14 @@ endfunction
 nnoremap <S-Q> :call CloseOrQuit()<CR>
 nnoremap <C-Q> :quit<CR>
 
+" better matching with %
 if !exists('g:loaded_matchit')
   runtime macros/matchit.vim
+endif
+
+" :Man command, very usefull
+if !exists('g:loaded_man')
+  runtime ftplugin/man.vim
 endif
 
 " What if I have custom commands ?
