@@ -1,6 +1,6 @@
 ## We want git informations
 # Modify the colors and symbols in these variables as desired.
-GIT_PROMPT_SYMBOL="%{$fg[white]%}∅%{$reset_color%}"
+GIT_PROMPT_SYMBOL="%{$fg[white]%}✓%{$reset_color%}"
 GIT_PROMPT_MODIFIED="%{$fg[yellow]%}±%{$reset_color%}"
 GIT_PROMPT_STAGED="%{$fg[green]%}±%{$reset_color%}"
 GIT_PROMPT_AHEAD=" %{$fg[blue]%}↑NUM%{$reset_color%}"
