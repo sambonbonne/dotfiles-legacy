@@ -49,7 +49,7 @@ zle-line-finish
 
 
 ## Right prompt
-BASE_RPROMPT="[%{$fg_no_bold[white]%}%T%{$reset_color%} %(?.%{$fg_no_bold[green]%}.%{$fg_no_bold[red]%})%?%{$reset_color%}]%(1j. (%{$fg_no_bold[magenta]%}%j%{$reset_color%}J%).)"
+BASE_RPROMPT="%{$fg_no_bold[white]%}%(?.%T.[%T %{$fg_no_bold[red]%}%?%{$fg_no_bold[white]%}])%{$reset_color%}%(1j. (%{$fg_no_bold[magenta]%}%j%{$reset_color%}J%).)"
 source ~/.zsh/git.prompt.zsh
 
 function rprompt_slow_cmd() {
