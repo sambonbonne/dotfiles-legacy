@@ -1,0 +1,2 @@
+setlocal spell
+setlocal omnifunc=htmlcomplete#CompleteTags

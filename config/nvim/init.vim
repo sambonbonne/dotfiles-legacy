@@ -470,12 +470,6 @@ command! ConfReload source $MYVIMRC
 if has("autocmd")
   set noshowmode
 
-  augroup neovim_config
-    autocmd!
-
-    autocmd FileType vim setlocal expandtab tabstop=2 shiftwidth=2
-  augroup END
-
   augroup startify
 	  autocmd!
 
@@ -487,17 +481,7 @@ if has("autocmd")
   "    autocmd BufWritePost ~/.Xresources sh xrdb ~/.Xresources
   "augroup END
 
-  augroup html
-    autocmd!
-
-    au BufNewFile,BufRead *.tpl set ft=html
-    au BufNewFile,BufRead *.html.twig set ft=html
-
-    autocmd FileType html,jade,blade setlocal tabstop=2 shiftwidth=2 spell
-    autocmd FileType html,blade setlocal omnifunc=htmlcomplete#CompleteTags
-  augroup END
-
-  augroup javascript
+  augroup javascript_completion
     autocmd!
 
     autocmd FileType coffee,coffeescript setlocal tabstop=2 shiftwidth=2
@@ -511,32 +495,16 @@ if has("autocmd")
   augroup END
 
   augroup css
-      autocmd!
+    autocmd!
 
     autocmd FileType css,stylus,scss,sass,less setlocal tabstop=2 shiftwidth=2
     autocmd FileType css,stylus,scss,sass,less setlocal omnifunc=csscomplete#CompleteCSS
-  augroup END
-
-  augroup markdown
-      autocmd!
-
-    autocmd FileType markdown setlocal tabstop=2 shiftwidth=2 spell
-    autocmd FileType markdown setlocal omnifunc=htmlcomplete#CompleteTags
-
-    "autocmd FileType text,markdown setlocal textwidth=80
   augroup END
 
   augroup php
     autocmd!
 
     autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
-  augroup END
-
-  augroup haskell
-    autocmd!
-
-    autocmd FileType haskell setlocal expandtab tabstop=8 softtabstop=4 shiftwidth=4 shiftround
-    autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
   augroup END
 
   augroup python
