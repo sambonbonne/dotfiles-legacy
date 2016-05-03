@@ -13,8 +13,8 @@ alias nview='nvim -R'
 alias nvimlog='nvim -w ~/.nvimlog'
 
 # Paging
-alias nless='nvim -R -'
-alias vless='vim -R -'
+alias nless='nvim -R -c "nnoremap q :q!<Enter>" -'
+alias vless='vim -R -c "nnoremap q :q!<Enter>" -'
 
 # Specific aliases
 alias vim_clean_swp='find ./ -type f -name "\.*sw[klmnop]" -delete'
