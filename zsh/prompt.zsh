@@ -22,8 +22,13 @@ fi
 # no SSH nor different username : take a really light prompt
 [ -z "${PROMPT}" ] && PROMPT="%{$fg_no_bold[blue]%}%~"
 
-PROMPT="${PROMPT} %{$fg_no_bold[yellow]%}%~%{$fg_no_bold[red]%}${virtualenv_prompt_parse}%{$reset_color%}"
+PROMPT="${PROMPT} %{$fg_no_bold[white]%}%T%{$fg_no_bold[red]%}${virtualenv_prompt_parse} %{$fg_no_bold[yellow]%}%~%{$reset_color%}"
 BASE_PROMPT="${PROMPT}"
+
+function TRAPALRM() {
+    zle .reset-prompt
+}
+TMOUT=5
 
 # current vi mode and last status
 function zle-line-finish zle-keymap-select {
@@ -49,16 +54,37 @@ zle-line-finish
 
 
 ## Right prompt
-BASE_RPROMPT="%{$fg_no_bold[white]%}%(?.%T.[%T %{$fg_no_bold[red]%}%?%{$fg_no_bold[white]%}])%{$reset_color%}%(1j. (%{$fg_no_bold[magenta]%}%j%{$reset_color%}J%).)"
+BASE_RPROMPT='%{$fg_no_bold[white]%}$(rprompt_last_duration)%(?.. %{$fg_no_bold[red]%}%?%{$fg_no_bold[white]%})%{$reset_color%}%(1j. (%{$fg_no_bold[magenta]%}%j%{$reset_color%}J%).)'
 source ~/.zsh/git.prompt.zsh
 
 function rprompt_slow_cmd() {
     echo "$(git_prompt_string)"
 }
 
+function rprompt_last_duration() {
+	local _color="blue"
+
+	if [[ $_rprompt_timer_show -ge 10 ]]; then
+		_color="magenta"
+	elif [[ $_rprompt_timer_show -ge 5 ]]; then
+		_color="yellow"
+	fi
+
+	echo "%{$fg_no_bold[$_color]%}${_rprompt_timer_show:-0}s%{$reset_color%}"
+}
+
+function preexec() {
+    _rprompt_timer=${_rprompt_timer:-$SECONDS}
+}
+
 ASYNC_RPROMPT_PROC=0
 _async_rprompt_tmp_file="/tmp/zsh_rprompt_$(date +%Y%m%d_%H%M%S)"
 function precmd() {
+	if [ $_rprompt_timer ]; then
+		_rprompt_timer_show=$(($SECONDS - $_rprompt_timer))
+		unset _rprompt_timer
+	fi
+
     RPROMPT="${BASE_RPROMPT} …"
 
     function async() {
