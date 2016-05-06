@@ -224,9 +224,6 @@ command! NeomakeListToggleAuto call NeomakeOpenList()
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
-" Man pages on the editor
-Plug 'bruno-/vim-man', { 'on': ['Man', 'Mangrep'] }
-
 " Edit markdown can be fun
 function! BuildMarkdownComposer(info)
   if a:info.status != 'unchanged' || a:info.force
@@ -311,6 +308,9 @@ Plug 'junegunn/limelight.vim', { 'on': 'Limelight' }
 let g:limelight_conceal_ctermfg = 240
 let g:limelight_conceal_guifg = 'DarkGray'
 let g:limelight_paragraph_span = 3
+
+" Maybe you want to learn something new
+Plug 'mhinz/vim-randomtag', { 'on': 'Random' }
 
 call plug#end()
 " End vundle config
