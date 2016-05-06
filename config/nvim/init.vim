@@ -153,9 +153,12 @@ xmap <C-k> <Plug>(neosnippet_expand_target)
 
 " search improvements
 set incsearch " do incremental searching
-Plug 'haya14busa/incsearch.vim', { 'on' : [ '<Plug>(incsearch-stay)' ] }
-map / <Plug>(incsearch-stay)
-map ? <Plug>(incsearch-stay)
+Plug 'haya14busa/incsearch.vim', { 'on': [ '<Plug>(incsearch-stay)', '<Plug>(incsearch-forward)', '<Plug>(incsearch-backward)' ] }
+map / <Plug>(incsearch-forward)
+map ? <Plug>(incsearch-backward)
+" please, the default n/N behavior is ugly
+nnoremap <expr> n 'Nn'[v:searchforward]
+nnoremap <expr> N 'nN'[v:searchforward]
 
 " Replace and undo/redo improve
 Plug 'tpope/vim-abolish', { 'on': [ 'Abolish', 'Subvert' ] } " :Abolish{despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}, :Subvert/pattern/subtitute/g
