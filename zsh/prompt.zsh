@@ -22,13 +22,13 @@ fi
 # no SSH nor different username : take a really light prompt
 [ -z "${PROMPT}" ] && PROMPT="%{$fg_no_bold[blue]%}%~"
 
-PROMPT="${PROMPT} %{$fg_no_bold[white]%}%T%{$fg_no_bold[red]%}${virtualenv_prompt_parse} %{$fg_no_bold[yellow]%}%~%{$reset_color%}"
+PROMPT="%{$fg_no_bold[white]%}%T%{$reset_color%} ${PROMPT}%{$fg_no_bold[red]%}${virtualenv_prompt_parse} %{$fg_no_bold[yellow]%}%~%{$reset_color%}"
 BASE_PROMPT="${PROMPT}"
 
 function TRAPALRM() {
     zle .reset-prompt
 }
-TMOUT=5
+TMOUT=10
 
 # current vi mode and last status
 function zle-line-finish zle-keymap-select {
