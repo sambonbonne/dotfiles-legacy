@@ -24,12 +24,13 @@ bindkey -v
 # End of lines configured by zsh-newuser-install
 
 zstyle :compinstall filename '/home/samuel/.zshrc'
-autoload -Uz compinit && compinit
 
 ### My own configuration
 
 ## Completion is a basic
+autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select=2
+zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
 setopt completealiases
 setopt HIST_IGNORE_DUPS
 bindkey '^I' expand-or-complete-prefix
@@ -87,7 +88,6 @@ function venv() {
     fi
 }
 
-zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
 
 eval $(dircolors ~/.dircolors)
 
