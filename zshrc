@@ -15,9 +15,6 @@ COMMAND_NOT_FOUND_FILE=/usr/share/doc/pkgfile/command-not-found.zsh
 [[ -f $COMMAND_NOT_FOUND_FILE ]] && source $COMMAND_NOT_FOUND_FILE
 
 # Lines configured by zsh-newuser-install
-HISTFILE=~/.zsh_history
-HISTSIZE=4096
-SAVEHIST=4096
 setopt appendhistory autocd beep extendedglob nomatch
 unsetopt notify
 bindkey -v
@@ -29,18 +26,27 @@ zstyle :compinstall filename '/home/samuel/.zshrc'
 
 ## Completion is a basic
 autoload -Uz compinit && compinit
+autoload bashcompinit && bashcompinit
 zstyle ':completion:*' menu select=2
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
 setopt completealiases
 setopt HIST_IGNORE_DUPS
 bindkey '^I' expand-or-complete-prefix
 bindkey '^[[Z' reverse-menu-complete
+which stack >/dev/null 2>&1 && eval "$(stack --bash-completion-script stack)"
 
 ## autocorrect is really good
 setopt correct
 
 ## Of course we want colors
 autoload -U colors && colors
+
+# (shared) history
+HISTFILE=~/.zsh_history
+HISTSIZE=4096
+SAVEHIST=4096
+setopt inc_append_history
+setopt share_history
 
 # plugins, something we love
 source ~/.zsh/plugins.zsh
