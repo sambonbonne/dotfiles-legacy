@@ -59,11 +59,9 @@ source "${HOME}/.zsh/alias.zsh"
 tmx() {
     if [[ -z "$1" ]]; then
 		tmux -2 list-sessions -F "#{?session_attached,$fg[cyan],$fg[white]}#{session_name}$fg[white] - #{session_windows} window(s)"
-    elif tmux has -t "$1" 2>&1 > /dev/null; then
-        [ -z $TMUX ] && tmux -2 attach -t "$1" || tmux -2 switch -t "$1"
-    else
-        TMUX="" tmux -2 new-session -s "$1" -d
-        [ -z $TMUX ] && tmux -2 attach -t "$1" || tmux -2 switch -t "$1"
+	else
+		tmux has-session -t "${1}" >/dev/null 2>&1 || TMUX="" tmux -2 new-session -s "${1}" -d
+		( [ -z "${TMUX}" ] && tmux -2 attach -t "$1" ) || tmux -2 switch -t "${1}"
     fi
 }
 function __tmux_sessions() {
@@ -95,13 +93,13 @@ eval $(dircolors ~/.dircolors)
 [[ "$(uname -s)" == "Darwin" ]] && source ~/.zsh/darwin || true # we put a "true" because we have a non-zero status if not in OS X
 
 # eventually start tmux
-if [[ $- == *i* ]] && [ -z $TMUX ] && command -v tmux >/dev/null 2>&1 ; then
+if [[ $- == *i* ]] && [ -z "${TMUX}" ] && command -v tmux >/dev/null 2>&1 ; then
     tmux ls >/dev/null 2>&1
     if [ $? -ne 0 ] ; then
         tmux -2 new -s default
     else
-        echo "\n$fg[blue]Some tmux sessions available$fg[white]"
-        tmux -2 ls | cut -d ":" -f 1
+        printf "\n$fg[blue]Some tmux sessions available$fg[white]\n"
+		tmx
         echo ""
     fi
 fi
