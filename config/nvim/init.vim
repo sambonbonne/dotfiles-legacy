@@ -590,10 +590,10 @@ endif
 
 " Statusline config
 set laststatus=2
-set statusline=%6(%L%)\ %6(%l%),%-6(%c%)                                 " current line and current column
-set statusline+=\ %f                                                     " current file
-set statusline+=\ %Y,%{&fenc==\"\"?&enc:&fenc}                           " encoding
-set statusline+=\ %{strftime(\"%H:%M\",getftime(expand(\"%%\")))}        " filename and last write
-set statusline+=%=%<                                                     " got to the right and eventually truncate
-set statusline+=%m%r%{fugitive#statusline()}                             " Git infos (if useing git)
+set statusline=%6(%L%)\ %6(%l%),%-6(%c%)                                  " max line, current line and current column
+set statusline+=\ %f                                                      " current file
+set statusline+=\ %Y,%{&fenc==\"\"?&enc:&fenc}                            " encoding
+set statusline+=\ %{strftime(\"%H:%M\",getftime(expand(\"%%\")))}         " filename and last write
+set statusline+=%=%<                                                      " got to the right and eventually truncate
+set statusline+=%m%r%{fugitive#statusline()}                              " Git infos (if useing git)
 set statusline+=\ %(%#ErrorSign#%{neomake#statusline#LoclistStatus()}%*%) " lint/compile warnings/errors
