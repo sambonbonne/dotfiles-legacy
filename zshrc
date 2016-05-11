@@ -11,8 +11,8 @@ if [[ $TERM == xterm-termite && -f /etc/profile.d/vte.sh ]]; then
     __vte_osc7
 fi
 
-COMMAND_NOT_FOUND_FILE=/usr/share/doc/pkgfile/command-not-found.zsh
-[[ -f $COMMAND_NOT_FOUND_FILE ]] && source $COMMAND_NOT_FOUND_FILE
+COMMAND_NOT_FOUND_FILE="/usr/share/doc/pkgfile/command-not-found.zsh"
+[[ -f "${COMMAND_NOT_FOUND_FILE}" ]] && source $COMMAND_NOT_FOUND_FILE
 
 # Lines configured by zsh-newuser-install
 setopt appendhistory autocd beep extendedglob nomatch
@@ -96,7 +96,7 @@ function venv() {
 eval $(dircolors ~/.dircolors)
 
 # sometime I work on a mac ...
-[[ "$(uname -s)" == "Darwin" ]] && source ~/.zsh/darwin || true # we put a "true" because we have a non-zero status if not in OS X
+[[ "$(uname -s)" == "Darwin" ]] && source ~/.zsh/darwin
 
 # eventually start tmux
 if [[ $- == *i* ]] && [ -z "${TMUX}" ] && command -v tmux >/dev/null 2>&1 ; then
