@@ -23,17 +23,10 @@ bindkey -v
 zstyle :compinstall filename '/home/samuel/.zshrc'
 
 ### My own configuration
+ZSH_CONFIG_PATH="${HOME}/.zsh"
 
 ## Completion is a basic
-autoload -Uz compinit && compinit
-autoload bashcompinit && bashcompinit
-zstyle ':completion:*' menu select=2
-zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
-setopt completealiases
-setopt HIST_IGNORE_DUPS
-bindkey '^I' expand-or-complete-prefix
-bindkey '^[[Z' reverse-menu-complete
-which stack >/dev/null 2>&1 && eval "$(stack --bash-completion-script stack)"
+source "${ZSH_CONFIG_PATH}/completion.zsh"
 
 ## autocorrect is really good
 setopt correct
