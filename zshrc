@@ -42,17 +42,17 @@ setopt inc_append_history
 setopt share_history
 
 # plugins, something we love
-source ~/.zsh/plugins.zsh
+source "${ZSH_CONFIG_PATH}/plugins.zsh"
 
 bindkey "^E" zce
 bindkey '^ ' vi-forward-blank-word
 bindkey '^[ ' autosuggest-accept
 
 # Load prompt
-source ~/.zsh/prompt.zsh
+source "${ZSH_CONFIG_PATH}/prompt.zsh"
 
 ## Some alias, can belways usefull
-source "${HOME}/.zsh/alias.zsh"
+source "${ZSH_CONFIG_PATH}/alias.zsh"
 
 # Tmux custom function
 tmx() {
@@ -88,7 +88,7 @@ function venv() {
 eval $(dircolors ~/.dircolors)
 
 # sometime I work on a mac ...
-[[ "$(uname -s)" == "Darwin" ]] && source ~/.zsh/darwin
+[[ "$(uname -s)" == "Darwin" ]] && source "${ZSH_CONFIG_PATH}/darwin"
 
 # eventually start tmux
 if [[ $- == *i* ]] && [ -z "${TMUX}" ] && command -v tmux >/dev/null 2>&1 ; then
