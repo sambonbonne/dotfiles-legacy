@@ -70,6 +70,9 @@ let g:startify_change_to_vcs_root = 0
 Plug 'kopischke/vim-stay'
 set viewoptions=cursor,folds,slash,unix
 
+" Plugin repeating
+Plug 'tpope/vim-repeat'
+
 " More informations on the command line
 Plug 'Shougo/echodoc.vim'
 let g:echodoc_enabled_at_startup = 1
@@ -223,6 +226,11 @@ function! NeomakeOpenList()
 endfunction
 command! NeomakeListToggleAuto call NeomakeOpenList()
 
+Plug 'Valloric/ListToggle'
+let g:lt_location_list_toggle_map = '<Leader>l'
+let g:lt_quickfix_list_toggle_map = '<Leader>q'
+let g:lt_height = g:neomake_list_height
+
 " Git wrapping and symbols
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
@@ -264,9 +272,7 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-D>"
 
 " Completion engines
-"Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' } |
-Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript', 'do': 'npm install tern -g'}
-"Plug 'davidhalter/jedi-vim', { 'for': 'python' }
+Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript', 'do': 'npm install -g tern'}
 Plug 'zchee/deoplete-jedi', { 'for': 'python', 'do': 'pip3 install --user --upgrade jedi' }
 let g:jedi#auto_vim_configuration = 0
 let g:jedi#popup_select_first = 0
@@ -431,9 +437,9 @@ nnoremap <S-T> :tabnew<CR>:Explore<CR>
 nnoremap <S-H> gT
 nnoremap <S-L> gt
 
-" locationlist really quick
-nnoremap <S-J> :lnext<CR>
-nnoremap <S-K> :lprev<CR>
+" location list really quick
+nnoremap <Leader>> :lnext<CR>
+nnoremap <Leader>< :lprev<CR>
 
 " <C-C> doesn't trigger InsertLeave ...
 inoremap <C-C> <Esc>
@@ -445,14 +451,14 @@ inoremap <C-E> <C-O>A
 tnoremap <C-T> <C-\><C-N>
 
 " You want to quit quickly
-function! CloseOrQuit()
+function! CloseTabOrQuit()
   if (tabpagenr('$') == 1)
     :quitall
   else
     :tabclose
   endif
 endfunction
-nnoremap <S-Q> :call CloseOrQuit()<CR>
+nnoremap <S-Q> :call CloseTabOrQuit()<CR>
 nnoremap <C-Q> :quit<CR>
 
 " better matching with %
@@ -504,16 +510,38 @@ if has("autocmd")
     autocmd FileType css,stylus,scss,sass,less setlocal omnifunc=csscomplete#CompleteCSS
   augroup END
 
-  augroup php
-    autocmd!
-
-    autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
-  augroup END
-
   augroup python
     autocmd!
 
     autocmd FileType python setlocal omnifunc=jedi#completions
+  augroup END
+
+  augroup positions_registers
+    autocmd!
+
+    let g:last_positions_registers = {
+          \   'insert':  'i',
+          \   'replace': 'r',
+          \   'normal':  'n'
+          \ }
+
+    function! InsertPositionRegister(mode)
+      if a:mode == 'i'
+        exe "normal m" . g:last_positions_registers.insert
+      else
+        exe "normal m" . g:last_positions_registers.replace
+      endif
+    endfunction
+
+    autocmd InsertEnter  * call InsertPositionRegister(v:insertmode)
+    autocmd InsertChange * call InsertPositionRegister(v:insertmode)
+    autocmd InsertLeave  * exe "normal m" . g:last_positions_registers.insert
+  augroup END
+
+  augroup semicolon_langages
+    autocmd!
+
+    autocmd FileType php,c,cpp,javascript,typescript inoremap ;<CR> <C-O>A;<CR>
   augroup END
 
   augroup statusline
@@ -537,7 +565,7 @@ if has("autocmd")
 
     autocmd InsertEnter  * set nocursorline nocursorcolumn | Limelight
     autocmd InsertChange * set nocursorline nocursorcolumn | Limelight
-    autocmd InsertLeave  * set cursorline | Limelight!
+    autocmd InsertLeave  * set cursorline | Limelight! | exe "normal `" . g:last_positions_registers.insert
 
     autocmd WinEnter * setlocal cursorline foldcolumn=3
     autocmd WinLeave * setlocal nocursorline foldcolumn=0
