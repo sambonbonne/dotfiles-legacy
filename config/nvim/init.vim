@@ -1,23 +1,27 @@
-" vim-plug no installed ? We can do it for you
-if empty(glob("~/.config/nvim/autoload/plug.vim"))
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-              \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-  if has("autocmd")
-      autocmd VimEnter * PlugInstall | source $MYVIMRC
-  endif
+if &compatible
+  set nocompatible
 endif
 
+let $NVIMHOME = fnamemodify($MYVIMRC, ':p:h')
+
+let s:plugin_manager_directory = $NVIMHOME . '/plugins'
+exec "set runtimepath+=" . s:plugin_manager_directory . "/repos/github.com/Shougo/dein.vim"
+
 " vim-plug config
-call plug#begin()
-Plug 'Shougo/vimproc.vim'
+call dein#begin(expand(s:plugin_manager_directory))
+
+call dein#add('Shougo/dein.vim')
+let g:dein#install_progress_type = 'tabline'
+call dein#add('haya14busa/dein-command.vim', { 'on_cmd': 'Dein', 'depends': 'dein.vim' })
+
+call dein#add('Shougo/vimproc.vim', { 'build': 'make' })
 
 " To add .lvimrc for each project you want
-Plug 'embear/vim-localvimrc'
+call dein#add('embear/vim-localvimrc')
 let g:localvimrc_ask=0
 
 " Let's start nice and manage sessions
-Plug 'mhinz/vim-startify'
+call dein#add('mhinz/vim-startify')
 function! s:startify_center_header(lines) abort " this function will center your header !
 let longest_line   = max(map(copy(a:lines), 'len(v:val)'))
   let centered_lines = map(copy(a:lines),
@@ -67,36 +71,47 @@ let g:startify_change_to_dir = 1
 let g:startify_change_to_vcs_root = 0
 
 " And auto save and restore views
-Plug 'kopischke/vim-stay'
+call dein#add('kopischke/vim-stay')
 set viewoptions=cursor,folds,slash,unix
 
 " Plugin repeating
-Plug 'tpope/vim-repeat'
+call dein#add('tpope/vim-repeat')
 
 " More informations on the command line
-Plug 'Shougo/echodoc.vim'
+call dein#add('Shougo/echodoc.vim')
 let g:echodoc_enabled_at_startup = 1
 
 " Perfect tabline
-Plug 'mkitt/tabline.vim'
+call dein#add('mkitt/tabline.vim')
 set showtabline=2
 
 " Clipboard and pasting
-Plug 'ConradIrwin/vim-bracketed-paste'
+call dein#add('ConradIrwin/vim-bracketed-paste')
 
 " number switch to relative or not
-Plug 'jeffkreeftmeijer/vim-numbertoggle'
+call dein#add('jeffkreeftmeijer/vim-numbertoggle')
 set number
 set scrolloff=8 sidescrolloff=4
 
 " All tags
-Plug 'xolox/vim-misc' | Plug 'xolox/vim-easytags'
+call dein#add('xolox/vim-misc')
+call dein#add('xolox/vim-easytags', { 'depends': 'vim-misc' })
 let g:easytags_async = 1
-Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+let g:easytags_auto_highlight = 0
+let g:easytags_on_cursorhold = 0
+"set cpoptions+=d
+"let g:easytags_dynamic_files = 2
+let g:easytags_languages = {
+      \   'php' : {
+      \     'args': [ '--fields=+aimlS', '--languages=php' ],
+      \   }
+      \ }
+call dein#add('majutsushi/tagbar', { 'on_cmd': 'TagbarToggle' })
 nnoremap <Leader>t :TagbarToggle<CR>
 
 " Lot of things with Unite
-Plug 'Shougo/unite.vim' | Plug 'Shougo/neoyank.vim'
+call dein#add('Shougo/unite.vim')
+call dein#add('Shougo/neoyank.vim', { 'depends': 'unite.vim' })
 " buffers list
 nnoremap <Leader>b :Unite -quick-match buffer<cr>
 command! Buffers :Unite buffer
@@ -110,17 +125,20 @@ command! Search :Unite grep
 " Jumps list
 nnoremap <Leader>j :Unite -quick-match jump
 
+" Same as Unite but for Neovim, in development
+call dein#add('Shougo/denite.nvim')
+
 " A better file manager
-Plug 'Shougo/vimfiler.vim'
+call dein#add('Shougo/vimfiler.vim')
 let g:vimfiler_as_default_explorer = 1
 nnoremap <Leader>e :VimFilerExplorer -toggle -buffer-name='vimfiler_tree'<CR>
 
 " Indentation
-Plug 'vim-scripts/yaifa.vim'
+call dein#add('vim-scripts/yaifa.vim') " detect indent
 set expandtab    " use space instead of tab
 set tabstop=4    " size of hard tab stop
 set shiftwidth=4 " size of an "indent"
-Plug 'Yggdroot/indentLine' " indent can be visible
+call dein#add('Yggdroot/indentLine') " indent can be visible
 let g:indentLine_enabled = 1
 let g:indentLine_color_term = 239
 let g:indentLine_char = '¦'
@@ -133,30 +151,31 @@ vnoremap <S-TAB> <gv
 nnoremap g= gg=Gg``
 
 " Highlight whitespace
-Plug 'bronson/vim-trailing-whitespace'
+call dein#add('bronson/vim-trailing-whitespace')
 
 " Easy align
-Plug 'junegunn/vim-easy-align', { 'on': '<Plug>(EasyAlign)' }
+call dein#add('junegunn/vim-easy-align', { 'on_map': '<Plug>(EasyAlign)' })
 vmap <Space> <Plug>(EasyAlign)
 
 " Comment better
-Plug 'scrooloose/nerdcommenter'
+call dein#add('scrooloose/nerdcommenter')
 
 " First, auto-close brackets, quotes ... Second, auto-close tags, third change surrounds
-Plug 'jiangmiao/auto-pairs'
-Plug 'alvan/vim-closetag' " don't put 'for', it won't work at all
+call dein#add('jiangmiao/auto-pairs')
+call dein#add('alvan/vim-closetag') " don't put 'for', it won't work at all
 let g:closetag_filenames = "*.xml,*.html,*.tpl,*.hbs,*.blade.php"
-Plug 'tpope/vim-surround' " cs like Change Surround, ds like Delete Surround
+call dein#add('tpope/vim-surround') " cs like Change Surround, ds like Delete Surround
 
 " Snippets
-Plug 'Shougo/neosnippet' | Plug 'Shougo/neosnippet-snippets'
+call dein#add('Shougo/neosnippet')
+call dein#add('Shougo/neosnippet-snippets', { 'depends': 'neosnippet' })
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xmap <C-k> <Plug>(neosnippet_expand_target)
 
 " search improvements
 set incsearch " do incremental searching
-Plug 'haya14busa/incsearch.vim', { 'on': [ '<Plug>(incsearch-stay)', '<Plug>(incsearch-forward)', '<Plug>(incsearch-backward)' ] }
+call dein#add('haya14busa/incsearch.vim', { 'on_map': [ '<Plug>(incsearch-stay)', '<Plug>(incsearch-forward)', '<Plug>(incsearch-backward)' ] })
 map / <Plug>(incsearch-forward)
 map ? <Plug>(incsearch-backward)
 " please, the default n/N behavior is ugly
@@ -164,8 +183,8 @@ nnoremap <expr> n 'Nn'[v:searchforward]
 nnoremap <expr> N 'nN'[v:searchforward]
 
 " Replace and undo/redo improve
-Plug 'tpope/vim-abolish', { 'on': [ 'Abolish', 'Subvert' ] } " :Abolish{despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}, :Subvert/pattern/subtitute/g
-Plug 'mbbill/undotree', { 'on': [ 'UndotreeToggle', 'UndotreeShow', 'UndotreeFocus' ] }
+call dein#add('tpope/vim-abolish', { 'on_cmd': [ 'Abolish', 'Subvert' ] }) " :Abolish{despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}, :Subvert/pattern/subtitute/g
+call dein#add('mbbill/undotree', { 'on_cmd': [ 'UndotreeToggle', 'UndotreeShow', 'UndotreeFocus' ] })
 nnoremap <Leader>u :UndotreeToggle<CR>
 if has("persistent_undo")
   set undolevels=2048 undodir=~/.undodir/
@@ -173,11 +192,13 @@ if has("persistent_undo")
 endif
 
 " Better splits management
-Plug 'AndrewRadev/undoquit.vim'
-Plug 'zhaocai/GoldenView.Vim'
+call dein#add('AndrewRadev/undoquit.vim')
+call dein#add('zhaocai/GoldenView.Vim')
 let g:goldenview__enable_default_mapping = 0
 nnoremap <C-H> <C-W>h
 vnoremap <C-H> <C-W>h
+nnoremap <BS> <C-W>h " tmp fix for neovim/neovim#2048
+vnoremap <BS> <C-W>h " tmp fix for neovim/neovim#2048
 tnoremap <C-H> <C-\><C-N><C-W>h
 nnoremap <C-J> <C-W>j
 vnoremap <C-J> <C-W>j
@@ -190,23 +211,23 @@ vnoremap <C-L> <C-W>l
 tnoremap <C-L> <C-\><C-N><C-W>l
 
 " Faster editing
-Plug 'Konfekt/FastFold'
+call dein#add('Konfekt/FastFold')
 
 " Advanced moves
-Plug 'Lokaltog/vim-easymotion', { 'on': '<Plug>(easymotion-prefix)' }
+call dein#add('Lokaltog/vim-easymotion', { 'on_map': '<Plug>(easymotion-prefix)' })
 let g:EasyMotion_do_mapping = 1
 let g:EasyMotion_smartcase = 1
 nmap <Return> <Plug>(easymotion-prefix)
 vmap <Return> <Plug>(easymotion-prefix)
 nmap <Leader>m <Plug>(easymotion-prefix)
 vmap <Leader>m <Plug>(easymotion-prefix)
-Plug 'bkad/CamelCaseMotion'
+call dein#add('bkad/CamelCaseMotion')
 
 " Better selection expanding
-Plug 'terryma/vim-expand-region'
+call dein#add('terryma/vim-expand-region')
 
 " Syntax checking
-Plug 'benekastah/neomake'
+call dein#add('benekastah/neomake')
 let g:neomake_error_sign = {
             \ 'text': '!',
             \ 'texthl': 'ErrorSign',
@@ -226,14 +247,14 @@ function! NeomakeOpenList()
 endfunction
 command! NeomakeListToggleAuto call NeomakeOpenList()
 
-Plug 'Valloric/ListToggle'
+call dein#add('Valloric/ListToggle')
 let g:lt_location_list_toggle_map = '<Leader>l'
 let g:lt_quickfix_list_toggle_map = '<Leader>q'
 let g:lt_height = g:neomake_list_height
 
 " Git wrapping and symbols
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
+call dein#add('tpope/vim-fugitive')
+call dein#add('airblade/vim-gitgutter')
 
 " Edit markdown can be fun
 function! BuildMarkdownComposer(info)
@@ -245,89 +266,63 @@ endfunction
 Plug 'euclio/vim-markdown-composer', { 'do': function('BuildMarkdownComposer') }
 
 " We want to build
-Plug 'KabbAmine/gulp-vim', { 'on': ['Gulp', 'GulpExt', 'GulpFile', 'GulpTasks'] }
-Plug 'mklabs/grunt.vim', { 'on': ['Grunt', 'Gtask', 'Gtest', 'Glint', 'Gdoc'] }
+call dein#add('KabbAmine/gulp-vim', { 'on_cmd': ['Gulp', 'GulpExt', 'GulpFile', 'GulpTasks'] })
+call dein#add('mklabs/grunt.vim',   { 'on_cmd': ['Grunt', 'Gtask', 'Gtest', 'Glint', 'Gdoc'] })
 
 " Syntax and language detection
-Plug 'sheerun/vim-polyglot' " There is a grate quantity of languages in this
-Plug 'othree/javascript-libraries-syntax.vim', { 'for': 'javascript' }
-Plug 'aaronj1335/underscore-templates.vim'
-Plug 'hhvm/vim-hack', { 'for': ['hh', 'hack', 'php'] }
-Plug 'vim-scripts/bash-support.vim', { 'for': ['shell', 'sh', 'bash'] }
-Plug 'PotatoesMaster/i3-vim-syntax'
+call dein#add('sheerun/vim-polyglot') " There is a grate quantity of languages in this
+call dein#add('othree/javascript-libraries-syntax.vim', { 'on_ft': 'javascript' })
+call dein#add('aaronj1335/underscore-templates.vim')
+call dein#add('hhvm/vim-hack', { 'on_ft': ['hh', 'hack', 'php'] })
+call dein#add('vim-scripts/bash-support.vim', { 'on_ft': ['shell', 'sh', 'bash'] })
+call dein#add('PotatoesMaster/i3-vim-syntax')
 
 " Completion
-set completeopt=longest,menuone,noselect
-Plug 'Shougo/deoplete.nvim' | Plug 'Shougo/neoinclude.vim'
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#max_list = 20
-let g:deoplete#max_menu_width = 80
-let g:deoplete#sources = {}
-let g:deoplete#sources._ = ['member', 'tag', 'omni', 'neosnippet', 'buffer', 'file']
-let g:deoplete#sources.javascript = ['ternjs', 'buffer', 'neosnippet']
-let g:deoplete#sources.python     = ['jedi', 'neosnippet']
-let g:deoplete#sources.php        = ['omni', 'member', 'tag', 'neosnippet', 'buffer', 'file']
-let g:deoplete#sources.vim        = ['vim', 'buffer', 'neosnippet']
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-D>"
-
-" Completion engines
-Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript', 'do': 'npm install -g tern'}
-Plug 'zchee/deoplete-jedi', { 'for': 'python', 'do': 'pip3 install --user --upgrade jedi' }
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#popup_select_first = 0
-let g:jedi#goto_command = "<leader>g"
-let g:jedi#goto_assignments_command = ""
-let g:jedi#goto_definitions_command = ""
-let g:jedi#documentation_command = "<leader>d"
-let g:jedi#usages_command = ""
-let g:jedi#completions_command = ""
-let g:jedi#rename_command = "<leader>r"
-Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
-Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
-Plug 'Shougo/neco-vim'
-Plug 'pekepeke/titanium-vim'
+source $NVIMHOME/completion.vim
 
 " Others languages/technos utils
-Plug 'chrisbra/csv.vim', { 'for': 'csv' }
-Plug 'timonv/vim-cargo', { 'for': 'rust' }
+call dein#add('chrisbra/csv.vim', { 'on_ft': 'csv' })
+call dein#add('timonv/vim-cargo', { 'on_ft': 'rust' })
+call dein#add('lervag/vimtex', { 'on_ft': [ 'tex', 'latex', 'plaintex' ] })
 
 " Some Unix commands directly inside the editor
-Plug 'tpope/vim-eunuch'
+call dein#add('tpope/vim-eunuch')
 
 " Launch test in Vim
-Plug 'janko-m/vim-test'
+call dein#add('janko-m/vim-test')
 let test#strategy = "neovim"
 
 " Mispelling is so common ...
-Plug 'reedes/vim-litecorrect' ", { 'on': 'litecorrect#init()' }
+call dein#add('reedes/vim-litecorrect') ", { 'on_func': 'litecorrect#init()' }
 
 " Some colors
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'jdkanani/vim-material-theme'
-Plug 'joshdick/onedark.vim'
-Plug 'wellsjo/wellsokai.vim'
+call dein#add('NLKNguyen/papercolor-theme')
+call dein#add('jdkanani/vim-material-theme')
+call dein#add('joshdick/onedark.vim')
+call dein#add('wellsjo/wellsokai.vim')
 
 " Highlight hex colors
-Plug 'vim-scripts/colorizer'
+call dein#add('vim-scripts/colorizer', { 'on_ft': [ 'html', 'tpl', 'markdown', 'md' ] })
 let g:colorizer_nomap = 1
 
 " Less distraction
-Plug 'junegunn/limelight.vim', { 'on': 'Limelight' }
+call dein#add('junegunn/limelight.vim', { 'on_cmd': 'Limelight' })
 let g:limelight_conceal_ctermfg = 240
 let g:limelight_conceal_guifg = 'DarkGray'
 let g:limelight_paragraph_span = 3
 
 " Maybe you want to learn something new
-Plug 'mhinz/vim-randomtag', { 'on': 'Random' }
+call dein#add('mhinz/vim-randomtag', { 'on_cmd': 'Random' })
 
-call plug#end()
-" End vundle config
+call dein#end()
+" End plugins config
+
+if dein#check_install()
+  call dein#install()
+endif
 
 filetype plugin indent on
 syntax on
-set synmaxcol=500
-set wildignore=*~,*.swp,*.orig
 
 " encoding
 if !has('nvim')
@@ -357,8 +352,8 @@ elseif has("gui_running")
 else
   colorscheme PaperColor
 endif
+set synmaxcol=500
 
-let $NVIMHOME = fnamemodify($MYVIMRC, ':p:h')
 source $NVIMHOME/highlight.vim
 
 if has("vms")
@@ -375,11 +370,11 @@ set foldcolumn=3 foldnestmax=4 foldminlines=8 foldlevelstart=2
 set foldopen+=jump
 
 " command completion
-set wildmenu wildmode=longest,list,full wildignore=*~,*.swp,*.orig
+set wildmenu wildmode=longest,list,full wildignore=*~,*.swp,*.o,*.pdf
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
-  set mouse=a
+  set mouse=nvc
 endif
 
 " highlight line, light line number
@@ -387,9 +382,6 @@ set cursorline
 command! CursorColumn set cursorcolumn!
 " Also switch on highlighting the last used search pattern.
 set hlsearch
-
-" auto-write files
-set autowriteall
 
 if has("gui_running")
   set guifont=Fira\ Mono\ 10
@@ -415,6 +407,10 @@ set splitbelow splitright
 
 " yes, I'm really lazy
 nnoremap ; :
+
+" remap comma and invert with <C->
+nnoremap , ;
+nnoremap <C-,> ,
 
 " toggle hlsearch
 nnoremap <Leader>/ :nohlsearch<CR>
@@ -443,9 +439,6 @@ nnoremap <Leader>< :lprev<CR>
 
 " <C-C> doesn't trigger InsertLeave ...
 inoremap <C-C> <Esc>
-
-" End of line in insert mode
-inoremap <C-E> <C-O>A
 
 " Neovim terminal is good but going out of it is a pain in the ass
 tnoremap <C-T> <C-\><C-N>
