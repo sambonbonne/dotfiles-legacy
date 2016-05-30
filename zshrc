@@ -54,24 +54,6 @@ source "${ZSH_CONFIG_PATH}/prompt.zsh"
 ## Some alias, can belways usefull
 source "${ZSH_CONFIG_PATH}/alias.zsh"
 
-# Tmux custom function
-tmx() {
-    if [[ -z "$1" ]]; then
-        tmux -2 list-sessions -F "#{?session_attached,$fg[cyan],$fg[white]}#{session_name}$fg[white] - #{session_windows} window(s)"
-    else
-        tmux has-session -t "${1}" >/dev/null 2>&1 || TMUX="" tmux -2 new-session -s "${1}" -d
-        ( [ -z "${TMUX}" ] && tmux -2 attach -t "$1" ) || tmux -2 switch -t "${1}"
-    fi
-}
-function __tmux_sessions() {
-    local expl
-    local -a sessions
-
-    sessions=( ${${(f)"$(command tmux list-sessions)"}/:[ $'\t']##/:} )
-    _describe -t sessions 'sessions' sessions "$@"
-}
-compdef __tmux_sessions tmx
-
 # python virtualenv facility
 function venv() {
     if [[ "$VIRTUAL_ENV" == "" ]]; then
