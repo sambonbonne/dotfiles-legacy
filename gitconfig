@@ -30,13 +30,15 @@
     tool = vimdiff
 
 [alias]
-    st = status -uno ./
+    s = status -uno ./
+    st = status -u ./
     sta = status -u
     ck = checkout
     ca = commit -a
     cm = commit -m
     cam = commit -am
     amend = commit --amend
+    cp = cherry-pick -n
     lg = log --date-order --graph --pretty=format:'%C(yellow)%h%Creset%Cred%d%Creset - %C(green)%cr%Creset, %C(blue)%an%Creset <%C(cyan)%ae%Creset>\n%s\n' --abbrev-commit --
     last = log -10 --date-order --graph --pretty=format:'%C(yellow)%h%Creset%Cred%d%Creset - %C(green)%cr%Creset, %C(blue)%an%Creset <%C(cyan)%ae%Creset>\n%s\n' --abbrev-commit --
     pl = pull --rebase
