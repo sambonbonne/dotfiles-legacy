@@ -6,23 +6,39 @@ setopt PROMPT_SUBST
 
 local virtualenv_prompt_parse='$([[ "${VIRTUAL_ENV}" != "" ]] && echo " $(basename ${VIRTUAL_ENV})")'
 
-PROMPT=""
+function _prompt_context() {
+    local prompt=""
 
-local _default_username="samuel"
-if [[ "${LOGNAME}" != "${USER}" || "${LOGNAME}" != "${_default_username}" || "${USER}" != "${_default_username}" ]] ; then
-    PROMPT="${PROMPT}%{$fg_no_bold[cyan]%}%n%{$reset_color%}"
-fi
-unset _default_username
+    local _default_username="samuel"
 
-if [[ -n "${SSH_CLIENT}" ]] ; then
-    [ -n "${PROMPT}" ] && PROMPT="${PROMPT}@"
-    PROMPT="${PROMPT}%{$fg_no_bold[blue]%}%M%{$reset_color%}"
-fi
+    if [[ "${LOGNAME}" != "${USER}" || "${LOGNAME}" != "${_default_username}" || "${USER}" != "${_default_username}" ]] ; then
+        prompt="${prompt}%{$fg_no_bold[cyan]%}%n%{$reset_color%}"
+    fi
 
-[ -n "${PROMPT}" ] && PROMPT=" ${PROMPT}"
+    unset _default_username
 
-PROMPT="%{$fg_no_bold[white]%}%T%{$reset_color%}${PROMPT}%{$fg_no_bold[red]%}${virtualenv_prompt_parse} %{$fg_no_bold[yellow]%}%~%{$reset_color%}"
-BASE_PROMPT="${PROMPT}"
+    if [[ -n "${SSH_CLIENT}" ]] ; then
+        [ -n "${prompt}" ] && prompt="${prompt}@"
+        prompt="${prompt}%{$fg_no_bold[blue]%}%M%{$reset_color%}"
+    fi
+
+    [ -n "${prompt}" ] && prompt=" ${prompt}"
+
+    echo -n "${prompt}"
+}
+
+function build_prompt() {
+    local prompt=""
+
+    [[ "${VIRTUAL_ENV}" != "" ]] && prompt="${prompt} %{$fg_no_bold[red]%}$(basename ${VIRTUAL_ENV})%{$reset_color%}"
+
+    [[ ${COLUMNS} -lt 90 ]] && local _prompt_max_length=3
+    prompt="${prompt} %{$fg_no_bold[yellow]%}%${_prompt_max_length:-}~%{$reset_color%}"
+
+    echo -n "${prompt}"
+}
+BASE_PROMPT='%{$fg_no_bold[white]%}%T%{$reset_color%}$(_prompt_context)$(build_prompt)'
+PROMPT="${BASE_PROMPT}"
 
 function TRAPALRM() {
     zle .reset-prompt
@@ -63,9 +79,9 @@ function rprompt_last_duration() {
     local _color="blue"
 
     if [[ $_rprompt_timer_show -ge 10 ]]; then
-            _color="magenta"
+        _color="magenta"
     elif [[ $_rprompt_timer_show -ge 5 ]]; then
-            _color="yellow"
+        _color="yellow"
     fi
 
     echo "%{$fg_no_bold[$_color]%}${_rprompt_timer_show:-0}s%{$reset_color%}"
@@ -101,5 +117,5 @@ function precmd() {
 function TRAPUSR1() {
     RPROMPT="${BASE_RPROMPT}$(cat ${_async_rprompt_tmp_file})"
     ASYNC_RPROMPT_PROC=0
-    zle && zle .reset-prompt
+	(zle && zle .reset-prompt) 2> /dev/null
 }
