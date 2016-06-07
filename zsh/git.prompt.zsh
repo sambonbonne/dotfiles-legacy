@@ -3,6 +3,7 @@
 GIT_PROMPT_SYMBOL="%{$fg[white]%}✓%{$reset_color%}"
 GIT_PROMPT_MODIFIED="%{$fg[yellow]%}±%{$reset_color%}"
 GIT_PROMPT_STAGED="%{$fg[green]%}±%{$reset_color%}"
+GIT_PROMPT_UNTRACKED="%{$fg[cyan]%}+%{$reset_color%}"
 GIT_PROMPT_AHEAD=" %{$fg[blue]%}↑NUM%{$reset_color%}"
 GIT_PROMPT_BEHIND=" %{$fg[magenta]%}↓NUM%{$reset_color%}"
 GIT_PROMPT_MERGING=" %{$fg[red]%}⚡︎%{$reset_color%}"
@@ -16,39 +17,48 @@ function parse_git_branch() {
 # Compose this value via multiple conditional appends.
 function parse_git_state() {
   local GIT_STATE=""
+  local git_status="$(git status --porcelain 2> /dev/null)"
 
-  if ! git diff --quiet 2> /dev/null; then
-    GIT_STATE=$GIT_STATE$GIT_PROMPT_MODIFIED
+  if [[ "${git_status}" =~ ($'\n'|^).M ]]; then
+    GIT_STATE="${GIT_STATE}${GIT_PROMPT_MODIFIED}"
   fi
 
-  if ! git diff --cached --quiet 2> /dev/null; then
-    GIT_STATE=$GIT_STATE$GIT_PROMPT_STAGED
+  if [[ "${git_status}" =~ ($'\n'|^)A ]]; then
+    GIT_STATE="${GIT_STATE}${GIT_PROMPT_STAGED}"
+  fi
+
+  if [[ $(\grep -c "^??" <<< "$git_status") -gt 0 ]]; then
+    GIT_STATE="${GIT_STATE}${GIT_PROMPT_UNTRACKED}"
   fi
 
   local GIT_DIR="$(git rev-parse --git-dir 2> /dev/null)"
   if [ -n $GIT_DIR ] && test -r $GIT_DIR/MERGE_HEAD; then
-    GIT_STATE=$GIT_STATE$GIT_PROMPT_MERGING
+    GIT_STATE="${GIT_STATE}${GIT_PROMPT_MERGING}"
   fi
 
   local NUM_AHEAD="$(git log --oneline @{u}.. 2> /dev/null | wc -l | tr -d ' ')"
   if [ "$NUM_AHEAD" -gt 0 ]; then
-    GIT_STATE=$GIT_STATE${GIT_PROMPT_AHEAD//NUM/$NUM_AHEAD}
+    GIT_STATE="${GIT_STATE}${GIT_PROMPT_AHEAD//NUM/$NUM_AHEAD}"
   fi
 
   local NUM_BEHIND="$(git log --oneline ..@{u} 2> /dev/null | wc -l | tr -d ' ')"
   if [ "$NUM_BEHIND" -gt 0 ]; then
-    GIT_STATE=$GIT_STATE${GIT_PROMPT_BEHIND//NUM/$NUM_BEHIND}
+    GIT_STATE="${GIT_STATE}${GIT_PROMPT_BEHIND//NUM/$NUM_BEHIND}"
   fi
 
   if [[ -n $GIT_STATE ]]; then
-    echo "$GIT_STATE"
+    echo "${GIT_STATE}"
   else
-    echo "$GIT_PROMPT_SYMBOL"
+    echo "${GIT_PROMPT_SYMBOL}"
   fi
 }
 
 # If inside a Git repository, print its branch and state
 function git_prompt_string() {
   local git_where="$(parse_git_branch)"
-  [ -n "$git_where" ] && echo " {$(parse_git_state) %{$reset_color%}%{$fg[cyan]%}${git_where#(refs/heads/|tags/)}%{$reset_color%}}"
+  if [[ ${COLUMNS} -gt 90 ]]; then
+    [ -n "$git_where" ] && echo " {$(parse_git_state) %{$reset_color%}%{$fg[cyan]%}${git_where#(refs/heads/|tags/)}%{$reset_color%}}"
+  else
+    [ -n "$git_where" ] && echo " %{$reset_color%}%{$fg[yellow]%}${git_where#(refs/heads/|tags/)}%{$reset_color%}"
+  fi
 }
