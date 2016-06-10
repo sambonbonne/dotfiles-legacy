@@ -28,14 +28,19 @@ function _prompt_context() {
 }
 
 function build_prompt() {
-    local prompt=""
+  local prompt=""
 
-    [[ "${VIRTUAL_ENV}" != "" ]] && prompt="${prompt} %{$fg_no_bold[red]%}$(basename ${VIRTUAL_ENV})%{$reset_color%}"
+  [[ "${VIRTUAL_ENV}" != "" ]] && prompt="${prompt} %{$fg_no_bold[red]%}$(basename ${VIRTUAL_ENV})%{$reset_color%}"
 
-    [[ ${COLUMNS} -lt 90 ]] && local _prompt_max_length=3
-    prompt="${prompt} %{$fg_no_bold[yellow]%}%${_prompt_max_length:-}~%{$reset_color%}"
+	if [[ ${COLUMNS} -lt 80 ]]; then
+		local _prompt_path_max_length=2
+	elif [[ ${COLUMNS} -lt 90 ]]; then
+		local _prompt_path_max_length=3
+	fi
+  prompt="${prompt} %{$fg_no_bold[yellow]%}%${_prompt_path_max_length:-}~%{$reset_color%}"
 
-    echo -n "${prompt}"
+  #[[ ${COLUMNS} -lt 60 ]] && local _newline=$'\n ' && prompt="┌${prompt}└${_newline}"
+  echo -n "${prompt}"
 }
 BASE_PROMPT='%{$fg_no_bold[white]%}%T%{$reset_color%}$(_prompt_context)$(build_prompt)'
 PROMPT="${BASE_PROMPT}"
@@ -68,7 +73,7 @@ zle-line-finish
 
 
 ## Right prompt
-BASE_RPROMPT='%{$fg_no_bold[white]%}$(rprompt_last_duration)%(?.. %{$fg_no_bold[red]%}%?%{$fg_no_bold[white]%})%{$reset_color%}%(1j. (%{$fg_no_bold[magenta]%}%j%{$reset_color%}💤%).)'
+BASE_RPROMPT='%{$fg_no_bold[white]%}%(?.$(rprompt_last_duration).%{$fg_no_bold[red]%}%?%{$fg_no_bold[white]%})%{$reset_color%}%(1j. (%{$fg_no_bold[magenta]%}%j%{$reset_color%}💤%).)'
 source ~/.zsh/git.prompt.zsh
 
 function rprompt_slow_cmd() {
@@ -76,6 +81,8 @@ function rprompt_slow_cmd() {
 }
 
 function rprompt_last_duration() {
+    [[ ${_rprompt_timer_show} -le 2 ]] && return
+
     local _color="blue"
 
     if [[ $_rprompt_timer_show -ge 10 ]]; then
@@ -94,12 +101,12 @@ function preexec() {
 ASYNC_RPROMPT_PROC=0
 _async_rprompt_tmp_file="/tmp/zsh_rprompt_$(date +%Y%m%d_%H%M%S)"
 function precmd() {
-        if [ $_rprompt_timer ]; then
-                _rprompt_timer_show=$(($SECONDS - $_rprompt_timer))
-                unset _rprompt_timer
-        fi
+    if [ $_rprompt_timer ]; then
+        _rprompt_timer_show=$(($SECONDS - $_rprompt_timer))
+        unset _rprompt_timer
+    fi
 
-    RPROMPT="${BASE_RPROMPT} …"
+    RPROMPT="${BASE_RPROMPT} 🔃"
 
     function async() {
         printf "%s" "$(rprompt_slow_cmd)" > "${_async_rprompt_tmp_file}"
@@ -116,6 +123,7 @@ function precmd() {
 
 function TRAPUSR1() {
     RPROMPT="${BASE_RPROMPT}$(cat ${_async_rprompt_tmp_file})"
+	rm "${_async_rprompt_tmp_file}"
     ASYNC_RPROMPT_PROC=0
 	(zle && zle .reset-prompt) 2> /dev/null
 }
