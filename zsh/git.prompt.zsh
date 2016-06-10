@@ -15,7 +15,7 @@ function parse_git_branch() {
 
 # Show different symbols as appropriate for various Git repository states
 # Compose this value via multiple conditional appends.
-function parse_git_state() {
+function parse_git_state_full() {
   local GIT_STATE=""
   local git_status="$(git status --porcelain 2> /dev/null)"
 
@@ -53,12 +53,27 @@ function parse_git_state() {
   fi
 }
 
+function clean_branch_color() {
+  local git_status="$(git status --porcelain 2> /dev/null)"
+  local _color=''
+
+  if [[ "${git_status}" =~ ($'\n'|^).M ]]; then
+    _color="${_color}%{$fg_no_bold[yellow]%}"
+  elif [[ "${git_status}" =~ ($'\n'|^)A ]]; then
+    _color="${_color}%{$fg_no_bold[green]%}"
+  fi
+
+  [[ -z "${_color}" ]] && _color="%{$fg_no_bold[blue]%}"
+
+  echo -n "${_color}"
+}
+
 # If inside a Git repository, print its branch and state
 function git_prompt_string() {
   local git_where="$(parse_git_branch)"
   if [[ ${COLUMNS} -gt 90 ]]; then
-    [ -n "$git_where" ] && echo " {$(parse_git_state) %{$reset_color%}%{$fg[cyan]%}${git_where#(refs/heads/|tags/)}%{$reset_color%}}"
+    [ -n "$git_where" ] && echo " {$(parse_git_state_full) %{$reset_color%}%{$fg[cyan]%}${git_where#(refs/heads/|tags/)}%{$reset_color%}}"
   else
-    [ -n "$git_where" ] && echo " %{$reset_color%}%{$fg[yellow]%}${git_where#(refs/heads/|tags/)}%{$reset_color%}"
+    [ -n "$git_where" ] && echo " %{$reset_color%}$(clean_branch_color)${git_where#(refs/heads/|tags/)}%{$reset_color%}"
   fi
 }
