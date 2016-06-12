@@ -4,8 +4,6 @@ setopt PROMPT_SUBST
 
 ## Left prompt
 
-local virtualenv_prompt_parse='$([[ "${VIRTUAL_ENV}" != "" ]] && echo " $(basename ${VIRTUAL_ENV})")'
-
 function _prompt_context() {
     local prompt=""
 
@@ -27,40 +25,37 @@ function _prompt_context() {
     echo -n "${prompt}"
 }
 
-function build_prompt() {
-  local prompt=""
+function prompt_informations() {
+    local prompt=""
 
-  [[ "${VIRTUAL_ENV}" != "" ]] && prompt="${prompt} %{$fg_no_bold[red]%}$(basename ${VIRTUAL_ENV})%{$reset_color%}"
+    [[ "${VIRTUAL_ENV}" != "" ]] && prompt="${prompt} %{$fg_no_bold[red]%}$(basename ${VIRTUAL_ENV})%{$reset_color%}"
 
-	if [[ ${COLUMNS} -lt 80 ]]; then
-		local _prompt_path_max_length=2
-	elif [[ ${COLUMNS} -lt 90 ]]; then
-		local _prompt_path_max_length=3
-	fi
-  prompt="${prompt} %{$fg_no_bold[yellow]%}%${_prompt_path_max_length:-}~%{$reset_color%}"
+    if [[ ${COLUMNS} -lt 80 ]]; then
+        local _prompt_path_max_length=2
+    elif [[ ${COLUMNS} -lt 90 ]]; then
+        local _prompt_path_max_length=3
+    fi
+    prompt="${prompt} %{$fg_no_bold[yellow]%}%${_prompt_path_max_length:-}~%{$reset_color%}"
 
-  #[[ ${COLUMNS} -lt 60 ]] && local _newline=$'\n ' && prompt="┌${prompt}└${_newline}"
-  echo -n "${prompt}"
+    echo -n "${prompt}"
 }
-BASE_PROMPT='%{$fg_no_bold[white]%}%T%{$reset_color%}$(_prompt_context)$(build_prompt)'
+BASE_PROMPT='%{$fg_no_bold[white]%}%T%{$reset_color%}$(_prompt_context)$(prompt_informations)'
 PROMPT="${BASE_PROMPT}"
-
-function TRAPALRM() {
-    zle .reset-prompt
-}
-TMOUT=10
 
 # current vi mode and last status
 function zle-line-finish zle-keymap-select {
     PROMPT="${BASE_PROMPT} "
 
     local _nbsp=$'\u00A0'
+
+    [[ ${COLUMNS} -lt 60 ]] && local _newline=$'\n' && PROMPT="%{$fg_no_bold[black]%}╭%{$reset_color%}${_nbsp}${PROMPT}${_newline}%{$fg_no_bold[black]%}╰%{$reset_color%}${_nbsp}"
+
     case "${KEYMAP}" in
         vicmd)
             PROMPT="${PROMPT}%{$fg_no_bold[yellow]%}?"
             ;;
         *)
-                PROMPT="${PROMPT}%(?.%{$fg_no_bold[green]%}→.%{$fg_bold[red]%}!)"
+            PROMPT="${PROMPT}%(?.%{$fg_no_bold[green]%}→.%{$fg_bold[red]%}!)"
             ;;
     esac
 
@@ -70,6 +65,16 @@ function zle-line-finish zle-keymap-select {
 zle -N zle-line-finish
 zle -N zle-keymap-select
 zle-line-finish
+
+function build_prompt() {
+    PROMPT="${BASE_PROMPT}"
+
+    zle -N zle-line-finish
+    zle -N zle-keymap-select
+    zle-line-finish
+
+    [[ -n "${1}" ]] && zle .reset-prompt
+}
 
 
 ## Right prompt
@@ -123,7 +128,28 @@ function precmd() {
 
 function TRAPUSR1() {
     RPROMPT="${BASE_RPROMPT}$(cat ${_async_rprompt_tmp_file})"
-	rm "${_async_rprompt_tmp_file}"
+    rm "${_async_rprompt_tmp_file}" 2> /dev/null
     ASYNC_RPROMPT_PROC=0
-	(zle && zle .reset-prompt) 2> /dev/null
+    (zle && zle .reset-prompt) 2> /dev/null
+}
+
+function build_rprompt() {
+    precmd
+}
+
+
+## Event which imply prompt refresh
+
+# at alarm, every $TMOUT
+function TRAPALRM() {
+    zle .reset-prompt
+}
+TMOUT=10
+
+# on resize
+function TRAPWINCH() {
+    build_prompt
+    build_rprompt
+    #zle .reset-prompt
+    (zle && zle .reset-prompt) 2> /dev/null
 }
