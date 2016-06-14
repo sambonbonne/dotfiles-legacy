@@ -119,6 +119,8 @@ let g:jedi#documentation_command = "<leader>d"
 let g:jedi#usages_command = ""
 let g:jedi#completions_command = ""
 let g:jedi#rename_command = "<leader>r"
+" Django of course
+call dein#add('tweekmonster/django-plus.vim', { 'on_ft': 'python' })
 
 " Haskell
 call dein#add('eagletmt/neco-ghc', { 'on_ft': 'haskell' })
