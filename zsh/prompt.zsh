@@ -2,6 +2,12 @@
 autoload -U promptinit && promptinit
 setopt PROMPT_SUBST
 
+function refresh_prompts() {
+    { zle && zle .reset-prompt } 2> /dev/null
+}
+
+local PROMPT_COLUMNS_BREAK=60
+
 ## Left prompt
 
 function _prompt_context() {
@@ -48,7 +54,7 @@ function zle-line-finish zle-keymap-select {
 
     local _nbsp=$'\u00A0'
 
-    [[ ${COLUMNS} -lt 60 ]] && local _newline=$'\n' && PROMPT="%{$fg_no_bold[black]%}╭%{$reset_color%}${_nbsp}${PROMPT}${_newline}%{$fg_no_bold[black]%}╰%{$reset_color%}${_nbsp}"
+    [[ ${COLUMNS} -lt ${PROMPT_COLUMNS_BREAK} ]] && local _newline=$'\n' && PROMPT="%{$fg_no_bold[black]%}╭%{$reset_color%}${_nbsp}${PROMPT}${_newline}%{$fg_no_bold[black]%}╰%{$reset_color%}${_nbsp}"
 
     case "${KEYMAP}" in
         vicmd)
@@ -60,7 +66,7 @@ function zle-line-finish zle-keymap-select {
     esac
 
     PROMPT="${PROMPT}%{$reset_color%}${_nbsp}"
-    zle && zle reset-prompt
+    refresh_prompts
 }
 zle -N zle-line-finish
 zle -N zle-keymap-select
@@ -73,11 +79,13 @@ function build_prompt() {
     zle -N zle-keymap-select
     zle-line-finish
 
-    [[ -n "${1}" ]] && zle .reset-prompt
+    [[ -n "${1}" ]] && refresh_prompts
 }
 
 
 ## Right prompt
+local _line_up=$'\e[1A'
+local _line_down=$'\e[1B'
 BASE_RPROMPT='%{$fg_no_bold[white]%}%(?.$(rprompt_last_duration).%{$fg_no_bold[red]%}%?%{$fg_no_bold[white]%})%{$reset_color%}%(1j. (%{$fg_no_bold[magenta]%}%j%{$reset_color%}💤%).)'
 source ~/.zsh/git.prompt.zsh
 
@@ -105,13 +113,18 @@ function preexec() {
 
 ASYNC_RPROMPT_PROC=0
 _async_rprompt_tmp_file="/tmp/zsh_rprompt_$(date +%Y%m%d_%H%M%S)"
-function precmd() {
+
+function build_rprompt() {
     if [ $_rprompt_timer ]; then
         _rprompt_timer_show=$(($SECONDS - $_rprompt_timer))
         unset _rprompt_timer
     fi
 
-    RPROMPT="${BASE_RPROMPT} 🔃"
+    if [[ ${COLUMNS} -lt ${PROMPT_COLUMNS_BREAK} ]]; then
+        RPROMPT="%{${_line_up}%}${BASE_RPROMPT} 🔃%{${_line_down}%}"
+    else
+        RPROMPT="${BASE_RPROMPT} 🔃"
+    fi
 
     function async() {
         printf "%s" "$(rprompt_slow_cmd)" > "${_async_rprompt_tmp_file}"
@@ -126,23 +139,30 @@ function precmd() {
     ASYNC_RPROMPT_PROC=$!
 }
 
-function TRAPUSR1() {
-    RPROMPT="${BASE_RPROMPT}$(cat ${_async_rprompt_tmp_file})"
-    rm "${_async_rprompt_tmp_file}" 2> /dev/null
-    ASYNC_RPROMPT_PROC=0
-    (zle && zle .reset-prompt) 2> /dev/null
+function precmd() {
+    build_rprompt
 }
 
-function build_rprompt() {
-    precmd
+function TRAPUSR1() {
+    if [[ ${COLUMNS} -lt ${PROMPT_COLUMNS_BREAK} ]]; then
+        RPROMPT="%{${_line_up}%}${BASE_RPROMPT}$(cat ${_async_rprompt_tmp_file})%{${_line_down}%}"
+    else
+        RPROMPT="${BASE_RPROMPT}$(cat ${_async_rprompt_tmp_file})"
+    fi
+
+    ASYNC_RPROMPT_PROC=0
+    refresh_prompts
 }
+
+# be clean when we exit the shell
+trap 'rm "${_async_rprompt_tmp_file}"' EXIT
 
 
 ## Event which imply prompt refresh
 
 # at alarm, every $TMOUT
 function TRAPALRM() {
-    zle .reset-prompt
+    refresh_prompts
 }
 TMOUT=10
 
@@ -150,6 +170,5 @@ TMOUT=10
 function TRAPWINCH() {
     build_prompt
     build_rprompt
-    #zle .reset-prompt
-    (zle && zle .reset-prompt) 2> /dev/null
+    refresh_prompts
 }
