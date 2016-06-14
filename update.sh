@@ -39,7 +39,7 @@ say "Nice to see you! Take a tea, I manage all that for you"
 function apply_updates() {
   local _behind="$(git log --oneline ..@{u} 2> /dev/null | wc -l | tr -d ' ')"
   if [ "${_behind}" -gt 0 ]; then
-    say "You have ${_behind} updates to get, I stash to rebase them"
+    say "You have ${_behind} update(s) to get, I stash to rebase them"
     if (git stash > /dev/null 2>&1 && git rebase > /dev/null 2>&1 && git stash pop > /dev/null 2>&1); then
       say green "That's OK, your ${_behind} updates are applied, now let's check if we need to push"
     else
@@ -56,7 +56,7 @@ function apply_updates() {
 function send_updates() {
   local _ahead="$(git log --oneline @{u}.. 2> /dev/null | wc -l | tr -d ' ')"
   if [ "${_ahead}" -gt 0 ]; then
-    say "You have ${_ahead} updates to send, I stash to rebase them"
+    say "You have ${_ahead} update(s) to send, I can push now"
     if (git push > /dev/null 2>&1); then
       say green "That's OK, your ${_ahead} updates are now sent, don't forget to get them in you other machines"
     else
