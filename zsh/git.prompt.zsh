@@ -71,9 +71,14 @@ function clean_branch_color() {
 # If inside a Git repository, print its branch and state
 function git_prompt_string() {
   local git_where="$(parse_git_branch)"
-  if [[ ${COLUMNS} -gt 90 ]]; then
-    [ -n "$git_where" ] && echo " {$(parse_git_state_full) %{$reset_color%}%{$fg[cyan]%}${git_where#(refs/heads/|tags/)}%{$reset_color%}}"
-  else
-    [ -n "$git_where" ] && echo " %{$reset_color%}$(clean_branch_color)${git_where#(refs/heads/|tags/)}%{$reset_color%}"
+  git_where="${git_where#(refs/heads/|tags/)}"
+  if [ -n "${git_where}" ]; then
+    if [[ ${COLUMNS} -gt 90 ]]; then
+      echo " {$(parse_git_state_full) %{$reset_color%}%{$fg[cyan]%}${git_where}%{$reset_color%}}"
+    elif [[ ${COLUMNS} -gt 60 ]]; then
+      echo " %{$reset_color%}$(clean_branch_color)${git_where}%{$reset_color%}"
+    else
+      echo " %{$reset_color%}$(clean_branch_color)${git_where[1,10]}%{$reset_color%}"
+    fi
   fi
 }
