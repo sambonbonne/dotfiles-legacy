@@ -256,14 +256,7 @@ let g:lt_height = g:neomake_list_height
 call dein#add('tpope/vim-fugitive')
 call dein#add('airblade/vim-gitgutter')
 
-" Edit markdown can be fun
-function! BuildMarkdownComposer(info)
-  if a:info.status != 'unchanged' || a:info.force
-    !cargo build --release
-    UpdateRemotePlugins
-  endif
-endfunction
-Plug 'euclio/vim-markdown-composer', { 'do': function('BuildMarkdownComposer') }
+"call dein#add('euclio/vim-markdown-composer', { 'build': 'cargo build --release' })
 
 " We want to build
 call dein#add('KabbAmine/gulp-vim', { 'on_cmd': ['Gulp', 'GulpExt', 'GulpFile', 'GulpTasks'] })
