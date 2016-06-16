@@ -20,6 +20,9 @@ call dein#add('Shougo/vimproc.vim', { 'build': 'make' })
 call dein#add('embear/vim-localvimrc')
 let g:localvimrc_ask=0
 
+" Please, don't cry to me if save dir doesn't exists
+call dein#add('duggiefresh/vim-easydir', { 'on_event': [ 'BufWritePre', 'FileWritePre' ] })
+
 " Let's start nice and manage sessions
 call dein#add('mhinz/vim-startify')
 function! s:startify_center_header(lines) abort " this function will center your header !
@@ -63,9 +66,7 @@ let g:startify_session_autoload = 0
 let g:startify_session_persistence = 1
 let g:startify_files_number = 5
 let g:startify_bookmarks = [
-      \ '~/dev/www/catalisio/v1',
-      \ '~/dev/www/catalisio/common/',
-      \ '~/dev/www/catalisio/tools/'
+      \ $MYVIMRC
       \ ]
 let g:startify_change_to_dir = 1
 let g:startify_change_to_vcs_root = 0
@@ -155,7 +156,7 @@ call dein#add('bronson/vim-trailing-whitespace')
 
 " Easy align
 call dein#add('junegunn/vim-easy-align', { 'on_map': '<Plug>(EasyAlign)' })
-vmap <Space> <Plug>(EasyAlign)
+vmap a <Plug>(EasyAlign)
 
 " Comment better
 call dein#add('scrooloose/nerdcommenter')
@@ -222,6 +223,7 @@ vmap <Return> <Plug>(easymotion-prefix)
 nmap <Leader>m <Plug>(easymotion-prefix)
 vmap <Leader>m <Plug>(easymotion-prefix)
 call dein#add('bkad/CamelCaseMotion')
+call dein#add('wellle/targets.vim')
 
 " Better selection expanding
 call dein#add('terryma/vim-expand-region')
@@ -255,8 +257,6 @@ let g:lt_height = g:neomake_list_height
 " Git wrapping and symbols
 call dein#add('tpope/vim-fugitive')
 call dein#add('airblade/vim-gitgutter')
-
-"call dein#add('euclio/vim-markdown-composer', { 'build': 'cargo build --release' })
 
 " We want to build
 call dein#add('KabbAmine/gulp-vim', { 'on_cmd': ['Gulp', 'GulpExt', 'GulpFile', 'GulpTasks'] })
@@ -411,9 +411,11 @@ nnoremap <Leader>/ :nohlsearch<CR>
 " press space to insert a single char before cursor
 nmap <Space> i_<Esc>r
 
-" start/end of line in insert mode
+" start/end of line in insert and command mode
 inoremap <C-A> <Esc><S-I>
 inoremap <C-E> <Esc><S-A>
+cnoremap <C-A> <Home>
+cnoremap <C-E> <End>
 
 " move in insert mode
 inoremap <M-H> <C-O>h
@@ -437,15 +439,10 @@ inoremap <C-C> <Esc>
 tnoremap <C-T> <C-\><C-N>
 
 " You want to quit quickly
-function! CloseTabOrQuit()
-  if (tabpagenr('$') == 1)
-    :quitall
-  else
-    :tabclose
-  endif
-endfunction
-nnoremap <S-Q> :call CloseTabOrQuit()<CR>
-nnoremap <C-Q> :quit<CR>
+source $NVIMHOME/quickquit.vim
+nmap <C-Q> <Plug>(QuickQuitBuffer)
+nmap <S-Q> <Plug>(QuickQuitTab)
+nmap <C-S-Q> <Plug>(QuickQuitAll)
 
 " better matching with %
 if !exists('g:loaded_matchit')
@@ -551,7 +548,7 @@ if has("autocmd")
 
     autocmd InsertEnter  * set nocursorline nocursorcolumn | Limelight
     autocmd InsertChange * set nocursorline nocursorcolumn | Limelight
-    autocmd InsertLeave  * set cursorline | Limelight! | exe "normal `" . g:last_positions_registers.insert
+    autocmd InsertLeave  * set cursorline | call preserve#execute('Limelight!', 1)
 
     autocmd WinEnter * setlocal cursorline foldcolumn=3
     autocmd WinLeave * setlocal nocursorline foldcolumn=0
@@ -570,8 +567,11 @@ if has("autocmd")
     " Delete white space at end of line when save
     autocmd BufWritePre * :FixWhitespace
 
-    " Center view on cursor
+    " Center view on cursor before winleave
     autocmd WinLeave * normal zz
+
+    " QuickFix not in buffers list
+    autocmd FileType qf set nobuflisted
 
     " auto save/load folding
     "autocmd BufWinLeave * mkview
