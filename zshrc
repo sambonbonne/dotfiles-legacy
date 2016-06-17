@@ -55,6 +55,9 @@ source "${ZSH_CONFIG_PATH}/prompt.zsh"
 source "${ZSH_CONFIG_PATH}/alias.zsh"
 
 
+## And some mapping
+source "${ZSH_CONFIG_PATH}/map.zsh"
+
 eval $(dircolors ~/.dircolors)
 
 # sometime I work on a mac ...
