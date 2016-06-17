@@ -16,7 +16,7 @@ echo "                                                    \\             y’"
 echo "                                                     \`-.._____..-'"
 
 
-function say() {
+say() {
   echo ""
 
   if [ ${#} -eq 1 ]; then
@@ -30,14 +30,20 @@ function say() {
       red ) local color="\033[0;31m";;
     esac
 
-    echo -e "${color}${2}\033[0m"
+    echo -e "${color}${2}\033[0m" "${color}" "${2}"
+    #printf "%s%s\033[0m" "${color}" "${2}" # better than "echo -e" because echo options are not standards
   fi
 }
 
 say "Nice to see you! Take a tea, I manage all that for you"
 
-function apply_updates() {
-  local _behind="$(git log --oneline ..@{u} 2> /dev/null | wc -l | tr -d ' ')"
+fetch() {
+  say "I start with a fetch, so I'll know if you need an update"
+  git fetch > /dev/null 2>&1
+}
+
+apply_updates() {
+  local _behind="$(git log --oneline "..@{u}" 2> /dev/null | wc -l | tr -d ' ')"
   if [ "${_behind}" -gt 0 ]; then
     say "You have ${_behind} update(s) to get, I stash to rebase them"
     if (git stash > /dev/null 2>&1 && git rebase > /dev/null 2>&1 && git stash pop > /dev/null 2>&1); then
@@ -53,8 +59,8 @@ function apply_updates() {
   return 0
 }
 
-function send_updates() {
-  local _ahead="$(git log --oneline @{u}.. 2> /dev/null | wc -l | tr -d ' ')"
+send_updates() {
+  local _ahead="$(git log --oneline "@{u}".. 2> /dev/null | wc -l | tr -d ' ')"
   if [ "${_ahead}" -gt 0 ]; then
     say "You have ${_ahead} update(s) to send, I can push now"
     if (git push > /dev/null 2>&1); then
@@ -70,7 +76,16 @@ function send_updates() {
   return 0
 }
 
-say "I start with a fetch, so I'll know if you need an update"
-git fetch
+ended() {
+  [ ${1} -eq 0 ] && say green "I'm happy say you all is OK, have a nice day :)" || say red "I'm sorry that didn't work, I know you are smart enough to fix the problem :S"
+}
 
-apply_updates && send_updates && say green "I'm happy to be able to say you all is OK, have a nice day :)" || say red "I'm sorry that didn't work, I know you are smart enough to fix the problem :S"
+
+_action="${1:-all}"
+
+case "${_action}" in
+  fetch|get )  fetch; apply_updates; ended $?;;
+  send|push ) send_updates; ended $?;;
+  all ) fetch; apply_updates; send_updates; ended $?;;
+  * ) say red "Unknow action ${_action}" && exit 1;;
+esac
