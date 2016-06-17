@@ -25,6 +25,20 @@ alias -s sh=bash
 alias -s json=nvim
 
 
+# python virtualenv facility
+function venv() {
+    if [[ "$VIRTUAL_ENV" == "" ]]; then
+        [[ "$1" != "" ]] && source "./$1/bin/activate" || echo "Where is the env?"
+        rehash
+    elif [[ "$1" == "update" ]]; then
+        pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
+    else
+        deactivate || unset VIRTUAL_ENV
+        rehash
+    fi
+}
+
+
 # Tmux
 function tmx() {
     if [[ -z "${1}" ]]; then

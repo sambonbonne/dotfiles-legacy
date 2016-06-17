@@ -54,18 +54,6 @@ source "${ZSH_CONFIG_PATH}/prompt.zsh"
 ## Some alias, can belways usefull
 source "${ZSH_CONFIG_PATH}/alias.zsh"
 
-# python virtualenv facility
-function venv() {
-    if [[ "$VIRTUAL_ENV" == "" ]]; then
-        [[ "$1" != "" ]] && source "./$1/bin/activate" || echo "Where is the env?"
-        rehash
-    elif [[ "$1" == "update" ]]; then
-        pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
-    else
-        deactivate || unset VIRTUAL_ENV
-        rehash
-    fi
-}
 
 eval $(dircolors ~/.dircolors)
 
