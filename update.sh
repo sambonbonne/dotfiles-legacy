@@ -30,7 +30,7 @@ say() {
       red ) local color="\033[0;31m";;
     esac
 
-    echo -e "${color}${2}\033[0m" "${color}" "${2}"
+    echo -e "${color}${2}\033[0m" "${color}"
     #printf "%s%s\033[0m" "${color}" "${2}" # better than "echo -e" because echo options are not standards
   fi
 }
