@@ -530,22 +530,6 @@ if has("autocmd")
     autocmd FileType php,c,cpp,javascript,typescript inoremap ;<CR> <C-O>A;<CR>
   augroup END
 
-  augroup statusline
-    autocmd!
-
-    function! InsertStatuslineColor(mode)
-      if a:mode == 'i'
-        call Colorize('statusline', g:statusline_mode_colors.insert)
-      else
-        call Colorize('statusline', g:statusline_mode_colors.replace)
-      endif
-    endfunction
-
-    autocmd InsertEnter  * call InsertStatuslineColor(v:insertmode)
-    autocmd InsertChange * call InsertStatuslineColor(v:insertmode)
-    autocmd InsertLeave  * call Colorize('statusline', g:statusline_mode_colors.normal)
-  augroup END
-
   augroup distraction
     autocmd!
 
@@ -606,11 +590,4 @@ if !exists(":DiffOrig")
 endif
 
 " Statusline config
-set laststatus=2
-set statusline=%6(%L%)\ %6(%l%),%-6(%c%)                                  " max line, current line and current column
-set statusline+=\ %f                                                      " current file
-set statusline+=\ %Y,%{&fenc==\"\"?&enc:&fenc}                            " encoding
-set statusline+=\ %{strftime(\"%H:%M\",getftime(expand(\"%%\")))}         " filename and last write
-set statusline+=%=%<                                                      " got to the right and eventually truncate
-set statusline+=%m%r%{fugitive#statusline()}                              " Git infos (if useing git)
-set statusline+=\ %(%#ErrorSign#%{neomake#statusline#LoclistStatus()}%*%) " lint/compile warnings/errors
+source $NVIMHOME/statusline.vim
