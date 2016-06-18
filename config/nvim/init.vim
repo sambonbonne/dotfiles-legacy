@@ -3,6 +3,7 @@ if &compatible
 endif
 
 let $NVIMHOME = fnamemodify($MYVIMRC, ':p:h')
+let mapleader="\<Space>"
 
 let s:plugin_manager_directory = $NVIMHOME . '/plugins'
 exec "set runtimepath+=" . s:plugin_manager_directory . "/repos/github.com/Shougo/dein.vim"
@@ -66,6 +67,8 @@ let g:startify_session_autoload = 0
 let g:startify_session_persistence = 1
 let g:startify_files_number = 5
 let g:startify_bookmarks = [
+      \ '~/dev',
+      \ '~/dev/www',
       \ $MYVIMRC
       \ ]
 let g:startify_change_to_dir = 1
@@ -409,7 +412,7 @@ nnoremap <C-,> ,
 nnoremap <Leader>/ :nohlsearch<CR>
 
 " press space to insert a single char before cursor
-nmap <Space> i_<Esc>r
+nmap <Leader>i i_<Esc>r
 
 " start/end of line in insert and command mode
 inoremap <C-A> <Esc><S-I>
