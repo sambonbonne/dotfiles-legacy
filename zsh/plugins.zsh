@@ -18,6 +18,7 @@ zplug "zplug/zplug"
 zplug "zsh-users/zsh-completions"
 
 zplug "zsh-users/zsh-autosuggestions"
+bindkey '^[ ' autosuggest-accept
 
 zplug "zsh-users/zsh-history-substring-search", nice:12
 # in normal mode, up/down keys
@@ -37,6 +38,7 @@ zplug "chrissicool/zsh-256color"
 zplug "sharat87/zsh-vim-mode"
 
 zplug "hchbaw/zce.zsh"
+#bindkey "^E" zce
 bindkey "^F" zce
 
 zplug "jreese/zsh-titles", if:"which tmux"

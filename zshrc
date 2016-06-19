@@ -17,10 +17,9 @@ COMMAND_NOT_FOUND_FILE="/usr/share/doc/pkgfile/command-not-found.zsh"
 # Lines configured by zsh-newuser-install
 setopt appendhistory autocd beep extendedglob nomatch
 unsetopt notify
-bindkey -v
 # End of lines configured by zsh-newuser-install
 
-zstyle :compinstall filename '/home/samuel/.zshrc'
+zstyle :compinstall filename "${HOME}/.zshrc"
 
 ### My own configuration
 ZSH_CONFIG_PATH="${HOME}/.zsh"
@@ -44,18 +43,13 @@ setopt share_history
 # plugins, something we love
 source "${ZSH_CONFIG_PATH}/plugins.zsh"
 
-bindkey "^E" zce
-bindkey '^ ' vi-forward-blank-word
-bindkey '^[ ' autosuggest-accept
-
 # Load prompt
 source "${ZSH_CONFIG_PATH}/prompt.zsh"
 
-## Some alias, can belways usefull
+# Some alias, can belways usefull
 source "${ZSH_CONFIG_PATH}/alias.zsh"
 
-
-## And some mapping
+# And some mapping
 source "${ZSH_CONFIG_PATH}/map.zsh"
 
 eval $(dircolors ~/.dircolors)
