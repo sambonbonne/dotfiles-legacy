@@ -1,6 +1,6 @@
 # Commands alias
-alias ll='ls -FhlX --color=always --hide="*~"'
-alias la='ls -AFhlX --color=always --hide="*~"'
+alias l='ls -FhlX --color=always --hide="*~"'
+alias ll='ls -AFhlX --color=always --hide="*~"'
 alias search='grep -rnF --exclude "*~" --color=always'
 alias zsh_history='mv ~/.zsh_history ~/.zsh_history_bad && strings ~/.zsh_history_bad > ~/.zsh_history && fc -R ~/.zsh_history && rm ~/.zsh_history_bad'
 alias ports='netstat -pln'
