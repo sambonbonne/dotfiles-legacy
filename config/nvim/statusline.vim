@@ -62,10 +62,10 @@ function s:initColors()
   call g:Colorize('SLNC_badge_yellow', { 'ctermbg': s:colors.yellow.term, 'ctermfg': s:colors.grey.term })
   call g:Colorize('SLNC_badge_red',    { 'ctermbg': s:colors.red.term,    'ctermfg': s:colors.grey.term })
 
-  call g:Colorize('SL_text_grey',   { 'ctermfg': s:colors.grey.term, 'ctermbg': s:colors.bg.term })
-  call g:Colorize('SL_text_yellow', { 'ctermfg': s:colors.yellow.term })
-  call g:Colorize('SL_text_red',    { 'ctermfg': s:colors.red.term })
-  call g:Colorize('SL_text_green',  { 'ctermfg': s:colors.green.term })
+  call g:Colorize('SL_text_grey',   { 'ctermfg': s:colors.grey.term,   'ctermbg': s:colors.bg.term, 'cterm': "bold" })
+  call g:Colorize('SL_text_yellow', { 'ctermfg': s:colors.yellow.term, 'ctermbg': s:colors.bg.term, 'cterm': "bold" })
+  call g:Colorize('SL_text_red',    { 'ctermfg': s:colors.red.term,    'ctermbg': s:colors.bg.term, 'cterm': "bold" })
+  call g:Colorize('SL_text_green',  { 'ctermfg': s:colors.green.term,  'ctermbg': s:colors.bg.term, 'cterm': "bold" })
 
   call g:Colorize('SLNC_text_grey',   { 'ctermfg': s:colors.grey.term,   'ctermbg': s:colors.black.term })
   call g:Colorize('SLNC_text_yellow', { 'ctermfg': s:colors.yellow.term, 'ctermbg': s:colors.black.term })
@@ -94,14 +94,25 @@ function! LiteFilePath(trailingSlash)
     endif " l:path[0] == '.'
   endif " len(l:path) == [0|1]
 
+  if l:path[0] . "/" . l:path[1] == $HOME
+    let l:path = l:path[2:]
+    call insert(l:path, "~")
+  endif " $HOME replace
+
   let l:reduced = []
 
   for l:directory in l:path[0:len(path) - 2]
-    if l:directory[0] == "." && len(l:directory) > 1
-      call add(l:reduced, l:directory[0:1])
-    else
-      call add(l:reduced, l:directory[0])
+    let l:short = l:directory[0]
+
+    if l:short == "." && len(l:directory) > 1
+      let l:short = "." . l:directory[1]
     end
+
+    if stridx(l:directory, "-") >= 0
+      let l:short = l:short . "-" . l:directory[stridx(l:directory, "-") + 1]
+    endif " stridx(l:directory, '-') >= 0
+
+    call add(l:reduced, l:short)
   endfor " directory in l:path
 
   return join(l:reduced, "/") . "/" . l:path[len(path) - 1]
@@ -131,7 +142,7 @@ function! s:statuslineFocus()
     setlocal statusline+=\ %#SL_badge_blue#\ %{fugitive#statusline()}\ %0* " Git infos (if using git)
   endif " exists('b:git_dir')
 
-  setlocal statusline+=\ %(%#ErrorSign#%{neomake#statusline#LoclistStatus()}%0*%) " lint/compile warnings/errors
+  setlocal statusline+=\ %(%#SL_text_red#%{neomake#statusline#LoclistStatus()}%0*%)\  " lint/compile warnings/errors
 endfunction " statuslineFocus
 
 function! s:statuslineUnfocus()
@@ -159,7 +170,7 @@ function! s:statuslineUnfocus()
 
   setlocal statusline+=%=%< " got to the right and eventually truncate
 
-  setlocal statusline+=\ %(%#ErrorSign#%{neomake#statusline#LoclistStatus()}%*%) " lint/compile warnings/errors
+  setlocal statusline+=\ %(%#SLNC_text_red#%{neomake#statusline#LoclistStatus()}%*%) " lint/compile warnings/errors
 endfunction " statuslineUnfocus
 
 "call s:statuslineFocus()
