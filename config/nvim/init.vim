@@ -3,7 +3,7 @@ if &compatible
 endif
 
 let $NVIMHOME = fnamemodify($MYVIMRC, ':p:h')
-let mapleader="\<Space>"
+let mapleader = "\<Space>" " better than backslash
 
 let s:plugin_manager_directory = $NVIMHOME . '/plugins'
 exec "set runtimepath+=" . s:plugin_manager_directory . "/repos/github.com/Shougo/dein.vim"
@@ -23,6 +23,7 @@ let g:localvimrc_ask=0
 
 " Please, don't cry to me if save dir doesn't exists
 call dein#add('duggiefresh/vim-easydir', { 'on_event': [ 'BufWritePre', 'FileWritePre' ] })
+nnoremap <Leader>w :w<CR>
 
 " Let's start nice and manage sessions
 call dein#add('mhinz/vim-startify')
@@ -68,6 +69,7 @@ let g:startify_session_persistence = 1
 let g:startify_files_number = 5
 let g:startify_bookmarks = [
       \ '~/dev',
+      \ '~/dev/dotfiles',
       \ '~/dev/www',
       \ $MYVIMRC
       \ ]
@@ -434,6 +436,7 @@ nnoremap <S-L> gt
 " location list really quick
 nnoremap <Leader>> :lnext<CR>
 nnoremap <Leader>< :lprev<CR>
+nnoremap <Leader>? :lrewind<CR>
 
 " <C-C> doesn't trigger InsertLeave ...
 inoremap <C-C> <Esc>
@@ -446,6 +449,8 @@ source $NVIMHOME/quickquit.vim
 nmap <C-Q> <Plug>(QuickQuitBuffer)
 nmap <S-Q> <Plug>(QuickQuitTab)
 nmap <C-S-Q> <Plug>(QuickQuitAll)
+" please we all hate this fucking command window
+nnoremap q: :q
 
 " better matching with %
 if !exists('g:loaded_matchit')
