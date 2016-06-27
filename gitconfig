@@ -42,6 +42,7 @@
     lg = log --date-order --graph --pretty=format:'%C(yellow)%h%Creset%Cred%d%Creset - %C(green)%cr%Creset, %C(blue)%an%Creset <%C(cyan)%ae%Creset>\n%s\n' --abbrev-commit --
     last = log -10 --date-order --graph --pretty=format:'%C(yellow)%h%Creset%Cred%d%Creset - %C(green)%cr%Creset, %C(blue)%an%Creset <%C(cyan)%ae%Creset>\n%s\n' --abbrev-commit --
     pl = pull --rebase
+    get = "!git stash && git pull --rebase && git stash pop"
     rank = shortlog -sn --no-merges # show list of contributors in descending order by number of commits
 
 [apply]
@@ -52,6 +53,7 @@
     autocrlf = false
     preloadindex = true
     excludesfile = ~/.gitignore_global
+    pager = less -x4
 
 [push]
     default = simple
