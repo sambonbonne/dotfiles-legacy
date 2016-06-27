@@ -19,7 +19,7 @@ setopt appendhistory autocd beep extendedglob nomatch
 unsetopt notify
 # End of lines configured by zsh-newuser-install
 
-zstyle :compinstall filename "${HOME}/.zshrc"
+zstyle :compinstall filename '/home/samuel/.zshrc'
 
 ### My own configuration
 ZSH_CONFIG_PATH="${HOME}/.zsh"
@@ -35,8 +35,8 @@ autoload -U colors && colors
 
 # (shared) history
 HISTFILE=~/.zsh_history
-HISTSIZE=4096
-SAVEHIST=4096
+HISTSIZE=8192
+SAVEHIST=16384
 setopt inc_append_history
 setopt share_history
 
@@ -46,11 +46,14 @@ source "${ZSH_CONFIG_PATH}/plugins.zsh"
 # Load prompt
 source "${ZSH_CONFIG_PATH}/prompt.zsh"
 
-# Some alias, can belways usefull
+## Some alias, can belways usefull
 source "${ZSH_CONFIG_PATH}/alias.zsh"
 
-# And some mapping
+## And some mapping
 source "${ZSH_CONFIG_PATH}/map.zsh"
+
+## Don't forget abbreviations
+source "${ZSH_CONFIG_PATH}/abbreviations.zsh"
 
 eval $(dircolors ~/.dircolors)
 
