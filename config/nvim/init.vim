@@ -80,6 +80,9 @@ let g:startify_change_to_vcs_root = 0
 call dein#add('kopischke/vim-stay')
 set viewoptions=cursor,folds,slash,unix
 
+" Edit macros
+call dein#add('dohsimpson/vim-macroeditor', { 'on_cmd': 'MacroEdit' })
+
 " Plugin repeating
 call dein#add('tpope/vim-repeat')
 
