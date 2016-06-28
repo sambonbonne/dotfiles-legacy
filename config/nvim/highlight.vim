@@ -25,7 +25,7 @@ let g:statusline_mode_colors = {
 function! g:Colorize(group, colors)
   let l:command = 'highlight ' . a:group
 
-  for l:part in [ 'ctermbg', 'ctermfg', 'guibg', 'guifg' ]
+  for l:part in [ 'ctermbg', 'ctermfg', 'guibg', 'guifg', 'cterm', 'term', 'gui' ]
     if has_key(a:colors, l:part)
       let l:command .= ' ' . l:part . '=' . a:colors[l:part]
     endif

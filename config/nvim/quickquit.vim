@@ -32,7 +32,7 @@ if has('autocmd')
   augroup QuickQuitEvents
     autocmd!
 
-    autocmd BufEnter * let s:tried_quit['buf'] = 0
+    autocmd WinEnter * let s:tried_quit['buf'] = 0
     autocmd TabEnter * let s:tried_quit['tab'] = 0
   augroup END " QuickQuitEvents
 endif " has('autocmd')
