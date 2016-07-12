@@ -119,6 +119,12 @@ function! LiteFilePath(trailingSlash)
 endfunction " s:filepath
 
 function! s:statuslineFocus()
+  if &filetype == "qf"
+    setlocal statusline=\ %#SL_badge_yellow#\ [QUICK\ FIX]\ %0*
+    setlocal statusline+=\ %#SL_badge_red#\ %L\ %0* " number of line/errors
+    return
+  endif
+
   setlocal statusline=\ \ %#SL_mode#\ \ •\ \ %0*                               " current mode
   setlocal statusline+=\ \ %#SL_text_grey#%{LiteFilePath(1)}%0*%t              " filename
   setlocal statusline+=\ %6(%#SL_badge_green#\ %l\ %)%#SL_badge_blue#\ %L\ %0* " current and max line
@@ -146,6 +152,12 @@ function! s:statuslineFocus()
 endfunction " statuslineFocus
 
 function! s:statuslineUnfocus()
+  if &filetype == "qf"
+    setlocal statusline=\ %#SL_badge_yellow#\ [QUICK\ FIX]\ %0*
+    setlocal statusline+=\ %#SL_badge_red#\ %L\ %0* " number of line/errors
+    return
+  endif
+
   setlocal statusline=\ \ %#SLNC_badge_blue#\ \ •\ \ %0*            " mode badge
   setlocal statusline+=\ \ %#SLNC_text_grey#%{LiteFilePath(1)}%0*%t " filename
   setlocal statusline+=\ \ %#SLNC_badge_green#\ %l\ %0*             " current line
