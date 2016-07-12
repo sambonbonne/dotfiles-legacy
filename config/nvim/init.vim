@@ -481,9 +481,9 @@ if has("autocmd")
   set noshowmode
 
   augroup startify
-	  autocmd!
+    autocmd!
 
-	  autocmd FileType startify setlocal nofoldenable
+    autocmd FileType startify setlocal nofoldenable
   augroup END
 
   "augroup x_config
