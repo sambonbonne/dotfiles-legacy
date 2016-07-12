@@ -93,6 +93,19 @@ function __tmux_sessions() {
 }
 compdef __tmux_sessions tmx
 
+
+# jump
+JUMP_ALIAS="jp"
+JUMP_DIRECTORIES=("${HOME}/dev/www")
+JUMP_HOOK_AFTER='ls -FhlX --color=always --hide="*~"'
+source "${ZSH_CONFIG_PATH}/jump.zsh"
+
+
+# Updates
+alias upgrade_all="tmc updates 'apacman -Syu --noedit' 'npm update -g' 'zplug udpate'"
+
+
+# not always needed but fun
 function colors_list() {
     local text="${1:-}"
 
@@ -102,3 +115,6 @@ function colors_list() {
         printf "\x1b[38;5;${i}m%03d${text}\e[0m\n" ${i}
     done
 }
+
+# steam is sometimes a bitch
+alias steam_clean='find ~/.steam/root/ \( -name "libgcc_s.so*" -o -name "libstdc++.so*" -o -name "libxcb.so*" -o -name "libgpg-error.so*" \) -print -delete'
