@@ -1,8 +1,13 @@
-if &compatible
+if has("nvim") && &compatible
   set nocompatible
 endif
 
-let $NVIMHOME = fnamemodify($MYVIMRC, ':p:h')
+if has("nvim")
+  let $NVIMHOME = fnamemodify($MYVIMRC, ':p:h')
+else
+  let $NVIMHOME = fnamemodify($MYVIMRC, ':p:h') . "/.config/nvim"
+endif " has("nvim")
+
 let mapleader = "\<Space>" " better than backslash
 
 let s:plugin_manager_directory = $NVIMHOME . '/plugins'
@@ -27,13 +32,7 @@ nnoremap <Leader>w :w<CR>
 
 " Let's start nice and manage sessions
 call dein#add('mhinz/vim-startify')
-function! s:startify_center_header(lines) abort " this function will center your header !
-let longest_line   = max(map(copy(a:lines), 'len(v:val)'))
-  let centered_lines = map(copy(a:lines),
-        \ 'repeat(" ", (&columns / 2) - (longest_line / 2)) . v:val')
-  return centered_lines
-endfunction
-let g:startify_custom_header = s:startify_center_header([
+let g:startify_custom_header = [
       \ "                                                          {",
       \ "                                                       {   }",
       \ "o      O                 .oOOOo.                        }_{ __{",
@@ -48,10 +47,10 @@ let g:startify_custom_header = s:startify_center_header([
       \ "                OoO'                                |            (  /",
       \ "                                                    \\             y’",
       \ "                                                     `-.._____..-'",
-      \ ])
-let g:startify_custom_footer = s:startify_center_header([
+      \ ]
+let g:startify_custom_footer = [
       \ "You reached the end of this screen, what will you do?"
-      \ ])
+      \ ]
 let g:startify_list_order = [
       \ [ '(>°^°)>         You are working on it' ],
       \ 'sessions',
@@ -63,7 +62,7 @@ let g:startify_list_order = [
       \ 'files'
       \ ]
 set sessionoptions=blank,curdir,folds,help,options,localoptions,tabpages,winsize
-let g:startify_session_dir = '~/.vim/sessions'
+let g:startify_session_dir = $NVIMHOME . '/sessions'
 let g:startify_session_autoload = 0
 let g:startify_session_persistence = 1
 let g:startify_files_number = 5
@@ -208,16 +207,18 @@ nnoremap <C-H> <C-W>h
 vnoremap <C-H> <C-W>h
 nnoremap <BS> <C-W>h " tmp fix for neovim/neovim#2048
 vnoremap <BS> <C-W>h " tmp fix for neovim/neovim#2048
-tnoremap <C-H> <C-\><C-N><C-W>h
 nnoremap <C-J> <C-W>j
 vnoremap <C-J> <C-W>j
-tnoremap <C-J> <C-\><C-N><C-W>j
 nnoremap <C-K> <C-W>k
 vnoremap <C-K> <C-W>k
-tnoremap <C-K> <C-\><C-N><C-W>k
 nnoremap <C-L> <C-W>l
 vnoremap <C-L> <C-W>l
-tnoremap <C-L> <C-\><C-N><C-W>l
+if has("nvim")
+  tnoremap <C-H> <C-\><C-N><C-W>h
+  tnoremap <C-J> <C-\><C-N><C-W>j
+  tnoremap <C-K> <C-\><C-N><C-W>k
+  tnoremap <C-L> <C-\><C-N><C-W>l
+endif " has("nvim")
 
 " Faster editing
 call dein#add('Konfekt/FastFold')
@@ -248,6 +249,7 @@ let g:neomake_warning_sign = {
             \ }
 let g:neomake_open_list = 2
 let g:neomake_list_height = 4
+let g:neomake_javascript_enabled_makers = [ 'eslint' ]
 function! NeomakeOpenList()
   if (g:neomake_open_list > 0)
     let g:neomake_open_list = 0
@@ -315,6 +317,9 @@ let g:limelight_paragraph_span = 3
 " Maybe you want to learn something new
 call dein#add('mhinz/vim-randomtag', { 'on_cmd': 'Random' })
 
+" code with your friends
+call dein#add('floobits/floobits-neovim')
+
 call dein#end()
 " End plugins config
 
@@ -327,7 +332,7 @@ syntax on
 
 " encoding
 if !has('nvim')
-  set encoding="utf-8"
+  set encoding=utf-8
 endif
 setglobal fileencoding=utf-8
 
@@ -445,7 +450,9 @@ nnoremap <Leader>? :lrewind<CR>
 inoremap <C-C> <Esc>
 
 " Neovim terminal is good but going out of it is a pain in the ass
-tnoremap <C-T> <C-\><C-N>
+if has("nvim")
+  tnoremap <C-T> <C-\><C-N>
+endif " has("nvim")
 
 " You want to quit quickly
 source $NVIMHOME/quickquit.vim
