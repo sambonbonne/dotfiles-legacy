@@ -53,7 +53,7 @@ apply_updates() {
       return 1
     fi
   else
-    say blue "It seems you haven't any update to get, so let's check if we need to push"
+    say blue "It seems you haven't any update to get"
   fi
 
   return 0
