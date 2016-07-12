@@ -19,6 +19,8 @@ function jump() { # @TODO allow to jump to subdirectory?
     done
 
     [ ${_jumped} -eq 0 ] && echo "Can't jump to ${1} in any of the directories in ${JUMP_DIRECTORIES}" && return 1
+
+    [[ -n "${JUMP_HOOK_AFTER}" ]] && `echo "${JUMP_HOOK_AFTER}"`
   else
     echo "Usage: jump <directory>"
     echo "  You need to configure %{$JUMP_DIRECTORIES%} as an array before using jump"
