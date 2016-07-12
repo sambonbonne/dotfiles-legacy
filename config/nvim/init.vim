@@ -1,4 +1,4 @@
-if has("nvim") && &compatible
+if &compatible
   set nocompatible
 endif
 
