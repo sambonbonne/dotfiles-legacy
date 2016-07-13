@@ -44,14 +44,15 @@ bindkey "^F" zce
 zplug "jreese/zsh-titles", if:"which tmux"
 
 zplug "marzocchi/zsh-notify", if:"which notify-send"
+zstyle ':notify:*' error-title "(╯°□°)╯︵┻━┻"
+zstyle ':notify:*' success-title "(⌐■_■)"
+zstyle ':notify:*' command-complete-timeout 20
 
 zplug "Tarrasch/zsh-bd"
 
 zplug "akoenig/gulp.plugin.zsh", if:"which gulp"
 
 zplug "Seinh/git-prune", if:"which git"
-
-#zplug "nvbn/thefuck", as:"command", if:"which python && which pip", do:"pip install --user --upgrade -r requirements.txt"
 
 
 zplug check --verbose || zplug install
