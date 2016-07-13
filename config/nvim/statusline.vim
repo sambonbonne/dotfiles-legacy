@@ -78,7 +78,7 @@ endfunction " s:initColors
 call s:initColors()
 
 function! LiteFilePath(trailingSlash)
-  let l:path = split(expand("%:h"), "/")
+  let l:path = split(substitute(expand("%:h"), $HOME, "~", ""), "/")
 
   if a:trailingSlash
     let l:path[len(l:path) - 1] = l:path[len(l:path) - 1] . "/"
