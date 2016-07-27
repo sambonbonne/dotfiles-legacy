@@ -34,10 +34,13 @@ path_append "${HOME}/.composer/vendor/bin"
 ## Other specific configurations
 
 # Start SSH agent if not exists and warn if no stored key
-SSH_RUNTIME_DIR=${XDG_RUNTIME_DIR-/tmp}
-pidof ssh-agent 2>&1 > /dev/null || { ssh-agent -a "${SSH_RUNTIME_DIR}/ssh-agent.socket" 2>&1 > /dev/null && echo "\033[0;32mSSH agent started\033[0m" ; }
-export SSH_AUTH_SOCK="${SSH_RUNTIME_DIR}/ssh-agent.socket" ; export SSH_AGENT_PID="$(pidof ssh-agent)"
-ssh-add -L 2>&1 > /dev/null || echo "\033[0;31mNo SSH key stored, don't forget to add one\033[0m"
+_start_ssh_agent=1
+if [[ ${_start_ssh_agent} -eq 1 ]]; then
+  SSH_RUNTIME_DIR=${XDG_RUNTIME_DIR-/tmp}
+  pidof ssh-agent 2>&1 > /dev/null || { ssh-agent -a "${SSH_RUNTIME_DIR}/ssh-agent.socket" 2>&1 > /dev/null && echo "\033[0;32mSSH agent started\033[0m" ; }
+  export SSH_AUTH_SOCK="${SSH_RUNTIME_DIR}/ssh-agent.socket" ; export SSH_AGENT_PID="$(pidof ssh-agent)"
+  ssh-add -L 2>&1 > /dev/null || echo "\033[0;31mNo SSH key stored, don't forget to add one\033[0m"
+fi
 
 # Enventual unprivileged pkgsrc config
 local pkgsrc_env_path="${HOME}/pkg"
@@ -73,8 +76,19 @@ export LC_PAPER=fr_FR.UTF-8
 export LC_TELEPHONE=fr_FR.UTF-8
 export LC_TIME=fr_FR.UTF-8
 
-# Need check
-export EDITOR="${HOME}/.nix-profile/bin/nvim"
+# Default editor
+_default_editor() {
+  local nvim_path="$(command -v nvim)"
+  [ -n "${nvim_path}" ] && echo "${nvim_path}" && return 0
+
+  local vim_path="$(command -v vim)"
+  [ -n "${vim_path}" ] && echo "${vim_path}" && return 0
+
+  echo "vi" && return 0
+
+  return 1
+}
+export EDITOR="$(_default_editor)"
 
 # sometimes the TERM variable is not really pretty
 if [[ $TERM == xterm ]]; then
