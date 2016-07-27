@@ -10,42 +10,59 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   git clone https://github.com/smumu/dotfiles ~/dev/dotfiles
 fi
 
+# how to link a file properly
+linkConfig() {
+  local orig="${HOME}/dev/dotfiles/${1}"
+  local dest="${HOME}/${2:-.${1}}"
+
+  [[ -L "${dest}" ]] && return 0 # file is a symbolic link, don't change it
+
+  if [[ -f "${dest}" ]]; then
+    echo "Moving ${dest} to ${dest}.bak"
+    mv "${dest}" "${dest}.bak"
+  fi
+
+  ln -s "${orig}" "${dest}"
+
+  return 0
+}
+
 # Put ZSH config
 echo "ZSH"
-ln -s ~/dev/dotfiles/dircolors ~/.dircolors
-ln -s ~/dev/dotfiles/profile ~/.profile
-ln -s ~/dev/dotfiles/zshrc ~/.zshrc
-ln -s ~/dev/dotfiles/zsh ~/.zsh
-command zsh >/dev/null 2>&1 && { chsh -s /bin/zsh ; echo "ZSH is configured" } || echo "ZSH is configured but not installed, that's problematic ..."
-
-# And Vim config
-echo "Vim"
-ln -s ~/dev/dotfiles/vimrc ~/.vimrc
-mkdir -p ~/.vim/plugged
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-command vim >/dev/null 2>&1 && echo "Vim is configured, you should run plugins installation" || echo "Vim is configured but not installed, will you survive ?"
+linkConfig "dircolors"
+linkConfig "profile"
+linkConfig "zshrc"
+linkConfig "zsh"
+#command zsh >/dev/null 2>&1 && { chsh -s /bin/zsh ; echo "ZSH is configured" } || echo "ZSH is configured but not installed, that's problematic ..."
 
 # And NeoVim, hope you have it here
 echo "Neovim"
 mkdir -p ~/.config/nvim
-ln -s ~/dev/dotfiles/config/config/init.vim ~/.config/nvim/init.vim
-curl -fLo ~/.config/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+mkdir -p ~/.config/nvim/after
+mkdir -p ~/.config/nvim/plugins
+linkConfig "config/nvim/init.vim"
+linkConfig "config/nvim/statusline.vim"
+linkConfig "config/nvim/highlight.vim"
+linkConfig "config/nvim/quickquit.vim"
+linkConfig "config/nvim/completion.vim"
+linkConfig "config/nvim/autoload"
+linkConfig "config/nvim/ftplugin" ".config/nvim/after/ftplugin"
 command neovim >/dev/null 2>&1 && echo "Neovim is configured, you should run plugins installation" || echo "Neovim is configured but not installed, that's not a surprise"
 
-# Don't forget Tmux
-echo "Tmux"
-ln -s ~/dev/dotfiles/tmux.conf ~/.tmux.conf
-command tmux >/dev/null 2>&1 && echo "Tmux is configured" || echo "Tmux is configured but not installed, you should address it immediately"
-
-# Git is always usefull
-echo "Git"
-ln -s ~/dev/dotfiles/gitconfig ~/.gitconfig
-ln -s ~/dev/dotfiles/gitignore_global ~/.gitignore_global
+# And Vim config
+echo "Vim"
+linkConfig "vimrc"
+linkConfig "gitconfig"
+linkConfig "gitignore_global"
 echo "Git is configured"
+
+# (Neo)Vim plugins
+curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > dein-installer.sh
+sh ./dein-installer.sh "${HOME}/.config/nvim/plugins"
 
 # NPM, haters gonna hate
 echo "NPM"
-ln -s ~/dev/dotfiles/npmrc ~/.npmrc
+linkConfig "npmrc"
 echo "NPM is configured"
 
 echo "My work here is done, have a nice day!"
