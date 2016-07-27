@@ -318,7 +318,7 @@ let g:limelight_paragraph_span = 3
 call dein#add('mhinz/vim-randomtag', { 'on_cmd': 'Random' })
 
 " code with your friends
-call dein#add('floobits/floobits-neovim')
+call dein#add('floobits/floobits-neovim', { 'on_if': has("nvim") })
 
 call dein#end()
 " End plugins config
