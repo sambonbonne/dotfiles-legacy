@@ -5,7 +5,7 @@ echo "Hi! What a good day to prepare a computer for more productivity. Let's go!
 # Clone dotfiles
 read -p "Do you need to clone dotfiles in ~/dev/dotfiles ? " -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-  command git >/dev/null 2>&1 || { echo "Git doesn't exists, but what is this shitty computer ?!"; return 1; }
+  command -v git >/dev/null 2>&1 || { echo "Git doesn't exists, but what is this shitty computer ?!"; return 1; }
   mkdir -p ~/dev
   git clone https://github.com/smumu/dotfiles ~/dev/dotfiles
 fi
@@ -33,7 +33,7 @@ linkConfig "dircolors"
 linkConfig "profile"
 linkConfig "zshrc"
 linkConfig "zsh"
-#command zsh >/dev/null 2>&1 && { chsh -s /bin/zsh ; echo "ZSH is configured" } || echo "ZSH is configured but not installed, that's problematic ..."
+command -v zsh >/dev/null 2>&1 && { chsh -s /bin/zsh ; echo "ZSH is configured" } || echo "ZSH is configured but not installed, that's problematic ..."
 
 # And NeoVim, hope you have it here
 echo "Neovim"
@@ -47,11 +47,19 @@ linkConfig "config/nvim/quickquit.vim"
 linkConfig "config/nvim/completion.vim"
 linkConfig "config/nvim/autoload"
 linkConfig "config/nvim/ftplugin" ".config/nvim/after/ftplugin"
-command neovim >/dev/null 2>&1 && echo "Neovim is configured, you should run plugins installation" || echo "Neovim is configured but not installed, that's not a surprise"
+command -v neovim >/dev/null 2>&1 && echo "Neovim is configured, you should run plugins installation" || echo "Neovim is configured but not installed, that's not a surprise"
 
 # And Vim config
 echo "Vim"
+mkdir -p ~/.vim
+mkdir -p ~/.vim/after
+mkdir -p ~/.vim/plugins
 linkConfig "vimrc"
+linkConfig "config/nvim/autoload" ".vim/autoload"
+linkConfig "config/nvim/ftplugin" ".vim/after/ftplugin"
+command -v vim >/dev/null 2>&1 && echo "Vim is configured, you should run plugins installation" || echo "Vim is configured but not installed, you'll have some problems"
+
+echo "Git"
 linkConfig "gitconfig"
 linkConfig "gitignore_global"
 echo "Git is configured"
