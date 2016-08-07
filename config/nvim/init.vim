@@ -21,6 +21,7 @@ let g:dein#install_progress_type = 'tabline'
 call dein#add('haya14busa/dein-command.vim', { 'on_cmd': 'Dein', 'depends': 'dein.vim' })
 
 call dein#add('Shougo/vimproc.vim', { 'build': 'make' })
+call dein#add('tpope/vim-dispatch')
 
 " To add .lvimrc for each project you want
 call dein#add('embear/vim-localvimrc')
@@ -292,8 +293,12 @@ call dein#add('lervag/vimtex', { 'on_ft': [ 'tex', 'latex', 'plaintex' ] })
 call dein#add('tpope/vim-eunuch')
 
 " Launch test in Vim
-call dein#add('janko-m/vim-test')
-let test#strategy = "neovim"
+call dein#add('janko-m/vim-test', { 'depends': 'vim-dispatch' })
+if has("nvim")
+  let test#strategy = "neovim"
+else
+  let test#strategy = "dispatch"
+endif " has("nvim")
 
 " Mispelling is so common ...
 call dein#add('reedes/vim-litecorrect') ", { 'on_func': 'litecorrect#init()' }
