@@ -1,0 +1,20 @@
+#!/bin/sh
+
+[ -f "${HOME}/.profile" ] && source "${HOME}/.profile"
+[ -f "${HOME}/.Xresources" ] && xrdb -merge -I$HOME ~/.Xresources
+
+# keyboard with compose key !
+export XKB_DEFAULT_LAYOUT=us
+export XKB_DEFAULT_OPTIONS=
+setxkbmap -option compose:ralt
+
+export GTK_IM_MODULE=xim
+export XMODIFIERS="@im=none"
+
+# enable optimus if needed
+#xrandr --setprovideroffloadsink nouveau Intel
+#xrandr --setprovideroutputsource nouveau Intel
+
+# some graphical config
+export STEAM_FRAME_FORCE_CLOSE=1
+export BROWSER=firefox
