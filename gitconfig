@@ -38,6 +38,7 @@
     cm = commit -m
     cam = commit -am
     amend = commit --amend
+    rbc = rebase --continue
     cp = cherry-pick -n
     lg = log --date-order --graph --pretty=format:'%C(yellow)%h%Creset%Cred%d%Creset - %C(green)%cr%Creset, %C(blue)%an%Creset <%C(cyan)%ae%Creset>\n%s\n' --abbrev-commit --
     last = log -10 --date-order --graph --pretty=format:'%C(yellow)%h%Creset%Cred%d%Creset - %C(green)%cr%Creset, %C(blue)%an%Creset <%C(cyan)%ae%Creset>\n%s\n' --abbrev-commit --
@@ -49,7 +50,6 @@
     whitespace = strip
 
 [core]
-    editor = vim
     autocrlf = false
     preloadindex = true
     excludesfile = ~/.gitignore_global

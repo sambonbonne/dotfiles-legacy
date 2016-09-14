@@ -89,6 +89,7 @@ _default_editor() {
   return 1
 }
 export EDITOR="$(_default_editor)"
+export GIT_EDITOR="${EDITOR}"
 
 # sometimes the TERM variable is not really pretty
 if [[ $TERM == xterm ]]; then
