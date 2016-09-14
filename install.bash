@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!env bash
 
 echo "Hi! What a good day to prepare a computer for more productivity. Let's go!"
 
@@ -54,6 +54,11 @@ linkConfig "config/nvim/completion.vim"
 linkConfig "config/nvim/autoload"
 linkConfig "config/nvim/ftplugin" ".config/nvim/after/ftplugin"
 command -v neovim >/dev/null 2>&1 && echo "Neovim is configured, you should run plugins installation" || echo "Neovim is configured but not installed, that's not a surprise"
+
+# Tmux
+echo "Tmux"
+linkconfig "tmux.conf"
+command -v tmux >/dev/null 2>&1 && echo "Tmux is configured, what a good news" || echo "Tmux is configured but not installed, maybe you should install it now"
 
 # And Vim config
 echo "Vim"
