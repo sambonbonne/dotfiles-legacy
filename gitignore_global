@@ -19,6 +19,7 @@ tags
 
 # JavaScript
 .tern-project
+.tern-port
 
 # PHP
 .phpcomplete_extended/
