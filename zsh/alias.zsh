@@ -101,19 +101,15 @@ JUMP_HOOK_AFTER='ls -FhlX --color=always --hide="*~"'
 source "${ZSH_CONFIG_PATH}/jump.zsh"
 
 
-# Updates
-alias upgrade_all="tmc updates 'apacman -Syu --noedit' 'npm update -g' 'zplug udpate'"
-
-
 # not always needed but fun
 function colors_list() {
-    local text="${1:-}"
+  local text="${1:-}"
 
-    [ -n "${text}" ] && text=" ${text}"
+  [ -n "${text}" ] && text=" ${text}"
 
-    for i in {0..255}; do
-        printf "\x1b[38;5;${i}m%03d${text}\e[0m\n" ${i}
-    done
+  for i in {0..255}; do
+    printf "\x1b[38;5;${i}m%03d${text}\e[0m\n" ${i}
+  done
 }
 
 # steam is sometimes a bitch
