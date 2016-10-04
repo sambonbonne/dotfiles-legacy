@@ -71,3 +71,7 @@ if [[ $- == *i* ]] && [ -z "${TMUX}" ] && command -v tmux >/dev/null 2>&1 ; then
     echo ""
   fi
 fi
+
+# If we have custom configuration
+_custom_configuration_file="${ZSH_CONFIG_PATH}/custom.zsh"
+[[ -f "${_custom_configuration_file}" ]] && source "${_custom_configuration_file}"
