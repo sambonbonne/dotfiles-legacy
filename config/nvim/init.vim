@@ -161,17 +161,6 @@ command! Search :Unite grep
 " Jumps list
 nnoremap <Leader>j :Unite -quick-match jump
 
-" How about a stack yanking ?
-call dein#add('bfredl/nvim-miniyank', {
-      \ 'on_if': has("nvim"),
-      \ 'hook_source': join([
-      \   'let g:miniyank_filename = "' . $NVIMHOME . '/.miniyank.mpack"',
-      \   'nmap p <Plug>(miniyank-autoput)',
-      \   'nmap P <Plug>(miniyank-autoPut)',
-      \   'nmap <Leader>n <Plug>(miniyank-cycle)',
-      \ ], "\n")
-      \ })
-
 " Same as Unite but for Neovim, in development
 call dein#add('Shougo/denite.nvim', { 'on_if': has("nvim") })
 
