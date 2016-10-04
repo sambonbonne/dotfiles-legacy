@@ -15,13 +15,13 @@ let s:completion_mapping = join([
 " Neovim with python uses Deoplete
 call dein#add('Shougo/deoplete.nvim', {
       \ 'on_event': 'InsertEnter',
-      \ 'on_if': s:completion_choice.deoplete,
+      \ 'if': s:completion_choice.deoplete,
       \ 'hook_source': join([
       \   s:completion_mapping,
       \   'echo "Use Deoplete completion"',
       \ ], "\n"),
       \ })
-let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_at_startup = s:completion_choice.deoplete
 let g:deoplete#max_list = 20
 let g:deoplete#max_menu_width = 80
 let g:deoplete#sources = {}
@@ -49,7 +49,7 @@ let g:neocomplete#sources#omni#input_patterns.tex =
 " Vim with Lua uses Neocomplete
 call dein#add('Shougo/neocomplete.vim', {
       \ 'on_event': 'InsertEnter',
-      \ 'on_if': s:completion_choice.neocomplete,
+      \ 'if': s:completion_choice.neocomplete,
       \ 'hook_source': join([
       \   s:completion_mapping,
       \   'inoremap <expr><C-TAB> neocomplete#complete_common_string()',
@@ -59,9 +59,8 @@ call dein#add('Shougo/neocomplete.vim', {
       \ ], "\n"),
       \ })
 let g:necosyntax#min_keyword_length = 3
-let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_at_startup = s:completion_choice.neocomplete
 let g:neocomplete#use_vimproc = 1
-let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#enable_camel_case = 1
 let g:neocomplete#auto_completion_start_length = 3
@@ -80,9 +79,18 @@ let g:neocomplete#enable_auto_close_preview = 1
 
 
 " Neovim without Python or Vim without Lua use SuperTab
+function SuperTabAddOmni(amatch)
+  if a:amatch == "omnifunc"
+    call SuperTabChain(&omnifunc, "<c-n>")
+  endif
+endfunction " SuperTabAddOmni()
 call dein#add('ervandew/supertab', {
-      \ 'on_if': s:completion_choice.supertab,
-      \ 'hook_source': 'echo "Use SuperTab completion"',
+      \ 'if': s:completion_choice.supertab,
+      \ 'hook_source': join([
+      \   'autocmd VimEnter * if &omnifunc != "" | call SuperTabChain(&omnifunc, "<c-n>") | endif',
+      \   'autocmd OptionSet * call SuperTabAddOmni(expand("<amatch>"))',
+      \   'echo "Use SuperTab completion"',
+      \ ], "\n")
       \ })
 let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabContextDefaultCompletionType = "<c-n>"
@@ -103,13 +111,13 @@ call dein#add('Shougo/neco-vim', { 'on_source': [ 'deoplete.nvim', 'neocomplete.
 
 " JavaScript
 call dein#add('ternjs/tern_for_vim', { 'on_ft': 'javascript', 'build': 'npm install' })
-call dein#add('carlitux/deoplete-ternjs', { 'depends': 'deoplete.nvim', 'on_ft': 'javascript', 'build': 'npm install -g tern'})
+call dein#add('carlitux/deoplete-ternjs', { 'if': s:completion_choice.deoplete, 'depends': 'deoplete.nvim', 'on_ft': 'javascript', 'build': 'npm install -g tern'})
 let g:tern#command = [ "tern" ]
 let g:tern#arguments = [ "--persistent" ]
 
 " Python
 call dein#add('davidhalter/jedi-vim', { 'on_ft': 'python', 'build': 'pip3 install --user --upgrade jedi' })
-call dein#add('zchee/deoplete-jedi', { 'depends': 'deoplete.nvim', 'on_ft': 'python' })
+call dein#add('zchee/deoplete-jedi', { 'if': s:completion_choice.deoplete, 'depends': 'deoplete.nvim', 'on_ft': 'python' })
 let g:jedi#auto_vim_configuration = 0
 let g:jedi#popup_select_first = 0
 let g:jedi#goto_command = "<leader>g"
