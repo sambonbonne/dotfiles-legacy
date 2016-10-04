@@ -17,18 +17,45 @@ exec "set runtimepath+=" . s:plugin_manager_directory . "/repos/github.com/Shoug
 call dein#begin(expand(s:plugin_manager_directory))
 
 call dein#add('Shougo/dein.vim')
-let g:dein#install_progress_type = 'tabline'
 call dein#add('haya14busa/dein-command.vim', { 'on_cmd': 'Dein', 'depends': 'dein.vim' })
 
 call dein#add('Shougo/vimproc.vim', { 'build': 'make' })
 call dein#add('tpope/vim-dispatch')
 
+" Indentation
+"call dein#add('vim-scripts/yaifa.vim') " detect indent
+set expandtab    " use space instead of tab
+set tabstop=2    " size of hard tab stop
+set shiftwidth=2 " size of an indent
+call dein#add('Yggdroot/indentLine') " indent can be visible
+let g:indentLine_enabled = 1
+let g:indentLine_color_term = 239
+let g:indentLine_char = '¦'
+" indent with tab (normal/visual mode)
+nnoremap <TAB> >>
+nnoremap <S-TAB> <<
+vnoremap <TAB> >gv
+vnoremap <S-TAB> <gv
+" re-indent file
+function IndentFile()
+  echo "Identing the file..."
+  let l:current_view=preserve#save()
+  normal gg=Gg``
+  call preserve#restore(l:current_view)
+  echo "Indented."
+endfunction " IndentAllFile()
+nnoremap g= :call IndentFile()<Return>
+
 " To add .lvimrc for each project you want
 call dein#add('embear/vim-localvimrc')
 let g:localvimrc_ask=0
+" For multiusers projects
+call dein#add('editorconfig/editorconfig-vim')
+let g:EditorConfig_exclude_patterns = [ 'fugitive://.*', 'scp://.*' ]
 
 " Please, don't cry to me if save dir doesn't exists
 call dein#add('duggiefresh/vim-easydir', { 'on_event': [ 'BufWritePre', 'FileWritePre' ] })
+" And maybe we can save quickly
 nnoremap <Leader>w :w<CR>
 
 " Let's start nice and manage sessions
@@ -152,23 +179,6 @@ call dein#add('Shougo/denite.nvim', { 'on_if': has("nvim") })
 call dein#add('Shougo/vimfiler.vim')
 let g:vimfiler_as_default_explorer = 1
 nnoremap <Leader>e :VimFilerExplorer -toggle -buffer-name='vimfiler_tree'<CR>
-
-" Indentation
-call dein#add('vim-scripts/yaifa.vim') " detect indent
-set expandtab    " use space instead of tab
-set tabstop=4    " size of hard tab stop
-set shiftwidth=4 " size of an "indent"
-call dein#add('Yggdroot/indentLine') " indent can be visible
-let g:indentLine_enabled = 1
-let g:indentLine_color_term = 239
-let g:indentLine_char = '¦'
-" indent with tab (normal/visual mode)
-nnoremap <TAB> >>
-nnoremap <S-TAB> <<
-vnoremap <TAB> >gv
-vnoremap <S-TAB> <gv
-" re-indent file
-nnoremap g= gg=Gg``
 
 " Highlight whitespace
 call dein#add('bronson/vim-trailing-whitespace')
