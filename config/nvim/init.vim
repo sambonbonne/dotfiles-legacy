@@ -392,18 +392,28 @@ set foldcolumn=3 foldnestmax=4 foldminlines=8 foldlevelstart=2
 set foldopen+=jump
 
 " command completion
-set wildmenu wildmode=longest,list,full wildignore=*~,*.swp,*.o,*.pdf
+set wildmenu wildmode=list:longest,full wildignore=*~,*.swp,*.o,*.pdf
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
   set mouse=nvc
 endif
 
+" improve rendering
+if !has("nvim")
+  set ttyfast " modern terminals force it but just in case ...
+endif " !has("nvim")
+set lazyredraw
+
 " highlight line, light line number
 set cursorline
 command! CursorColumn set cursorcolumn!
 " Also switch on highlighting the last used search pattern.
 set hlsearch
+" And change cursor type when inserting
+if !has("nvim")
+  let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+endif " !has("nvim")
 
 if has("gui_running")
   set guifont=Fira\ Mono\ 10
@@ -474,7 +484,7 @@ endif " has("nvim")
 source $NVIMHOME/quickquit.vim
 nmap <C-Q> <Plug>(QuickQuitBuffer)
 nmap <S-Q> <Plug>(QuickQuitTab)
-nmap <C-S-Q> <Plug>(QuickQuitAll)
+"nmap <C-S-Q> <Plug>(QuickQuitAll)
 " please we all hate this fucking command window
 nnoremap q: :q
 
@@ -558,7 +568,9 @@ if has("autocmd")
   augroup semicolon_langages
     autocmd!
 
+    autocmd FileType php,c,cpp,javascript,typescript inoremap ;; <C-O>A;
     autocmd FileType php,c,cpp,javascript,typescript inoremap ;<CR> <C-O>A;<CR>
+    autocmd FileType php,c,cpp,javascript,typescript inoremap ;<Esc> <C-O>A;<Esc>
   augroup END
 
   augroup distraction
