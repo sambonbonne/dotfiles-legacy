@@ -1,79 +1,179 @@
 set laststatus=2
 
-let s:colors = {
-      \   'bg': { 'term': 32,  'gui': "green" },
-      \   'fg': { 'term': 255, 'gui': "white" },
+let s:sl_colors = {
+      \   'bg': { 'term': '032', 'gui': "#0087D7" },
+      \   'fg': { 'term': '255', 'gui': "#EEEEEE" },
       \ 
-      \   'grey':  { 'term': 251, 'gui': "grey" },
-      \   'black': { 'term':  24, 'gui': "black" },
+      \   'grey':  { 'term': '251', 'gui': "#C6C6C6" },
+      \   'black': { 'term': '024', 'gui': "#005F87" },
       \ 
-      \   'blue':   { 'term': 27 },
-      \   'green':  { 'term': 29 },
-      \   'red':    { 'term': 131 },
-      \   'yellow': { 'term': 100 }
+      \   'blue':   { 'term': '027',  'gui': "#005FFF" },
+      \   'green':  { 'term': '029',  'gui': "#00875F" },
+      \   'red':    { 'term': '131', 'gui': "#AF5F5F" },
+      \   'yellow': { 'term': '100', 'gui': "#878700" }
       \ }
 
-let s:colors.modes = {
+let s:sl_colors.modes = {
       \   'normal': {
       \     'term':    "none",
-      \     'gui':     "bold",
-      \     'ctermbg': s:colors.green.term,
-      \     'guibg':   "green"
+      \     'gui':     "none",
+      \     'ctermbg': s:sl_colors.green.term,
+      \     'ctermfg': s:sl_colors.fg.term,
+      \     'guibg':   s:sl_colors.green.gui,
+      \     'guifg':   s:sl_colors.fg.gui
       \   },
       \   'insert': {
       \     'term':    "bold",
       \     'gui':     "bold",
-      \     'ctermbg': s:colors.red.term,
-      \     'guibg':   "red"
+      \     'ctermbg': s:sl_colors.red.term,
+      \     'ctermfg': s:sl_colors.fg.term,
+      \     'guibg':   s:sl_colors.red.gui,
+      \     'guifg':   s:sl_colors.fg.gui
       \   },
       \   'replace': {
       \     'term':    "bold",
       \     'gui':     "bold",
-      \     'ctermbg': s:colors.yellow.term,
-      \     'guibg':   "yellow"
+      \     'ctermbg': s:sl_colors.yellow.term,
+      \     'ctermfg': s:sl_colors.fg.term,
+      \     'guibg':   s:sl_colors.yellow.gui,
+      \     'guifg':   s:sl_colors.fg.gui
       \   }
       \ }
 
 function s:initColors()
-  call g:Colorize('statusline', {
+  call g:Colorize('StatusLine', {
+        \ 'cterm':   "NONE",
         \ 'term':    "NONE",
         \ 'gui':     "NONE",
-        \ 'ctermfg': s:colors.fg.term,
-        \ 'guifg':   s:colors.fg.gui,
-        \ 'ctermbg': s:colors.bg.term,
-        \ 'guibg':   s:colors.bg.gui
+        \ 'ctermfg': s:sl_colors.fg.term,
+        \ 'guifg':   s:sl_colors.fg.gui,
+        \ 'ctermbg': s:sl_colors.bg.term,
+        \ 'guibg':   s:sl_colors.bg.gui
         \ })
-  call g:Colorize('statuslineNC', {
+  call g:Colorize('StatusLineNC', {
+        \ 'cterm':   "NONE",
         \ 'term':    "NONE",
         \ 'gui':     "NONE",
-        \ 'ctermfg': s:colors.grey.term,
-        \ 'guifg':   s:colors.grey.gui,
-        \ 'ctermbg': s:colors.black.term,
-        \ 'guibg':   s:colors.black.gui
+        \ 'ctermfg': s:sl_colors.grey.term,
+        \ 'guifg':   s:sl_colors.grey.gui,
+        \ 'ctermbg': s:sl_colors.black.term,
+        \ 'guibg':   s:sl_colors.black.gui
         \ })
 
-  call g:Colorize('SL_badge_blue', { 'ctermbg': s:colors.blue.term,   'ctermfg': s:colors.fg.term })
-  call g:Colorize('SL_badge_green',  { 'ctermbg': s:colors.green.term,  'ctermfg': s:colors.fg.term })
-  call g:Colorize('SL_badge_yellow', { 'ctermbg': s:colors.yellow.term, 'ctermfg': s:colors.fg.term })
-  call g:Colorize('SL_badge_red',    { 'ctermbg': s:colors.red.term,    'ctermfg': s:colors.fg.term })
+  call g:Colorize('SL_badge_blue', {
+        \ 'ctermbg': s:sl_colors.blue.term,
+        \ 'ctermfg': s:sl_colors.fg.term,
+        \ 'guibg': s:sl_colors.blue.gui,
+        \ 'guifg': s:sl_colors.fg.gui
+        \ })
+  call g:Colorize('SL_badge_green', {
+        \ 'ctermbg': s:sl_colors.green.term,
+        \ 'ctermfg': s:sl_colors.fg.term,
+        \ 'guibg': s:sl_colors.green.gui,
+        \ 'guifg': s:sl_colors.fg.gui
+        \ })
+  call g:Colorize('SL_badge_yellow', {
+        \ 'ctermbg': s:sl_colors.yellow.term,
+        \ 'ctermfg': s:sl_colors.fg.term,
+        \ 'guibg': s:sl_colors.yellow.gui,
+        \ 'guifg': s:sl_colors.fg.gui
+        \ })
+  call g:Colorize('SL_badge_red', {
+        \ 'ctermbg': s:sl_colors.red.term,
+        \ 'ctermfg': s:sl_colors.fg.term,
+        \ 'guibg': s:sl_colors.red.gui,
+        \ 'guifg': s:sl_colors.fg.gui
+        \ })
 
-  call g:Colorize('SLNC_badge_blue', { 'ctermbg': s:colors.blue.term,   'ctermfg': s:colors.grey.term })
-  call g:Colorize('SLNC_badge_green',  { 'ctermbg': s:colors.green.term,  'ctermfg': s:colors.grey.term })
-  call g:Colorize('SLNC_badge_yellow', { 'ctermbg': s:colors.yellow.term, 'ctermfg': s:colors.grey.term })
-  call g:Colorize('SLNC_badge_red',    { 'ctermbg': s:colors.red.term,    'ctermfg': s:colors.grey.term })
+  call g:Colorize('SLNC_badge_blue', {
+        \ 'ctermbg': s:sl_colors.blue.term,
+        \ 'ctermfg': s:sl_colors.grey.term,
+        \ 'guibg': s:sl_colors.blue.gui,
+        \ 'guifg': s:sl_colors.grey.gui
+        \ })
+  call g:Colorize('SLNC_badge_green', {
+        \ 'ctermbg': s:sl_colors.green.term,
+        \ 'ctermfg': s:sl_colors.grey.term,
+        \ 'guibg': s:sl_colors.green.gui,
+        \ 'guifg': s:sl_colors.grey.gui
+        \ })
+  call g:Colorize('SLNC_badge_yellow', {
+        \ 'ctermbg': s:sl_colors.yellow.term,
+        \ 'ctermfg': s:sl_colors.grey.term,
+        \ 'guibg': s:sl_colors.yellow.gui,
+        \ 'guifg': s:sl_colors.grey.gui
+        \ })
+  call g:Colorize('SLNC_badge_red', {
+        \ 'ctermbg': s:sl_colors.red.term,
+        \ 'ctermfg': s:sl_colors.grey.term,
+        \ 'guibg': s:sl_colors.red.gui,
+        \ 'guifg': s:sl_colors.grey.gui
+        \ })
 
-  call g:Colorize('SL_text_grey',   { 'ctermfg': s:colors.grey.term,   'ctermbg': s:colors.bg.term, 'cterm': "bold" })
-  call g:Colorize('SL_text_yellow', { 'ctermfg': s:colors.yellow.term, 'ctermbg': s:colors.bg.term, 'cterm': "bold" })
-  call g:Colorize('SL_text_red',    { 'ctermfg': s:colors.red.term,    'ctermbg': s:colors.bg.term, 'cterm': "bold" })
-  call g:Colorize('SL_text_green',  { 'ctermfg': s:colors.green.term,  'ctermbg': s:colors.bg.term, 'cterm': "bold" })
+  call g:Colorize('SL_text_grey', {
+        \ 'ctermfg': s:sl_colors.grey.term,
+        \ 'ctermbg': s:sl_colors.bg.term,
+        \ 'cterm':   "NONE",
+        \ 'guifg': s:sl_colors.grey.gui,
+        \ 'guibg': s:sl_colors.bg.gui,
+        \ 'gui':   "NONE"
+        \ })
+  call g:Colorize('SL_text_yellow', {
+        \ 'ctermfg': s:sl_colors.yellow.term,
+        \ 'ctermbg': s:sl_colors.bg.term,
+        \ 'cterm': "bold",
+        \ 'guifg': s:sl_colors.yellow.gui,
+        \ 'guibg': s:sl_colors.bg.gui,
+        \ 'gui': "bold"
+        \ })
+  call g:Colorize('SL_text_red', {
+        \ 'ctermfg': s:sl_colors.red.term,
+        \ 'ctermbg': s:sl_colors.bg.term,
+        \ 'cterm': "bold",
+        \ 'guifg': s:sl_colors.red.gui,
+        \ 'guibg': s:sl_colors.bg.gui,
+        \ 'gui': "bold"
+        \ })
+  call g:Colorize('SL_text_green', {
+        \ 'ctermfg': s:sl_colors.green.term,
+        \ 'ctermbg': s:sl_colors.bg.term,
+        \ 'cterm': "bold",
+        \ 'guifg': s:sl_colors.green.gui,
+        \ 'guibg': s:sl_colors.bg.gui,
+        \ 'gui': "bold"
+        \ })
 
-  call g:Colorize('SLNC_text_grey',   { 'ctermfg': s:colors.grey.term,   'ctermbg': s:colors.black.term })
-  call g:Colorize('SLNC_text_yellow', { 'ctermfg': s:colors.yellow.term, 'ctermbg': s:colors.black.term })
-  call g:Colorize('SLNC_text_red',    { 'ctermfg': s:colors.red.term,    'ctermbg': s:colors.black.term })
-  call g:Colorize('SLNC_text_green',  { 'ctermfg': s:colors.green.term,  'ctermbg': s:colors.black.term })
+  call g:Colorize('SLNC_text_grey', {
+        \ 'ctermfg': s:sl_colors.grey.term,
+        \ 'ctermbg': s:sl_colors.black.term,
+        \ 'guifg': s:sl_colors.grey.gui,
+        \ 'guibg': s:sl_colors.black.gui
+        \ })
+  call g:Colorize('SLNC_text_yellow', {
+        \ 'ctermfg': s:sl_colors.yellow.term,
+        \ 'ctermbg': s:sl_colors.black.term,
+        \ 'guifg': s:sl_colors.yellow.gui,
+        \ 'guibg': s:sl_colors.black.gui
+        \ })
+  call g:Colorize('SLNC_text_red', {
+        \ 'ctermfg': s:sl_colors.red.term,
+        \ 'ctermbg': s:sl_colors.black.term,
+        \ 'guifg': s:sl_colors.red.gui,
+        \ 'guibg': s:sl_colors.black.gui
+        \ })
+  call g:Colorize('SLNC_text_green', {
+        \ 'ctermfg': s:sl_colors.green.term,
+        \ 'ctermbg': s:sl_colors.black.term,
+        \ 'guifg': s:sl_colors.green.gui,
+        \ 'guibg': s:sl_colors.black.gui
+        \ })
 
-  call g:Colorize('SL_mode', s:colors.modes.normal) " mode color
+  call g:Colorize('SL_mode', s:sl_colors.modes.normal) " mode color
 endfunction " s:initColors
+
+if has("autocmd")
+  autocmd ColorScheme * call s:initColors()
+endif " has("autocmd")
 
 call s:initColors()
 
@@ -185,23 +285,21 @@ function! s:statuslineUnfocus()
   setlocal statusline+=\ %(%#SLNC_text_red#%{neomake#statusline#LoclistStatus()}%*%) " lint/compile warnings/errors
 endfunction " statuslineUnfocus
 
-"call s:statuslineFocus()
-
 if has("autocmd")
   augroup statusline
     autocmd!
 
     function! s:InsertStatuslineColor(mode)
       if a:mode == 'i'
-        call g:Colorize('SL_mode', s:colors.modes.insert) " mode color (applied on filename)
+        call g:Colorize('SL_mode', s:sl_colors.modes.insert) " mode color (applied on filename)
       else
-        call g:Colorize('SL_mode', s:colors.modes.replace) " mode color (applied on filename)
+        call g:Colorize('SL_mode', s:sl_colors.modes.replace) " mode color (applied on filename)
       endif
     endfunction
 
     autocmd InsertEnter  * call s:InsertStatuslineColor(v:insertmode)
     autocmd InsertChange * call s:InsertStatuslineColor(v:insertmode)
-    autocmd InsertLeave  * call g:Colorize('SL_mode', s:colors.modes.normal)
+    autocmd InsertLeave  * call g:Colorize('SL_mode', s:sl_colors.modes.normal)
 
     autocmd BufRead,BufNewFile,WinEnter * call s:statuslineFocus()
     autocmd WinLeave * call s:statuslineUnfocus()
