@@ -5,6 +5,9 @@ vim/sessions
 vim/spell
 config/nvim/plugged
 
+# Custom configurations
+zsh/custom.zsh
+
 ### Vim ###
 [._]*.s[a-w][a-z]
 [._]s[a-w][a-z]
