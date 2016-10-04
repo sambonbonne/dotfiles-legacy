@@ -1,14 +1,14 @@
 # Global variables
 if [ -f /etc/zsh/zprofile ]; then
-    source /etc/zsh/zprofile
+  source /etc/zsh/zprofile
 fi
 if [ -f ~/.profile ]; then
-    source ~/.profile
+  source ~/.profile
 fi
 
 if [[ $TERM == xterm-termite && -f /etc/profile.d/vte.sh ]]; then
-    . /etc/profile.d/vte.sh
-    __vte_osc7
+  . /etc/profile.d/vte.sh
+  __vte_osc7
 fi
 
 COMMAND_NOT_FOUND_FILE="/usr/share/doc/pkgfile/command-not-found.zsh"
@@ -62,12 +62,12 @@ eval $(dircolors ~/.dircolors)
 
 # eventually start tmux
 if [[ $- == *i* ]] && [ -z "${TMUX}" ] && command -v tmux >/dev/null 2>&1 ; then
-    tmux ls >/dev/null 2>&1
-    if [ $? -ne 0 ] ; then
-        tmux -2 new -s default
-    else
-        printf "\n$fg[blue]Some tmux sessions available$fg[white]\n"
-        tmx
-        echo ""
-    fi
+  tmux ls >/dev/null 2>&1
+  if [ $? -ne 0 ] ; then
+    tmux -2 new -s default
+  else
+    printf "\n$fg[blue]Some tmux sessions available$fg[white]\n"
+    tmx
+    echo ""
+  fi
 fi
