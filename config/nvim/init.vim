@@ -57,6 +57,7 @@ let g:EditorConfig_exclude_patterns = [ 'fugitive://.*', 'scp://.*' ]
 call dein#add('duggiefresh/vim-easydir', { 'on_event': [ 'BufWritePre', 'FileWritePre' ] })
 " And maybe we can save quickly
 nnoremap <Leader>w :w<CR>
+nnoremap <Leader><Leader> :w<CR>
 
 " Let's start nice and manage sessions
 call dein#add('mhinz/vim-startify')
