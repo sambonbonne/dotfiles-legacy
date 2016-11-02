@@ -180,6 +180,10 @@ call s:initColors()
 function! LiteFilePath(trailingSlash)
   let l:path = split(substitute(expand("%:h"), $HOME, "~", ""), "/")
 
+  if len(l:path) == 0
+    return ""
+  endif " len(l:path) == 0
+
   if a:trailingSlash
     let l:path[len(l:path) - 1] = l:path[len(l:path) - 1] . "/"
   endif " trailing
