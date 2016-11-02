@@ -28,7 +28,7 @@ function _prompt_context() {
 
     local _cgroup_file="/proc/1/cgroup"
     if [[ -f "${_cgroup_file}" ]]; then
-      local _nixos_container="$(cat ${_cgroup_file} | grep container | cut -d: -f3)"
+      local _nixos_container="$(cat ${_cgroup_file} | grep container | grep 'name=systemd' | cut -d: -f3)"
 
       if [[ "${_nixos_container}" =~ "container@" ]]; then
         local _nixos_container_name="$(echo "${_nixos_container}" | cut -d@ -f2 | cut -d. -f1)"
