@@ -1,5 +1,5 @@
 ZPLUG_HOME="${HOME}/.zsh/zplug"
-ZPLUG_MAIN="${ZPLUG_HOME}/zplug"
+ZPLUG_MAIN="${ZPLUG_HOME}/init.zsh"
 
 installPluginManager() {
 	mkdir -p "${ZPLUG_HOME}"
@@ -8,18 +8,29 @@ installPluginManager() {
 	zplug update --self
 }
 
-[[ -f "${ZPLUG_MAIN}" ]] && source "${ZPLUG_MAIN}" || installPluginManager
+if [[ -f "${ZPLUG_MAIN}" ]]; then
+  source "${ZPLUG_MAIN}"
+else
+  installPluginManager
+fi
 
-ZPLUG_CLONE_DEPTH=10
+zstyle :zplug:tag depth 10
+zstyle ":zplug:config:setopt" only_subshell extended_glob
 
 
 zplug "zplug/zplug"
 
+zplug "knu/z", use:z.sh, nice:10
 zplug "zsh-users/zsh-completions"
 
+export ZSH_AUTOSUGGEST_STRATEGY="match_prev_cmd"
+#export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=7'
 zplug "zsh-users/zsh-autosuggestions"
 bindkey '^[ ' autosuggest-accept
 
+# set some colors
+export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=2'
+export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='fg=1'
 zplug "zsh-users/zsh-history-substring-search", nice:12
 # in normal mode, up/down keys
 bindkey "^[[A" history-substring-search-up
@@ -28,7 +39,7 @@ bindkey "^[[B" history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 zplug "zsh-users/zsh-syntax-highlighting", nice:11
 
 zplug "hlissner/zsh-autopair", nice:10
@@ -49,8 +60,6 @@ zstyle ':notify:*' success-title "(⌐■_■)"
 zstyle ':notify:*' command-complete-timeout 20
 
 zplug "Tarrasch/zsh-bd"
-
-zplug "akoenig/gulp.plugin.zsh", if:"which gulp"
 
 zplug "Seinh/git-prune", if:"which git"
 
