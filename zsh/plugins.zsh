@@ -20,7 +20,7 @@ zstyle ":zplug:config:setopt" only_subshell extended_glob
 
 zplug "zplug/zplug"
 
-zplug "knu/z", use:z.sh, nice:10
+zplug "knu/z", use:z.sh
 zplug "zsh-users/zsh-completions"
 
 export ZSH_AUTOSUGGEST_STRATEGY="match_prev_cmd"
@@ -31,7 +31,7 @@ bindkey '^[ ' autosuggest-accept
 # set some colors
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=2'
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='fg=1'
-zplug "zsh-users/zsh-history-substring-search", nice:12
+zplug "zsh-users/zsh-history-substring-search", defer:3
 # in normal mode, up/down keys
 bindkey "^[[A" history-substring-search-up
 bindkey "^[[B" history-substring-search-down
@@ -40,9 +40,9 @@ bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
 export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
-zplug "zsh-users/zsh-syntax-highlighting", nice:11
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
 
-zplug "hlissner/zsh-autopair", nice:10
+zplug "hlissner/zsh-autopair", defer:2
 
 zplug "chrissicool/zsh-256color"
 
