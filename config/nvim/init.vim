@@ -326,6 +326,7 @@ source $NVIMHOME/completion.vim
 call dein#add('chrisbra/csv.vim', { 'on_ft': 'csv' })
 call dein#add('timonv/vim-cargo', { 'on_ft': 'rust' })
 call dein#add('lervag/vimtex', { 'on_ft': [ 'tex', 'latex', 'plaintex' ] })
+call dein#add('alcesleo/vim-uppercase-sql', { 'on_ft': 'sql' })
 
 " Some Unix commands directly inside the editor
 call dein#add('tpope/vim-eunuch')
