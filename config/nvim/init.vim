@@ -391,6 +391,9 @@ set hidden
 
 " Some colors configuration
 set t_Co=256
+if has("nvim")
+  set termguicolors
+endif " has("nvim")
 set background=dark
 if &diff
   colorscheme wellsokai
@@ -436,9 +439,9 @@ command! CursorColumn set cursorcolumn!
 " Also switch on highlighting the last used search pattern.
 set hlsearch
 " And change cursor type when inserting
-if !has("nvim")
+if has("nvim")
   let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-endif " !has("nvim")
+endif " has("nvim")
 
 if has("gui_running")
   set guifont=Fira\ Mono\ 10
