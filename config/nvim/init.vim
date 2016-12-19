@@ -133,17 +133,35 @@ set scrolloff=8 sidescrolloff=4
 
 " All tags
 call dein#add('xolox/vim-misc')
-call dein#add('xolox/vim-easytags', { 'depends': 'vim-misc' })
-let g:easytags_async = 1
-let g:easytags_auto_highlight = 0
-let g:easytags_on_cursorhold = 0
-"set cpoptions+=d
-"let g:easytags_dynamic_files = 2
-let g:easytags_languages = {
-      \   'php' : {
-      \     'args': [ '--fields=+aimlS', '--languages=php' ],
-      \   }
-      \ }
+if has("nvim")
+  call dein#add('fntlnz/atags.vim')
+  let g:atags_build_commands_list = [
+        \ 'ctags -R -f tags.tmp',
+        \ "awk 'length($0) < 400' tags.tmp > tags",
+        \ 'rm tags.tmp'
+        \ ]
+
+  function! s:BuildTags()
+    if filereadable(getcwd() . '/.gitignore')
+      call atags#generate()
+    endif " filereadable(getcwd() . '/.gitignore')
+  endfunction " s:BuildTags
+
+  autocmd VimEnter * call atags#setup()
+  autocmd BufWritePost * call s:BuildTags() " Neovim always as autocmd
+else
+  call dein#add('xolox/vim-easytags', { 'depends': 'vim-misc' })
+  let g:easytags_async = 1
+  let g:easytags_auto_highlight = 0
+  let g:easytags_on_cursorhold = 0
+  "set cpoptions+=d
+  "let g:easytags_dynamic_files = 2
+  let g:easytags_languages = {
+        \   'php' : {
+        \     'args': [ '--fields=+aimlS', '--languages=php' ],
+        \   }
+        \ }
+endif " has("nvim")
 call dein#add('majutsushi/tagbar', { 'on_cmd': 'TagbarToggle' })
 nnoremap <Leader>t :TagbarToggle<CR>
 
