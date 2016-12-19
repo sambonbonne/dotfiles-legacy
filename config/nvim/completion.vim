@@ -111,7 +111,12 @@ call dein#add('Shougo/neco-vim', { 'on_source': [ 'deoplete.nvim', 'neocomplete.
 
 " JavaScript
 call dein#add('ternjs/tern_for_vim', { 'on_ft': 'javascript', 'build': 'npm install' })
-call dein#add('carlitux/deoplete-ternjs', { 'if': s:completion_choice.deoplete, 'depends': 'deoplete.nvim', 'on_ft': 'javascript', 'build': 'npm install -g tern'})
+call dein#add('carlitux/deoplete-ternjs', {
+      \ 'if': s:completion_choice.deoplete,
+      \ 'depends': 'deoplete.nvim',
+      \ 'on_ft': [ 'javascript', 'typescript', ] ,
+      \ 'build': 'npm install -g tern'
+      \ })
 let g:tern#command = [ "tern" ]
 let g:tern#arguments = [ "--persistent" ]
 
