@@ -361,14 +361,11 @@ let g:limelight_paragraph_span = 3
 " Maybe you want to learn something new
 call dein#add('mhinz/vim-randomtag', { 'on_cmd': 'Random' })
 
-" code with your friends
-call dein#add('floobits/floobits-neovim', { 'on_if': has("nvim") })
-
 call dein#end()
 " End plugins config
 
 if dein#check_install()
-  call dein#install()
+  call dein#install() | call dein#recache_runtimepath()
 endif
 
 filetype plugin indent on
