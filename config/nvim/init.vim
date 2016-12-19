@@ -181,6 +181,14 @@ command! Search :Unite grep
 " Jumps list
 nnoremap <Leader>j :Unite -quick-match jump
 
+" Fuzzy finder
+let s:fuzzy_dependencies = 'execute(":!command -v fzy >/dev/null 2>&1 && command -v ag >/dev/null 2>&1")'
+let s:fuzzy_dependencies = 1
+call dein#add('cloudhead/neovim-fuzzy', {
+      \ 'if': s:fuzzy_dependencies
+      \ })
+nnoremap <Leader><Return> :FuzzyOpen<CR>
+
 " Same as Unite but for Neovim, in development
 call dein#add('Shougo/denite.nvim', { 'on_if': has("nvim") })
 
