@@ -13,7 +13,7 @@ let mapleader = "\<Space>" " better than backslash
 let s:plugin_manager_directory = $NVIMHOME . '/plugins'
 exec "set runtimepath+=" . s:plugin_manager_directory . "/repos/github.com/Shougo/dein.vim"
 
-" vim-plug config
+" plugin manager config
 call dein#begin(expand(s:plugin_manager_directory))
 
 call dein#add('Shougo/dein.vim')
