@@ -1,5 +1,6 @@
 ZPLUG_HOME="${HOME}/.zsh/zplug"
 ZPLUG_MAIN="${ZPLUG_HOME}/init.zsh"
+ZPLUG_CACHE_DIR="${ZPLUG_HOME}/cache"
 
 installPluginManager() {
 	mkdir -p "${ZPLUG_HOME}"
