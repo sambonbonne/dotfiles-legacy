@@ -461,6 +461,7 @@ set virtualedit=onemore
 " disable automatic line breaking while inserting
 set textwidth=0 wrapmargin=0
 set linebreak
+set colorcolumn=80,100
 
 " more natural split opening
 set splitbelow splitright
