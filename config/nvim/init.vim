@@ -124,6 +124,7 @@ set showtabline=2
 
 " Clipboard and pasting
 call dein#add('ConradIrwin/vim-bracketed-paste')
+call dein#add('roxma/vim-tmux-clipboard')
 
 " number switch to relative or not
 call dein#add('jeffkreeftmeijer/vim-numbertoggle')
