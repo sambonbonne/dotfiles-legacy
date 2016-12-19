@@ -13,6 +13,7 @@ Session.vim
 
 # auto-generated tag files
 tags
+tags.tmp
 
 
 ## Completion
