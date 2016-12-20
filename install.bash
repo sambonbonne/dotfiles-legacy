@@ -70,6 +70,7 @@ linkConfig "config/nvim/autoload" ".vim/autoload"
 linkConfig "config/nvim/ftplugin" ".vim/after/ftplugin"
 command -v vim >/dev/null 2>&1 && echo "Vim is configured, you should run plugins installation" || echo "Vim is configured but not installed, you'll have some problems"
 
+# Git
 echo "Git"
 linkConfig "gitconfig"
 linkConfig "gitignore_global"
@@ -83,5 +84,9 @@ sh ./dein-installer.sh "${HOME}/.config/nvim/plugins"
 echo "NPM"
 linkConfig "npmrc"
 echo "NPM is configured"
+
+# Nix of course
+mkdir ~/.nixpkgs
+linkConfig "nixpkgs/config.nix"
 
 echo "My work here is done, have a nice day!"
