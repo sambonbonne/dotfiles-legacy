@@ -62,7 +62,7 @@ load_zsh_config "abbreviations"
 eval $(dircolors ~/.dircolors)
 
 # sometime I work on a mac ...
-[[ "$(uname -s)" == "Darwin" ]] && load_zsh_config "/darwin"
+is_on_darwin && load_zsh_config "darwin"
 
 # eventually start tmux
 if [[ $- == *i* ]] && [ -z "${TMUX}" ] && command -v tmux >/dev/null 2>&1 ; then
