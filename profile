@@ -6,33 +6,9 @@
 # disable XON/XOFF
 stty -ixon
 
-## Utils
-
-str_contains() {
-    local string="${1}"
-	local substring="${2}"
-	if test "${string#*$substring}" != "${string}"; then
-		return 0
-	else
-		return 1
-	fi
-}
-
-## Path
-
-# Append if exists and not already in path
-path_append() {
-	[ -d "${1}" ] && (! str_contains "${PATH}" "${1}") && PATH="${1}:${PATH}"
-}
-
-# Some custom bin (mine, PIP, NPM, Composer ...)
-path_append "${HOME}/bin"
-path_append "${HOME}/.local/bin"
-path_append "${HOME}/.npm/bin"
-path_append "${HOME}/.composer/vendor/bin"
-
-## Other specific configurations
 SH_CONFIG_PATH="${HOME}/.config/profile"
+
+source "${SH_CONFIG_PATH}/path.sh"
 source "${SH_CONFIG_PATH}/ssh_agent.sh"
 
 # Eventually source Nix own env
