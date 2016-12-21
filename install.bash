@@ -79,7 +79,7 @@ echo "Git is configured"
 
 # (Neo)Vim plugins
 curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > dein-installer.sh
-sh ./dein-installer.sh "${HOME}/.config/nvim/plugins"
+sh ./dein-installer.sh "${HOME}/.config/nvim/plugins" && rm ./dein-installer.sh
 
 # NPM, haters gonna hate
 echo "NPM"
