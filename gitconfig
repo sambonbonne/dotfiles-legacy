@@ -55,5 +55,11 @@
     excludesfile = ~/.gitignore_global
     pager = less -x4
 
+[pull]
+    rebase = true
+
 [push]
     default = simple
+
+[rebase]
+    autoStash = true
