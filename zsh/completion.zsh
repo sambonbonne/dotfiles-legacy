@@ -6,7 +6,7 @@ zstyle ':completion:*' menu select=2
 zstyle ':completion:*' squeeze-slashes true
 
 # root path for sudo
-#zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
+is_on_nixos || zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
 
 # don't complete the same thing twice
 #zstyle ':completion:*:*:(ls|rm|mv|cp|vi|vim|nvim|view|nview|vimdiff|nvimdiff):*' ignore-line true
