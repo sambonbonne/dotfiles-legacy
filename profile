@@ -7,11 +7,14 @@
 stty -ixon
 
 SH_CONFIG_PATH="${HOME}/.config/profile"
+load_sh_config() {
+  source "${SH_CONFIG_PATH}/${1}.sh"
+}
 
-source "${SH_CONFIG_PATH}/path.sh"
-source "${SH_CONFIG_PATH}/ssh_agent.sh"
-source "${SH_CONFIG_PATH}/lc.sh"
-source "${SH_CONFIG_PATH}/tools.sh"
+load_sh_config "path"
+load_sh_config "ssh_agent"
+load_sh_config "lc"
+load_sh_config "tools"
 
 # Eventually source Nix own env
 local nix_env_path="${HOME}/.nix-profile/etc/profile.d/nix.sh"
