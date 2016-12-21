@@ -22,7 +22,3 @@ unset nix_env_path
 if [[ $TERM == xterm || $TERM == vt220 ]]; then
     export TERM="xterm-256color"
 fi
-
-# Eventually, Java and/or Android
-[ -d "/usr/lib/jvm/default" ] && export JAVA_HOME="/usr/lib/jvm/default"
-[ -d "/opt/android-sdk" ] && export ANDROID_HOME="/opt/android-sdk"
