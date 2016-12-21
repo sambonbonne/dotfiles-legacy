@@ -23,10 +23,13 @@ zstyle :compinstall filename '/home/samuel/.zshrc'
 
 ### My own configuration
 ZSH_CONFIG_PATH="${HOME}/.zsh"
-source "${ZSH_CONFIG_PATH}/detect_os.zsh"
+function load_zsh_config() {
+  source "${ZSH_CONFIG_PATH}/${1}.zsh"
+}
+load_zsh_config "detect_os"
 
 ## Completion is a basic
-source "${ZSH_CONFIG_PATH}/completion.zsh"
+load_zsh_config "completion"
 
 ## autocorrect is really good
 setopt correct
@@ -42,24 +45,24 @@ setopt inc_append_history
 setopt share_history
 
 # plugins, something we love
-source "${ZSH_CONFIG_PATH}/plugins.zsh"
+load_zsh_config "plugins"
 
 # Load prompt
-source "${ZSH_CONFIG_PATH}/prompt.zsh"
+load_zsh_config "prompt"
 
 ## Some alias, can belways usefull
-source "${ZSH_CONFIG_PATH}/alias.zsh"
+load_zsh_config "alias"
 
 ## And some mapping
-source "${ZSH_CONFIG_PATH}/map.zsh"
+load_zsh_config "map"
 
 ## Don't forget abbreviations
-source "${ZSH_CONFIG_PATH}/abbreviations.zsh"
+load_zsh_config "abbreviations"
 
 eval $(dircolors ~/.dircolors)
 
 # sometime I work on a mac ...
-[[ "$(uname -s)" == "Darwin" ]] && source "${ZSH_CONFIG_PATH}/darwin"
+[[ "$(uname -s)" == "Darwin" ]] && load_zsh_config "/darwin"
 
 # eventually start tmux
 if [[ $- == *i* ]] && [ -z "${TMUX}" ] && command -v tmux >/dev/null 2>&1 ; then
