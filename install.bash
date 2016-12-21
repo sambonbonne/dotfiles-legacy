@@ -33,10 +33,11 @@ mkdir -p ~/.config/
 linkConfig "config/user-dirs.dirs"
 echo "XDG directories are configured"
 
-# Put ZSH config
+# Put SH/ZSH config
 echo "ZSH"
 linkConfig "dircolors"
 linkConfig "profile"
+linkConfig "config/profile"
 linkConfig "zshrc"
 linkConfig "zsh"
 command -v zsh >/dev/null 2>&1 && { chsh -s /bin/zsh; echo "ZSH is configured"; } || echo "ZSH is configured but not installed, that's problematic ..."
