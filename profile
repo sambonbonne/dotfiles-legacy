@@ -35,16 +35,6 @@ path_append "${HOME}/.composer/vendor/bin"
 SH_CONFIG_PATH="${HOME}/.config/profile"
 source "${SH_CONFIG_PATH}/ssh_agent.sh"
 
-# Enventual unprivileged pkgsrc config
-local pkgsrc_env_path="${HOME}/pkg"
-if [ -d "${pkgsrc_env_path}" ]; then
-	path_append "${pkgsrc_env_path}/bin"
-	path_append "${pkgsrc_env_path}/sbin"
-	export CVSEDITOR="${EDITOR}"
-	export CVS_RSH="ssh"
-fi
-unset pkgsrc_env_path
-
 # Eventually source Nix own env
 local nix_env_path="${HOME}/.nix-profile/etc/profile.d/nix.sh"
 [ -e "${nix_env_path}" ] && . "${nix_env_path}"
