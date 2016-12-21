@@ -26,7 +26,6 @@ ZSH_CONFIG_PATH="${HOME}/.zsh"
 function load_zsh_config() {
   source "${ZSH_CONFIG_PATH}/${1}.zsh"
 }
-load_zsh_config "detect_os"
 
 ## Completion is a basic
 load_zsh_config "completion"

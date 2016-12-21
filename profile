@@ -11,6 +11,7 @@ load_sh_config() {
   source "${SH_CONFIG_PATH}/${1}.sh"
 }
 
+load_sh_config "detect_os"
 load_sh_config "path"
 load_sh_config "ssh_agent"
 load_sh_config "lc"
