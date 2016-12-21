@@ -23,6 +23,7 @@ zstyle :compinstall filename '/home/samuel/.zshrc'
 
 ### My own configuration
 ZSH_CONFIG_PATH="${HOME}/.zsh"
+source "${ZSH_CONFIG_PATH}/detect_os.zsh"
 
 ## Completion is a basic
 source "${ZSH_CONFIG_PATH}/completion.zsh"
