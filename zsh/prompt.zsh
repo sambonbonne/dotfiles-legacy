@@ -161,15 +161,12 @@ function TRAPUSR1() {
         RPROMPT="${BASE_RPROMPT}$(cat ${_async_rprompt_tmp_file})"
     fi
 
+    rm "${_async_rprompt_tmp_file}"
     ASYNC_RPROMPT_PROC=0
     refresh_prompts
 }
 
-# be clean when we exit the shell
-trap 'rm "${_async_rprompt_tmp_file}"' EXIT
-
-
-## Event which imply prompt refresh
+## Events which imply prompt refresh
 
 # at alarm, every $TMOUT
 function TRAPALRM() {
