@@ -12,9 +12,16 @@ alias nvimdiff='nvim -d'
 alias nview='nvim -R'
 alias nvimlog='nvim -w ~/.nvimlog'
 
-# Paging
-alias nless='nvim -R -c "nnoremap q :q!<Enter>" -c "set noswapfile" -'
-alias vless='vim -R -c "nnoremap q :q!<Enter>" -c "set noswapfile" -'
+function quickedit() {
+  local result="$(search "${1}" | monochrome | cut -d: -f1,2 | head -n 1)"
+
+  [[ -z "${result}" ]] && echo "No match found for « ${1} »" && return 1
+
+  local file="$(echo $result | cut -d: -f1)"
+  local line="$(echo $result | cut -d: -f2)"
+
+  ${EDITOR} "${file}" "+${line}"
+}
 
 # Specific aliases
 alias vim_clean_swp='find ./ -type f -name "\.*sw[klmnop]" -delete'
