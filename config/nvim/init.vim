@@ -277,7 +277,7 @@ call dein#add('wellle/targets.vim')
 call dein#add('terryma/vim-expand-region')
 
 " Syntax checking
-call dein#add('benekastah/neomake')
+call dein#add('neomake/neomake')
 let g:neomake_error_sign = {
             \ 'text': '!',
             \ 'texthl': 'ErrorSign',
