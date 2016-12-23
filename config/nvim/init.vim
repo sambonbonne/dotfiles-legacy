@@ -502,7 +502,7 @@ nnoremap <Leader>< :lprev<CR>
 nnoremap <Leader>? :lrewind<CR>
 
 " <C-C> doesn't trigger InsertLeave ...
-inoremap <C-C> <Esc>
+inoremap <C-C> <Esc>:w<CR>
 
 " Neovim terminal is good but going out of it is a pain in the ass
 if has("nvim")
