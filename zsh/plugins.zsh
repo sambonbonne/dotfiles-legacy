@@ -21,7 +21,6 @@ zstyle ":zplug:config:setopt" only_subshell extended_glob
 
 zplug "zplug/zplug"
 
-zplug "knu/z", use:z.sh
 zplug "zsh-users/zsh-completions"
 
 export ZSH_AUTOSUGGEST_STRATEGY="match_prev_cmd"
@@ -50,7 +49,6 @@ zplug "chrissicool/zsh-256color"
 zplug "sharat87/zsh-vim-mode"
 
 zplug "hchbaw/zce.zsh"
-#bindkey "^E" zce
 bindkey "^F" zce
 
 zplug "jreese/zsh-titles", if:"which tmux"
