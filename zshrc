@@ -63,17 +63,8 @@ eval $(dircolors ~/.dircolors)
 # sometime I work on a mac ...
 is_on_darwin && load_zsh_config "darwin"
 
-# eventually start tmux
-if [[ $- == *i* ]] && [ -z "${TMUX}" ] && command -v tmux >/dev/null 2>&1 ; then
-  tmux ls >/dev/null 2>&1
-  if [ $? -ne 0 ] ; then
-    tmux -2 new -s default
-  else
-    printf "\n$fg[blue]Some tmux sessions available$fg[white]\n"
-    tmx
-    echo ""
-  fi
-fi
+# And tmux config of course
+load_zsh_config "tmux"
 
 # If we have custom configuration
 _custom_configuration_file="${ZSH_CONFIG_PATH}/custom.zsh"
