@@ -44,9 +44,7 @@ command -v zsh >/dev/null 2>&1 && { chsh -s /bin/zsh; echo "ZSH is configured"; 
 
 # And NeoVim, hope you have it here
 echo "Neovim"
-mkdir -p ~/.config/nvim
-mkdir -p ~/.config/nvim/after
-mkdir -p ~/.config/nvim/plugins
+mkdir -p ~/.config/nvim/after ~/.config/nvim/plugins
 linkConfig "config/nvim/init.vim"
 linkConfig "config/nvim/statusline.vim"
 linkConfig "config/nvim/highlight.vim"
@@ -63,9 +61,7 @@ command -v tmux >/dev/null 2>&1 && echo "Tmux is configured, what a good news" |
 
 # And Vim config
 echo "Vim"
-mkdir -p ~/.vim
-mkdir -p ~/.vim/after
-mkdir -p ~/.vim/plugins
+mkdir -p ~/.vim/after /.vim/plugins
 linkConfig "vimrc"
 linkConfig "config/nvim/autoload" ".vim/autoload"
 linkConfig "config/nvim/ftplugin" ".vim/after/ftplugin"
