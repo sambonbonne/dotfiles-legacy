@@ -2,8 +2,11 @@
 alias l='ls -FhlX --color=always --hide="*~"'
 alias ll='ls -AFhlX --color=always --hide="*~"'
 alias search='grep -rnF --exclude "*~" --color=always'
+alias c='clear && l'
 alias zsh_history='mv ~/.zsh_history ~/.zsh_history_bad && strings ~/.zsh_history_bad > ~/.zsh_history && fc -R ~/.zsh_history && rm ~/.zsh_history_bad'
 alias ports='netstat -pln'
+alias monochrome='sed "s,\x1B\[[0-9;]*[a-zA-Z],,g"'
+alias clean_tmp_files='find . -type f -name "*~" -exec rm -f {} \;'
 command -v thefuck >/dev/null 2>&1 && eval "$(thefuck --alias)"
 
 # Editing
