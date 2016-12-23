@@ -55,7 +55,7 @@ bindkey "^F" zce
 
 zplug "jreese/zsh-titles", if:"which tmux"
 
-zplug "marzocchi/zsh-notify", if:"which notify-send"
+zplug "marzocchi/zsh-notify", if:"{ command -v notify-send && command -v xdotool && command -v wmctrl ; } >/dev/null 2>&1"
 zstyle ':notify:*' error-title "(╯°□°)╯︵┻━┻"
 zstyle ':notify:*' success-title "(⌐■_■)"
 zstyle ':notify:*' command-complete-timeout 20
