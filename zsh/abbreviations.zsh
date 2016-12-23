@@ -4,8 +4,8 @@ typeset -Ag abbreviations
 
 abbreviations=(
   #"${_pipe_char}l"  '| less -R'
-  'LS'  '| less -R'
-  'GP'  '| grep -n'
+  'LS'  '| less'
+  'GP'  '| grep'
   'AK'  '| awk'
   'WC'  '| wc'
 )
