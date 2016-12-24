@@ -46,7 +46,7 @@ apply_updates() {
   local _behind="$(git log --oneline "..@{u}" 2> /dev/null | wc -l | tr -d ' ')"
   if [ "${_behind}" -gt 0 ]; then
     say "You have ${_behind} update(s) to get, I stash to rebase them"
-    if (git stash > /dev/null 2>&1 && git rebase > /dev/null 2>&1 && git stash pop > /dev/null 2>&1); then
+    if (git stash > /dev/null 2>&1 && git rebase > /dev/null 2>&1; git stash pop > /dev/null 2>&1); then
       say green "That's OK, your ${_behind} updates are applied, now let's check if we need to push"
     else
       say red "Oops, it seems we can't fetch updates … I'll stop here :("
