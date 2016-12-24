@@ -124,6 +124,7 @@ function preexec() {
 
 ASYNC_RPROMPT_PROC=0
 _async_rprompt_tmp_file="/tmp/zsh_rprompt_$(date +%Y%m%d_%H%M%S)"
+_async_rprompt_tmp_file_rm_enable=0
 
 function build_rprompt() {
     if [ $_rprompt_timer ]; then
@@ -161,9 +162,14 @@ function TRAPUSR1() {
         RPROMPT="${BASE_RPROMPT}$(cat ${_async_rprompt_tmp_file})"
     fi
 
-    rm "${_async_rprompt_tmp_file}"
     ASYNC_RPROMPT_PROC=0
     refresh_prompts
+
+    # we delete the file now because we trap an exit at the shell start
+    if [[ ${_async_rprompt_tmp_file_rm_enable} -eq 0 ]]; then
+      trap "rm '${_async_rprompt_tmp_file}'" EXIT
+      _async_rprompt_tmp_file_rm_enable=1
+    fi
 }
 
 ## Events which imply prompt refresh
