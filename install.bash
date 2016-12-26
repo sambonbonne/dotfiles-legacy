@@ -56,7 +56,10 @@ command -v neovim >/dev/null 2>&1 && echo "Neovim is configured, you should run 
 
 # Tmux
 echo "Tmux"
+mkdir -p ~/.tmux/plugins
 linkconfig "tmux.conf"
+link_config "tmux"
+command -v git >/dev/null 2>&1 && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm || echo "Can't install Tmux plugins manager"
 command -v tmux >/dev/null 2>&1 && echo "Tmux is configured, what a good news" || echo "Tmux is configured but not installed, maybe you should install it now"
 
 # And Vim config
