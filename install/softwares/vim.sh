@@ -1,12 +1,14 @@
 #!/usr/bin/env sh
 
-mkdir -p ~/.vim/after /.vim/plugins
+ensure_directory .vim/after
+ensure_directory .vim/plugins
 link_config "vimrc"
 link_config "config/nvim/autoload" ".vim/autoload"
 link_config "config/nvim/ftplugin" ".vim/after/ftplugin"
 check_command "vim"
 
-mkdir -p ~/.config/nvim/after ~/.config/nvim/plugins
+ensure_directory .config/nvim/after
+ensure_directory .config/nvim/plugins
 link_config "config/nvim/init.vim"
 link_config "config/nvim/statusline.vim"
 link_config "config/nvim/highlight.vim"

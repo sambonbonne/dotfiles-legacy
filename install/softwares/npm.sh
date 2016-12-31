@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 
-linkConfig "npmrc"
+link_config "npmrc"
 
 check_command "npm"
