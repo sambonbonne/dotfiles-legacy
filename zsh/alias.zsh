@@ -16,7 +16,8 @@ alias nview='nvim -R'
 alias nvimlog='nvim -w ~/.nvimlog'
 
 function quickedit() {
-  local result="$(search "${1}" | monochrome | cut -d: -f1,2 | head -n 1)"
+  local place_to_search="${2:-./}"
+  local result="$(grep -m 1 --exclude "*~" --exclude-dir .git/ -rnF "${1}" ${place_to_search} | head -n 1 | cut -d: -f1,2)"
 
   [[ -z "${result}" ]] && echo "No match found for « ${1} »" && return 1
 
