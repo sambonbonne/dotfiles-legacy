@@ -62,5 +62,8 @@ zplug "Tarrasch/zsh-bd"
 zplug "Seinh/git-prune", if:"which git"
 
 
-zplug check --verbose || zplug install
+if ! zplug check; then
+  zplug install
+fi
+
 zplug load
