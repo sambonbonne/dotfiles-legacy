@@ -4,9 +4,8 @@ ZPLUG_CACHE_DIR="${ZPLUG_HOME}/cache"
 
 installPluginManager() {
 	mkdir -p "${ZPLUG_HOME}"
-	git clone https://github.com/b4b4r07/zplug "${ZPLUG_HOME}"
+	git clone https://github.com/zplug/zplug "${ZPLUG_HOME}"
 	source "${ZPLUG_MAIN}"
-	zplug update --self
 }
 
 if [[ -f "${ZPLUG_MAIN}" ]]; then
