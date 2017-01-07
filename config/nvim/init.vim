@@ -17,6 +17,8 @@ exec "set runtimepath+=" . s:plugin_manager_directory . "/repos/github.com/Shoug
 call dein#begin(expand(s:plugin_manager_directory))
 
 call dein#add('Shougo/dein.vim')
+let g:dein#enable_notification = 1
+let g:dein#notification_time = 3
 call dein#add('haya14busa/dein-command.vim', { 'on_cmd': 'Dein', 'depends': 'dein.vim' })
 
 call dein#add('Shougo/vimproc.vim', { 'build': 'make' })
