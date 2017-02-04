@@ -52,7 +52,7 @@ nnoremap g= :call IndentFile()<Return>
 call dein#add('embear/vim-localvimrc')
 let g:localvimrc_ask=0
 " For multiusers projects
-call dein#add('editorconfig/editorconfig-vim')
+call dein#add('editorconfig/editorconfig-vim', { 'if': filereadable('.editorconfig') })
 let g:EditorConfig_exclude_patterns = [ 'fugitive://.*', 'scp://.*' ]
 
 " Please, don't cry to me if save dir doesn't exists
@@ -134,7 +134,6 @@ set number
 set scrolloff=8 sidescrolloff=4
 
 " All tags
-call dein#add('xolox/vim-misc')
 if has("nvim")
   call dein#add('fntlnz/atags.vim')
   let g:atags_build_commands_list = [
@@ -152,6 +151,7 @@ if has("nvim")
   autocmd VimEnter * call atags#setup()
   autocmd BufWritePost * call s:BuildTags() " Neovim always as autocmd
 else
+  call dein#add('xolox/vim-misc')
   call dein#add('xolox/vim-easytags', { 'depends': 'vim-misc' })
   let g:easytags_async = 1
   let g:easytags_auto_highlight = 0
@@ -167,32 +167,46 @@ endif " has("nvim")
 call dein#add('majutsushi/tagbar', { 'on_cmd': 'TagbarToggle' })
 nnoremap <Leader>t :TagbarToggle<CR>
 
-" Lot of things with Unite
-call dein#add('Shougo/unite.vim')
-call dein#add('Shougo/neoyank.vim', { 'depends': 'unite.vim' })
-" buffers list
-nnoremap <Leader>b :Unite -quick-match buffer<cr>
-command! Buffers :Unite buffer
-" registers and yank history
-let g:unite_source_history_yank_enable = 1
-nnoremap <Leader>y :Unite -quick-match history/yank<cr>
-nnoremap <Leader>r :Unite register<cr>
-" File/content search
-nnoremap <Leader>f :Unite file_rec/async<cr>
-command! Search :Unite grep
-" Jumps list
-nnoremap <Leader>j :Unite -quick-match jump
+" Lot of things with Unite/Denite (depending on Vim/Neovim)
+call dein#add('Shougo/unite.vim', { 'if': !has('nvim') })
+call dein#add('Shougo/denite.nvim', { 'if': has('nvim') })
+call dein#add('Shougo/neoyank.vim')
+if !has('nvim')
+  " buffers list
+  nnoremap <Leader>b :Unite -quick-match buffer<CR>
+  command! Buffers :Unite buffer
+  " registers and yank history
+  let g:unite_source_history_yank_enable = 1
+  nnoremap <Leader>y :Unite -quick-match history/yank<CR>
+  nnoremap <Leader>r :Unite register<CR>
+  " File/content search
+  nnoremap <Leader>f :Unite file_rec/async<CR>
+  command! Search :Unite grep
+  " Jumps list
+  nnoremap <Leader>j :Unite -quick-match jump
+else
+  " buffers list
+  nnoremap <Leader>b :Denite buffer<CR>
+  command! Buffers :Denite buffer
+  " registers and yank history
+  let g:unite_source_history_yank_enable = 1
+  nnoremap <Leader>y :Denite neoyank<CR>
+  nnoremap <Leader>r :Denite register<CR>
+  nnoremap <Leader>c :Denite change<CR>
+  " File/content search
+  nnoremap <Leader>f :Denite file_rec<CR>
+  command! Search :Denite grep<CR>
+  " Jumps list
+  nnoremap <Leader>j :Denite jump<CR>
+endif
 
 " Fuzzy finder
 let s:fuzzy_dependencies = 'execute(":!command -v fzy >/dev/null 2>&1 && command -v ag >/dev/null 2>&1")'
 let s:fuzzy_dependencies = 1
 call dein#add('cloudhead/neovim-fuzzy', {
-      \ 'if': s:fuzzy_dependencies
+      \ 'if': has('nvim') && s:fuzzy_dependencies
       \ })
 nnoremap <Leader><Return> :FuzzyOpen<CR>
-
-" Same as Unite but for Neovim, in development
-call dein#add('Shougo/denite.nvim', { 'on_if': has("nvim") })
 
 " A better file manager
 call dein#add('Shougo/vimfiler.vim')
@@ -211,7 +225,7 @@ call dein#add('scrooloose/nerdcommenter')
 
 " First, auto-close brackets, quotes ... Second, auto-close tags, third change surrounds
 call dein#add('jiangmiao/auto-pairs')
-call dein#add('alvan/vim-closetag') " don't put 'for', it won't work at all
+call dein#add('alvan/vim-closetag', { 'on_ft': [ 'xml', 'html' ] })
 let g:closetag_filenames = "*.xml,*.html,*.tpl,*.hbs,*.blade.php"
 call dein#add('tpope/vim-surround') " cs like Change Surround, ds like Delete Surround
 
@@ -241,7 +255,6 @@ if has("persistent_undo")
 endif
 
 " Better splits management
-call dein#add('AndrewRadev/undoquit.vim')
 call dein#add('zhaocai/GoldenView.Vim')
 let g:goldenview__enable_default_mapping = 0
 nnoremap <C-H> <C-W>h
@@ -254,7 +267,7 @@ nnoremap <C-K> <C-W>k
 vnoremap <C-K> <C-W>k
 nnoremap <C-L> <C-W>l
 vnoremap <C-L> <C-W>l
-if has("nvim")
+if has("nvim") " issue https://github.com/neovim/neovim/issues/2048 (fixed in 0.2)
   tnoremap <C-H> <C-\><C-N><C-W>h
   tnoremap <C-J> <C-\><C-N><C-W>j
   tnoremap <C-K> <C-\><C-N><C-W>k
@@ -262,7 +275,11 @@ if has("nvim")
 endif " has("nvim")
 
 " Faster editing
+set foldmethod=indent
+set foldcolumn=3 foldnestmax=8 foldminlines=8 foldlevelstart=2
+set foldopen+=jump
 call dein#add('Konfekt/FastFold')
+nmap <SID>(DisableFastFoldUpdate) <Plug>(FastFoldUpdate)
 
 " Advanced moves
 call dein#add('Lokaltog/vim-easymotion', { 'on_map': '<Plug>(easymotion-prefix)' })
@@ -272,7 +289,7 @@ nmap <Return> <Plug>(easymotion-prefix)
 vmap <Return> <Plug>(easymotion-prefix)
 nmap <Leader>m <Plug>(easymotion-prefix)
 vmap <Leader>m <Plug>(easymotion-prefix)
-call dein#add('bkad/CamelCaseMotion')
+"call dein#add('bkad/CamelCaseMotion')
 call dein#add('wellle/targets.vim')
 
 " Better selection expanding
@@ -309,17 +326,9 @@ let g:lt_height = g:neomake_list_height
 call dein#add('tpope/vim-fugitive')
 call dein#add('airblade/vim-gitgutter')
 
-" We want to build
-call dein#add('KabbAmine/gulp-vim', { 'on_cmd': ['Gulp', 'GulpExt', 'GulpFile', 'GulpTasks'] })
-call dein#add('mklabs/grunt.vim',   { 'on_cmd': ['Grunt', 'Gtask', 'Gtest', 'Glint', 'Gdoc'] })
-
 " Syntax and language detection
 call dein#add('sheerun/vim-polyglot') " There is a grate quantity of languages in this
 call dein#add('othree/javascript-libraries-syntax.vim', { 'on_ft': 'javascript' })
-call dein#add('aaronj1335/underscore-templates.vim')
-call dein#add('hhvm/vim-hack', { 'on_ft': ['hh', 'hack', 'php'] })
-call dein#add('vim-scripts/bash-support.vim', { 'on_ft': ['shell', 'sh', 'bash'] })
-call dein#add('PotatoesMaster/i3-vim-syntax')
 
 " Completion
 source $NVIMHOME/completion.vim
@@ -334,19 +343,17 @@ call dein#add('alcesleo/vim-uppercase-sql', { 'on_ft': 'sql' })
 call dein#add('tpope/vim-eunuch')
 
 " Launch test in Vim
-call dein#add('janko-m/vim-test', { 'depends': 'vim-dispatch' })
-if has("nvim")
-  let test#strategy = "neovim"
-else
-  let test#strategy = "dispatch"
-endif " has("nvim")
+"call dein#add('janko-m/vim-test', { 'depends': 'vim-dispatch' })
+"if has("nvim")
+"  let test#strategy = "neovim"
+"else
+"  let test#strategy = "dispatch"
+"endif " has("nvim")
 
 " Mispelling is so common ...
-call dein#add('reedes/vim-litecorrect') ", { 'on_func': 'litecorrect#init()' }
-
+call dein#add('reedes/vim-litecorrect', { 'on_func': 'litecorrect#init()' })
 " Some colors
 call dein#add('NLKNguyen/papercolor-theme')
-call dein#add('jdkanani/vim-material-theme')
 call dein#add('joshdick/onedark.vim')
 call dein#add('wellsjo/wellsokai.vim')
 
@@ -362,6 +369,9 @@ let g:limelight_paragraph_span = 3
 
 " Maybe you want to learn something new
 call dein#add('mhinz/vim-randomtag', { 'on_cmd': 'Random' })
+
+" Type speed/timing
+"call dein#add('pace.vim')
 
 call dein#end()
 " End plugins config
@@ -392,15 +402,14 @@ set fileformat=unix
 set hidden
 
 " Some colors configuration
-set t_Co=256
 if has("nvim")
   set termguicolors
-endif " has("nvim")
+else
+  set t_Co=256
+endif
 set background=dark
 if &diff
   colorscheme wellsokai
-elseif has("gui_running")
-  colorscheme material-theme
 else
   colorscheme PaperColor
 endif
@@ -415,11 +424,6 @@ else
 endif
 set history=64 " keep some lines of command line history
 set showcmd   " display incomplete commands
-
-" fold method to indent, fold config
-set foldmethod=indent
-set foldcolumn=3 foldnestmax=4 foldminlines=8 foldlevelstart=2
-set foldopen+=jump
 
 " command completion
 set wildmenu wildmode=list:longest,full wildignore=*~,*.swp,*.o,*.pdf
