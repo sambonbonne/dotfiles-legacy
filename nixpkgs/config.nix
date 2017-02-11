@@ -37,6 +37,7 @@
       paths = [
         neovim
         "python3.5-neovim"
+        "python3.5-jedi"
         universal-ctags
         tmux
         fzy
