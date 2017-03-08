@@ -558,6 +558,9 @@ endif
 command! FilePath echo @%
 command! ConfReload source $MYVIMRC
 
+" Abbreviations
+source $NVIMHOME/abbreviations.vim
+
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
   set noshowmode
