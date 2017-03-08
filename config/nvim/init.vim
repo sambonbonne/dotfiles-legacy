@@ -445,6 +445,10 @@ set showcmd   " display incomplete commands
 " command completion
 set wildmenu wildmode=list:longest,full wildignore=*~,*.swp,*.o,*.pdf
 
+" conceal
+set conceallevel=2
+set concealcursor="nc"
+
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
   set mouse=nvc
