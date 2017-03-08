@@ -125,6 +125,7 @@ call dein#add('mkitt/tabline.vim')
 set showtabline=2
 
 " Clipboard and pasting
+set clipboard=unnamedplus
 call dein#add('ConradIrwin/vim-bracketed-paste')
 call dein#add('roxma/vim-tmux-clipboard')
 
