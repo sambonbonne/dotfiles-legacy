@@ -1,65 +1,72 @@
 [user]
-    name = Samuel DENIS
-    email = samuel@denis.tech
+  name = Samuel DENIS
+  email = samuel@denis.tech
 
 [color]
-    diff = auto
-    status = auto
-    branch = auto
-    interactive = auto
-    grep = true
-    ui = true
+  diff = auto
+  status = auto
+  branch = auto
+  interactive = auto
+  grep = true
+  ui = true
 
 [color "branch"]
-    current = green
-    local = cyan
-    remote = blue
+  current = green
+  local = cyan
+  remote = blue
 
 [color "diff"]
-    meta = white
-    frag = yellow
-    old = red
-    new = green
+  meta = white
+  frag = yellow
+  old = red
+  new = green
 
 [color "status"]
-    added = green
-    changed = yellow
-    untracked = cyan
+  added = green
+  changed = yellow
+  untracked = cyan
 
 [diff]
-    tool = vimdiff
+  tool = nvimdiff
+  compactionHeuristic = true
+
+[merge]
+  tool = nvimdiff
+
+[mergetool "nvimdiff"]
+  cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 
 [alias]
-    s = status -uno ./
-    st = status -u ./
-    sta = status -u
-    ck = checkout
-    ca = commit -a
-    cm = commit -m
-    cam = commit -am
-    amend = commit --amend
-    rbc = rebase --continue
-    cp = cherry-pick -n
-    lg = log --date-order --graph --pretty=format:'%C(yellow)%h%Creset%Cred%d%Creset - %C(green)%cr%Creset, %C(blue)%an%Creset <%C(cyan)%ae%Creset>\n%s\n' --abbrev-commit --
-    last = log -10 --date-order --graph --pretty=format:'%C(yellow)%h%Creset%Cred%d%Creset - %C(green)%cr%Creset, %C(blue)%an%Creset <%C(cyan)%ae%Creset>\n%s\n' --abbrev-commit --
-    pl = pull --rebase
-    get = "!git stash && git pull --rebase && git stash pop"
-    rank = shortlog -sn --no-merges # show list of contributors in descending order by number of commits
+  s = status -uno ./
+  st = status -u ./
+  sta = status -u
+  ck = checkout
+  ca = commit -a
+  cm = commit -m
+  cam = commit -am
+  amend = commit --amend
+  rbc = rebase --continue
+  cp = cherry-pick -n
+  lg = log --date-order --graph --pretty=format:'%C(yellow)%h%Creset%Cred%d%Creset - %C(green)%cr%Creset, %C(blue)%an%Creset <%C(cyan)%ae%Creset>\n%s\n' --abbrev-commit --
+  last = log -10 --date-order --graph --pretty=format:'%C(yellow)%h%Creset%Cred%d%Creset - %C(green)%cr%Creset, %C(blue)%an%Creset <%C(cyan)%ae%Creset>\n%s\n' --abbrev-commit --
+  pl = pull --rebase
+  get = "!git stash && git pull --rebase && git stash pop"
+  rank = shortlog -sn --no-merges # show list of contributors in descending order by number of commits
 
 [apply]
-    whitespace = strip
+  whitespace = strip
 
 [core]
-    autocrlf = false
-    preloadindex = true
-    excludesfile = ~/.gitignore_global
-    pager = less -x4
+  autocrlf = false
+  preloadindex = true
+  excludesfile = ~/.gitignore_global
+  pager = diff-so-fancy | less -x2
 
 [pull]
-    rebase = true
+  rebase = true
 
 [push]
-    default = simple
+  default = simple
 
 [rebase]
-    autoStash = true
+  autoStash = true
