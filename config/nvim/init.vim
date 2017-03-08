@@ -136,16 +136,32 @@ set scrolloff=8 sidescrolloff=4
 " All tags
 if has("nvim")
   call dein#add('fntlnz/atags.vim')
+
   let g:atags_build_commands_list = [
         \ 'ctags -R -f tags.tmp',
         \ "awk 'length($0) < 400' tags.tmp > tags",
         \ 'rm tags.tmp'
         \ ]
 
+  let g:atags_is_building = 0
+
+  function! TagsBuilded() " need a global function ...
+    let g:atags_is_building = 0
+  endfunction " s:TagBuilded
+
+  let g:atags_on_generate_exit = 'TagsBuilded'
+
   function! s:BuildTags()
-    if filereadable(getcwd() . '/.gitignore')
+    if g:atags_is_building
+      return 0
+    endif
+
+    if isdirectory(getcwd() . '/.git/')
+      let g:atags_is_building = 1
       call atags#generate()
-    endif " filereadable(getcwd() . '/.gitignore')
+    endif " isdirectory(getcwd() . '/.git/')
+
+    return 1
   endfunction " s:BuildTags
 
   autocmd VimEnter * call atags#setup()
