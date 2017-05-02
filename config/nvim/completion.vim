@@ -19,9 +19,12 @@ call dein#add('Shougo/deoplete.nvim', {
       \ 'hook_source': join([
       \   s:completion_mapping,
       \   'echo "Use Deoplete completion"',
+      \   'autocmd InsertLeave * call deoplete#refresh()',
       \ ], "\n"),
       \ })
 let g:deoplete#enable_at_startup = s:completion_choice.deoplete
+let g:deoplete#enable_refresh_always = 1
+let g:deoplete#auto_refresh_delay = 100
 let g:deoplete#max_list = 20
 let g:deoplete#max_menu_width = 80
 let g:deoplete#sources = {}
