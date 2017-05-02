@@ -61,6 +61,8 @@ zplug "Tarrasch/zsh-bd"
 
 zplug "Seinh/git-prune", if:"which git"
 
+zplug "johnhamelink/env-zsh"
+
 
 if ! zplug check; then
   zplug install
