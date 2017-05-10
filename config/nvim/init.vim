@@ -25,7 +25,6 @@ call dein#add('Shougo/vimproc.vim', { 'build': 'make' })
 call dein#add('tpope/vim-dispatch')
 
 " Indentation
-"call dein#add('vim-scripts/yaifa.vim') " detect indent
 set expandtab    " use space instead of tab
 set tabstop=2    " size of hard tab stop
 set shiftwidth=2 " size of an indent
@@ -83,13 +82,13 @@ let g:startify_custom_footer = [
       \ "You reached the end of this screen, what will you do?"
       \ ]
 let g:startify_list_order = [
-      \ [ '(>°^°)>         You are working on it' ],
+      \ [ '(>°^°)>        You are working on it' ],
       \ 'sessions',
-      \ [ '(♥_♥)           It seems you love this places' ],
+      \ [ '(♥_♥)          It seems you love this places' ],
       \ 'bookmarks',
-      \ [ '(⌐■_■)          You edited this here' ],
+      \ [ '(⌐■_■)         You edited this here' ],
       \ 'dir',
-      \ [ '(╯°□°)╯︵┻━┻    Did you ragequit this files?' ],
+      \ [ '(╯°□°)╯︵┻━┻   Did you ragequit this files?' ],
       \ 'files'
       \ ]
 set sessionoptions=blank,curdir,folds,help,options,localoptions,tabpages,winsize
@@ -126,7 +125,6 @@ set showtabline=2
 
 " Clipboard and pasting
 set clipboard=unnamedplus
-call dein#add('ConradIrwin/vim-bracketed-paste')
 call dein#add('roxma/vim-tmux-clipboard')
 
 " number switch to relative or not
