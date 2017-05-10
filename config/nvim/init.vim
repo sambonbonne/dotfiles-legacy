@@ -119,10 +119,6 @@ call dein#add('tpope/vim-repeat')
 call dein#add('Shougo/echodoc.vim')
 let g:echodoc_enabled_at_startup = 1
 
-" Perfect tabline
-call dein#add('mkitt/tabline.vim')
-set showtabline=2
-
 " Clipboard and pasting
 set clipboard=unnamedplus
 call dein#add('roxma/vim-tmux-clipboard')
@@ -691,3 +687,6 @@ endif
 
 " Statusline config
 source $NVIMHOME/statusline.vim
+" TabLine config
+source $HOME/dev/dotfiles/config/nvim/tabline.vim
+command! SourceNewTabline source $HOME/dev/dotfiles/config/nvim/tabline.vim

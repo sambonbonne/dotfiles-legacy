@@ -10,8 +10,9 @@ check_command "vim"
 ensure_directory .config/nvim/after
 ensure_directory .config/nvim/plugins
 link_config "config/nvim/init.vim"
-link_config "config/nvim/statusline.vim"
 link_config "config/nvim/highlight.vim"
+link_config "config/nvim/statusline.vim"
+link_config "config/nvim/tabline.vim"
 link_config "config/nvim/quickquit.vim"
 link_config "config/nvim/completion.vim"
 link_config "config/nvim/abbreviations.vim"
