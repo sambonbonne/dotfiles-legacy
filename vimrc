@@ -20,6 +20,7 @@ let s:possible = [
 
 for s:script in s:possible
   if s:trySource(s:script)
+    rtp+=s:script
     break
   endif
 endfor " s:script in s:possible
