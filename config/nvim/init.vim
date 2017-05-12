@@ -135,7 +135,7 @@ if has("nvim")
   call dein#add('fntlnz/atags.vim')
 
   let g:atags_build_commands_list = [
-        \ 'ctags -R -f tags.tmp',
+        \ 'ctags -R -f tags.tmp >/dev/null 2>&1',
         \ "awk 'length($0) < 400' tags.tmp > tags",
         \ 'rm tags.tmp'
         \ ]
