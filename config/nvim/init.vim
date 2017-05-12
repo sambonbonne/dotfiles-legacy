@@ -30,6 +30,8 @@ set tabstop=2    " size of hard tab stop
 set shiftwidth=2 " size of an indent
 call dein#add('Yggdroot/indentLine') " indent can be visible
 let g:indentLine_enabled = 1
+let g:indentLine_fileTypeExclude = [ 'startify', 'netrw' ]
+let g:indentLine_bufNameExclude = [ 'startify' ]
 let g:indentLine_color_term = 239
 let g:indentLine_char = '¦'
 " indent with tab (normal/visual mode)
