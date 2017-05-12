@@ -655,6 +655,10 @@ if has("autocmd")
     " Center view on cursor before winleave
     autocmd WinLeave * normal zz
 
+    " Display max column only on focus
+    autocmd WinLeave * set colorcolumn=
+    autocmd WinEnter * set colorcolumn=80,100
+
     " QuickFix not in buffers list
     autocmd FileType qf set nobuflisted
 
