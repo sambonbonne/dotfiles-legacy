@@ -128,6 +128,7 @@ function! SetCustomTabLabel(index)
   let l:buflist = tabpagebuflist(a:index)
   let l:winnr = tabpagewinnr(a:index)
   let l:buf = buflist[l:winnr - 1]
+  let l:bufname = fnamemodify(bufname(l:buf), ':t')
   let l:bufvars = getbufvar(l:buf, '')
   let l:bufmodified = getbufvar(l:buf, "&mod")
   let l:bufreadonly = getbufvar(l:buf, "&ro")
@@ -137,8 +138,8 @@ function! SetCustomTabLabel(index)
   if a:index == tabpagenr()
     if l:bufmodified && l:bufreadonly
       let l:content .= '%#TabLineSelModifiedReadOnly#'
-    elseif l:bufreadonly
-      let l:content .= '%#TabLineSelReadOnly#'
+    elseif l:bufmodified
+      let l:content .= '%#TabLineSelModified#'
     elseif l:bufreadonly
       let l:content .= '%#TabLineSelReadOnly#'
     else
@@ -156,9 +157,11 @@ function! SetCustomTabLabel(index)
     endif " l:bufmodified
   endif " index == tabpagenr()
 
-  let l:content .= ' ' . a:index . ' '
+  let l:content .= ' ' . a:index
 
-  let l:content .= fnamemodify(bufname(l:buf), ':t')
+  if strlen(l:bufname) > 0
+    let l:content .= ' ' . fnamemodify(bufname(l:buf), ':t')
+  endif " strlen(l:bufname) > 0
 
   return l:content . ' %#TabLineFill# '
 endfunction " SetCustomTabLabel()
