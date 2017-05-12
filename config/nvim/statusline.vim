@@ -40,7 +40,7 @@ let s:sl_colors.modes = {
       \   }
       \ }
 
-function s:initColors()
+function! s:initColors()
   call g:Colorize('StatusLine', {
         \ 'cterm':   "NONE",
         \ 'term':    "NONE",
@@ -229,11 +229,12 @@ function! s:statuslineFocus()
     return
   endif
 
-  setlocal statusline=\ \ %#SL_mode#\ \ •\ \ %0*                               " current mode
-  setlocal statusline+=\ \ %#SL_text_grey#%{LiteFilePath(1)}%0*%t              " filename
-  setlocal statusline+=\ %6(%#SL_badge_green#\ %l\ %)%#SL_badge_blue#\ %L\ %0* " current and max line
-  setlocal statusline+=\ %#SL_badge_green#\ %-6(%c\ %0*%)                      " current column
-  setlocal statusline+=\ %#SL_badge_blue#\ %Y\ %0*                             " file type
+  setlocal statusline=\ \ %#SL_mode#\ \ •\ \ %0*                  " current mode
+  setlocal statusline+=\ \ %#SL_text_grey#%{LiteFilePath(1)}%0*%t " filename
+  setlocal statusline+=\ %6(%#SL_badge_green#\ %l\ %)             " current line
+  setlocal statusline+=%#SL_badge_blue#\ %L\ %0*                  " max line
+  setlocal statusline+=\ %#SL_badge_green#\ %c\ %0*               " current column
+  setlocal statusline+=\ %#SL_badge_blue#\ %Y\ %0*                " file type
 
   if (tolower(&fileencoding) == tolower(&encoding))
     setlocal statusline+=\ %#SL_badge_blue#
@@ -241,10 +242,6 @@ function! s:statuslineFocus()
     setlocal statusline+=\ %#SL_badge_yellow#
   endif " tolower(&encoding) == "utf8"
   setlocal statusline+=\ %{&fenc==\"\"?&enc:&fenc}\ %0* " encoding
-
-  if !&readonly
-    setlocal statusline+=\ %#SL_badge_yellow#\ %{strftime(\"%H:%M\",getftime(expand(\"%%\")))}\ %0* " last write
-  endif " !&readonly
 
   setlocal statusline+=%=%< " got to the right and eventually truncate
 
@@ -266,13 +263,6 @@ function! s:statuslineUnfocus()
   setlocal statusline+=\ \ %#SLNC_text_grey#%{LiteFilePath(1)}%0*%t " filename
   setlocal statusline+=\ \ %#SLNC_badge_green#\ %l\ %0*             " current line
   setlocal statusline+=\ %#SLNC_badge_blue#\ %Y\ %0*                " file type
-
-  if (tolower(&fileencoding) == tolower(&encoding))
-    setlocal statusline+=\ %#SLNC_badge_blue#
-  else
-    setlocal statusline+=\ %#SLNC_badge_yellow#
-  endif " tolower(&encoding) == "utf8"
-  setlocal statusline+=\ %{&fenc==\"\"?&enc:&fenc}\ %0* " encoding
 
   if !&readonly
     if &modified
