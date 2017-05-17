@@ -545,11 +545,6 @@ if !exists('g:loaded_matchit')
   runtime macros/matchit.vim
 endif
 
-" :Man command, very usefull
-if !exists('g:loaded_man')
-  runtime ftplugin/man.vim
-endif
-
 " What if I have custom commands ?
 command! FilePath echo @%
 command! ConfReload source $MYVIMRC
