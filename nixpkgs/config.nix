@@ -61,10 +61,12 @@
         gcc-wrapper
 
         nodejs
-        rust
+        rustc
         cargo
+        racer
         python3
         "python3.5-pip"
+        "python3.5-jedi"
 
         fira
         fira-mono
