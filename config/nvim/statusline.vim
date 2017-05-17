@@ -234,7 +234,10 @@ function! s:statuslineFocus()
   setlocal statusline+=\ %6(%#SL_badge_green#\ %l\ %)             " current line
   setlocal statusline+=%#SL_badge_blue#\ %L\ %0*                  " max line
   setlocal statusline+=\ %#SL_badge_green#\ %c\ %0*               " current column
-  setlocal statusline+=\ %#SL_badge_blue#\ %Y\ %0*                " file type
+
+  if strlen(&filetype) > 0
+    setlocal statusline+=\ %#SL_badge_blue#\ %Y\ %0* " file type
+  endif " strlen(&filetype) > 0
 
   if (tolower(&fileencoding) == tolower(&encoding))
     setlocal statusline+=\ %#SL_badge_blue#
@@ -262,7 +265,10 @@ function! s:statuslineUnfocus()
   setlocal statusline=\ \ %#SLNC_badge_blue#\ \ •\ \ %0*            " mode badge
   setlocal statusline+=\ \ %#SLNC_text_grey#%{LiteFilePath(1)}%0*%t " filename
   setlocal statusline+=\ \ %#SLNC_badge_green#\ %l\ %0*             " current line
-  setlocal statusline+=\ %#SLNC_badge_blue#\ %Y\ %0*                " file type
+
+  if strlen(&filetype) > 0
+    setlocal statusline+=\ %#SL_badge_blue#\ %Y\ %0* " file type
+  endif " strlen(&filetype) > 0
 
   if !&readonly
     if &modified
