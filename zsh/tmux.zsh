@@ -48,6 +48,10 @@ function tmc() {
   done
 }
 
+function tmux_lost() {
+  killall -s SIGUSR1 tmux
+}
+
 function __tmux_sessions() {
   local expl
   local -a sessions
