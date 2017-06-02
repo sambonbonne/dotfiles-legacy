@@ -415,8 +415,12 @@ set fileformat=unix
 set hidden
 
 " Some colors configuration
-if has("nvim")
+if has("termguicolors")
   set termguicolors
+elseif has('patch-7.4.1778')
+  set guicolors
+elseif has("nvim")
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 else
   set t_Co=256
 endif
