@@ -49,7 +49,7 @@ function tmc() {
 }
 
 function tmux_lost() {
-  killall -s SIGUSR1 tmux
+  kill -s SIGUSR1 `pidof tmux`
 }
 
 function __tmux_sessions() {
