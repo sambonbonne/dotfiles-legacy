@@ -1,5 +1,6 @@
 {
   allowUnfree = true;
+  hardeningEnable = true;
 
   firefox = {
     enableGoogleTalkPlugin = true;
