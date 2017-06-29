@@ -7,6 +7,7 @@ alias zsh_history='mv ~/.zsh_history ~/.zsh_history_bad && strings ~/.zsh_histor
 alias ports='netstat -pln'
 alias monochrome='sed "s,\x1B\[[0-9;]*[a-zA-Z],,g"'
 alias clean_tmp_files='find . -type f -name "*~" -exec rm -f {} \;'
+alias forcessh='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
 command -v thefuck >/dev/null 2>&1 && eval "$(thefuck --alias)"
 
 # Editing
@@ -65,6 +66,14 @@ function colors_list() {
   for i in {0..255}; do
     printf "\x1b[38;5;${i}m%03d${text}\e[0m\n" ${i}
   done
+}
+
+# some utils
+function pdfshrink() {
+  gs -sDEVICE=pdfwrite -dCompatibilityLEvel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dBATCH -dQUIET -sOutputFile="${2}" "${1}"
+}
+function pdfXshrink() {
+  gs -sDEVICE=pdfwrite -dCompatibilityLEvel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dBATCH -dQUIET -sOutputFile="${2}" "${1}"
 }
 
 # steam is sometimes a bitch
