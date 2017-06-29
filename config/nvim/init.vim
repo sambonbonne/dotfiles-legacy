@@ -131,6 +131,7 @@ set number
 set scrolloff=8 sidescrolloff=4
 
 " All tags
+let g:auto_generate_tags = 1
 if has("nvim")
   call dein#add('fntlnz/atags.vim')
 
@@ -149,9 +150,13 @@ if has("nvim")
   let g:atags_on_generate_exit = 'TagsBuilded'
 
   function! s:BuildTags()
+    if !g:auto_generate_tags
+      return 0
+    endif " !g:auto_generate_tags
+
     if g:atags_is_building
       return 0
-    endif
+    endif " g:atags_is_building
 
     if isdirectory(getcwd() . '/.git/')
       let g:atags_is_building = 1
