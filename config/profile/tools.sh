@@ -60,3 +60,16 @@ _default_difftool() {
 }
 export DIFFTOOL="$(_default_difftool)"
 export GIT_DIFFTOOL="${_default_difftool}"
+
+# detect encoding of a file
+detect_encoding() {
+  tmp_encodings_file="/tmp/iconv_encodings"
+  iconv --list | sed 's/\/\/$//' | sort > "${tmp_encodings_file}"
+
+  for encoding in $`cat "${tmp_encodings_file}"`; do
+    iconv -f "${encoding}" -t "UTF-8" "${1}" > /dev/null 2>&1 && printf "\033[32m✓\033[0m" || printf "\033[31m✗\033[0m"
+    printf " ${encoding}\n"
+  done
+
+  rm "${tmp_encodings_file}"
+}
