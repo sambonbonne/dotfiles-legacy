@@ -6,8 +6,6 @@ function refresh_prompts() {
     { zle && zle .reset-prompt } 2> /dev/null
 }
 
-local PROMPT_COLUMNS_BREAK=60
-
 ## Left prompt
 
 function _prompt_context() {
@@ -64,8 +62,9 @@ function zle-line-finish zle-keymap-select {
     PROMPT="${BASE_PROMPT} "
 
     local _nbsp=$'\u00A0'
+    local _newline=$'\n'
 
-    [[ ${COLUMNS} -lt ${PROMPT_COLUMNS_BREAK} ]] && local _newline=$'\n' && PROMPT="%{$fg_no_bold[black]%}╭%{$reset_color%}${_nbsp}${PROMPT}${_newline}%{$fg_no_bold[black]%}╰%{$reset_color%}${_nbsp}"
+    PROMPT="%{$fg_no_bold[black]%}╭%{$reset_color%}${_nbsp}${PROMPT}${_newline}%{$fg_no_bold[black]%}╰%{$reset_color%}${_nbsp}"
 
     case "${KEYMAP}" in
         vicmd)
@@ -95,8 +94,8 @@ function build_prompt() {
 
 
 ## Right prompt
-local _line_up=$'\e[1A'
-local _line_down=$'\e[1B'
+_line_up=$'\e[1A'
+_line_down=$'\e[1B'
 BASE_RPROMPT='%{$fg_no_bold[white]%}%(?.$(rprompt_last_duration).%{$fg_no_bold[red]%}%?%{$fg_no_bold[white]%})%{$reset_color%}%(1j. (%{$fg_no_bold[magenta]%}%j%{$reset_color%}💤%).)'
 source ~/.zsh/git.prompt.zsh
 
@@ -132,11 +131,7 @@ function build_rprompt() {
         unset _rprompt_timer
     fi
 
-    if [[ ${COLUMNS} -lt ${PROMPT_COLUMNS_BREAK} ]]; then
-        RPROMPT="%{${_line_up}%}${BASE_RPROMPT} 🔃%{${_line_down}%}"
-    else
-        RPROMPT="${BASE_RPROMPT} 🔃"
-    fi
+    RPROMPT="%{${_line_up}%}${BASE_RPROMPT} 🔃%{${_line_down}%}"
 
     function async() {
         printf "%s" "$(rprompt_slow_cmd)" > "${_async_rprompt_tmp_file}"
@@ -156,11 +151,7 @@ function precmd() {
 }
 
 function TRAPUSR1() {
-    if [[ ${COLUMNS} -lt ${PROMPT_COLUMNS_BREAK} ]]; then
-        RPROMPT="%{${_line_up}%}${BASE_RPROMPT}$(cat ${_async_rprompt_tmp_file})%{${_line_down}%}"
-    else
-        RPROMPT="${BASE_RPROMPT}$(cat ${_async_rprompt_tmp_file})"
-    fi
+    RPROMPT="%{${_line_up}%}${BASE_RPROMPT}$(cat ${_async_rprompt_tmp_file})%{${_line_down}%}"
 
     ASYNC_RPROMPT_PROC=0
     refresh_prompts
