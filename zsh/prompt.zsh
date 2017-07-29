@@ -3,93 +3,93 @@ autoload -U promptinit && promptinit
 setopt PROMPT_SUBST
 
 function refresh_prompts() {
-    { zle && zle .reset-prompt } 2> /dev/null
+  { zle && zle .reset-prompt } 2> /dev/null
 }
 
 ## Left prompt
 
 function _prompt_context() {
-    local prompt=""
+  local prompt=""
 
-    local _default_username="samuel"
+  local _default_username="samuel"
 
-    if [[ "${LOGNAME}" != "${USER}" || "${LOGNAME}" != "${_default_username}" || "${USER}" != "${_default_username}" ]] ; then
-        prompt="${prompt}%{$fg_no_bold[cyan]%}%n%{$reset_color%}"
-    fi
+  if [[ "${LOGNAME}" != "${USER}" || "${LOGNAME}" != "${_default_username}" || "${USER}" != "${_default_username}" ]] ; then
+    prompt="${prompt}%{$fg_no_bold[cyan]%}%n%{$reset_color%}"
+  fi
 
-    unset _default_username
+  unset _default_username
 
-    if [[ -n "${SSH_CLIENT}" ]] ; then
+  if [[ -n "${SSH_CLIENT}" ]] ; then
+    [ -n "${prompt}" ] && prompt="${prompt}@"
+    prompt="${prompt}%{$fg_no_bold[blue]%}%M%{$reset_color%}"
+  fi
+
+  local _cgroup_file="/proc/1/cgroup"
+  if [[ -f "${_cgroup_file}" ]]; then
+    local _nixos_container="$(cat ${_cgroup_file} | grep container | grep 'name=systemd' | cut -d: -f3)"
+
+    if [[ "${_nixos_container}" =~ "container@" ]]; then
+      local _nixos_container_name="$(echo "${_nixos_container}" | cut -d@ -f2 | cut -d. -f1)"
       [ -n "${prompt}" ] && prompt="${prompt}@"
-      prompt="${prompt}%{$fg_no_bold[blue]%}%M%{$reset_color%}"
+      prompt="${prompt}%{$fg_no_bold[blue]%}${_nixos_container_name}%{$reset_color%}"
     fi
+  fi
 
-    local _cgroup_file="/proc/1/cgroup"
-    if [[ -f "${_cgroup_file}" ]]; then
-      local _nixos_container="$(cat ${_cgroup_file} | grep container | grep 'name=systemd' | cut -d: -f3)"
+  [ -n "${prompt}" ] && prompt=" ${prompt}"
 
-      if [[ "${_nixos_container}" =~ "container@" ]]; then
-        local _nixos_container_name="$(echo "${_nixos_container}" | cut -d@ -f2 | cut -d. -f1)"
-        [ -n "${prompt}" ] && prompt="${prompt}@"
-        prompt="${prompt}%{$fg_no_bold[blue]%}${_nixos_container_name}%{$reset_color%}"
-      fi
-    fi
-
-    [ -n "${prompt}" ] && prompt=" ${prompt}"
-
-    echo -n "${prompt}"
+  echo -n "${prompt}"
 }
 
 function prompt_informations() {
-    local prompt=""
+  local prompt=""
 
-    [[ "${VIRTUAL_ENV}" != "" ]] && prompt="${prompt} %{$fg_no_bold[red]%}$(basename ${VIRTUAL_ENV})%{$reset_color%}"
+  [[ "${VIRTUAL_ENV}" != "" ]] && prompt="${prompt} %{$fg_no_bold[red]%}$(basename ${VIRTUAL_ENV})%{$reset_color%}"
 
-    if [[ ${COLUMNS} -lt 80 ]]; then
-        local _prompt_path_max_length=2
-    elif [[ ${COLUMNS} -lt 90 ]]; then
-        local _prompt_path_max_length=3
-    fi
-    prompt="${prompt} %{$fg_no_bold[yellow]%}%${_prompt_path_max_length:-}~%{$reset_color%}"
+  if [[ ${COLUMNS} -lt 80 ]]; then
+    local _prompt_path_max_length=2
+  elif [[ ${COLUMNS} -lt 90 ]]; then
+    local _prompt_path_max_length=3
+  fi
+  prompt="${prompt} %{$fg_no_bold[yellow]%}%${_prompt_path_max_length:-}~%{$reset_color%}"
 
-    echo -n "${prompt}"
+  echo -n "${prompt}"
 }
 BASE_PROMPT='%{$fg_no_bold[white]%}%T%{$reset_color%}$(_prompt_context)$(prompt_informations)'
 PROMPT="${BASE_PROMPT}"
 
 # current vi mode and last status
 function zle-line-finish zle-keymap-select {
-    PROMPT="${BASE_PROMPT} "
+  PROMPT="${BASE_PROMPT} "
 
-    local _nbsp=$'\u00A0'
-    local _newline=$'\n'
+  local _nbsp=$'\u00A0'
+  local _newline=$'\n'
 
-    PROMPT="%{$fg_no_bold[black]%}╭%{$reset_color%}${_nbsp}${PROMPT}${_newline}%{$fg_no_bold[black]%}╰%{$reset_color%}${_nbsp}"
+  PROMPT="%{$fg_no_bold[black]%}╭%{$reset_color%}${_nbsp}${PROMPT}${_newline}%{$fg_no_bold[black]%}╰%{$reset_color%}${_nbsp}"
 
-    case "${KEYMAP}" in
-        vicmd)
-            PROMPT="${PROMPT}%{$fg_no_bold[yellow]%}?"
-            ;;
-        *)
-            PROMPT="${PROMPT}%(?.%{$fg_no_bold[green]%}→.%{$fg_bold[red]%}!)"
-            ;;
-    esac
+  case "${KEYMAP}" in
+    vicmd)
+      PROMPT="${PROMPT}%{$fg_no_bold[yellow]%}?"
+      ;;
+    *)
+      PROMPT="${PROMPT}%(?.%{$fg_no_bold[green]%}→.%{$fg_bold[red]%}!)"
+      ;;
+  esac
 
-    PROMPT="${PROMPT}%{$reset_color%}${_nbsp}"
-    refresh_prompts
+  PROMPT="${PROMPT}%{$reset_color%}${_nbsp}"
+  refresh_prompts
 }
 zle -N zle-line-finish
 zle -N zle-keymap-select
 zle-line-finish
 
 function build_prompt() {
-    PROMPT="${BASE_PROMPT}"
+  PROMPT="${BASE_PROMPT}"
 
-    zle -N zle-line-finish
-    zle -N zle-keymap-select
-    zle-line-finish
+  zle -N zle-line-finish
+  zle -N zle-keymap-select
+  zle-line-finish
 
-    [[ -n "${1}" ]] && refresh_prompts
+  [[ -n "${1}" ]] && refresh_prompts
 }
 
 
@@ -100,25 +100,25 @@ BASE_RPROMPT='%{$fg_no_bold[white]%}%(?.$(rprompt_last_duration).%{$fg_no_bold[r
 source ~/.zsh/git.prompt.zsh
 
 function rprompt_slow_cmd() {
-    echo "$(git_prompt_string)"
+  echo "$(git_prompt_string)"
 }
 
 function rprompt_last_duration() {
-    [[ ${_rprompt_timer_show} -le 2 ]] && return
+  [[ ${_rprompt_timer_show} -le 2 ]] && return
 
-    local _color="blue"
+  local _color="blue"
 
-    if [[ $_rprompt_timer_show -ge 10 ]]; then
-        _color="magenta"
-    elif [[ $_rprompt_timer_show -ge 5 ]]; then
-        _color="yellow"
-    fi
+  if [[ $_rprompt_timer_show -ge 10 ]]; then
+    _color="magenta"
+  elif [[ $_rprompt_timer_show -ge 5 ]]; then
+    _color="yellow"
+  fi
 
-    echo "%{$fg_no_bold[$_color]%}${_rprompt_timer_show:-0}s%{$reset_color%}"
+  echo "%{$fg_no_bold[$_color]%}${_rprompt_timer_show:-0}s%{$reset_color%}"
 }
 
 function preexec() {
-    _rprompt_timer=${_rprompt_timer:-$SECONDS}
+  _rprompt_timer=${_rprompt_timer:-$SECONDS}
 }
 
 ASYNC_RPROMPT_PROC=0
@@ -126,54 +126,54 @@ _async_rprompt_tmp_file="/tmp/zsh_rprompt_$(date +%Y%m%d_%H%M%S)"
 _async_rprompt_tmp_file_rm_enable=0
 
 function build_rprompt() {
-    if [ $_rprompt_timer ]; then
-        _rprompt_timer_show=$(($SECONDS - $_rprompt_timer))
-        unset _rprompt_timer
-    fi
+  if [ $_rprompt_timer ]; then
+    _rprompt_timer_show=$(($SECONDS - $_rprompt_timer))
+    unset _rprompt_timer
+  fi
 
-    RPROMPT="%{${_line_up}%}${BASE_RPROMPT} 🔃%{${_line_down}%}"
+  RPROMPT="%{${_line_up}%}${BASE_RPROMPT} 🔃%{${_line_down}%}"
 
-    function async() {
-        printf "%s" "$(rprompt_slow_cmd)" > "${_async_rprompt_tmp_file}"
-        kill -s USR1 $$
-    }
+  function async() {
+    printf "%s" "$(rprompt_slow_cmd)" > "${_async_rprompt_tmp_file}"
+    kill -s USR1 $$
+  }
 
-    if [[ "${ASYNC_RPROMPT_PROC}" != 0 ]]; then
-        kill -s HUP $ASYNC_RPROMPT_PROC >/dev/null 2>&1 || :
-    fi
+  if [[ "${ASYNC_RPROMPT_PROC}" != 0 ]]; then
+    kill -s HUP $ASYNC_RPROMPT_PROC >/dev/null 2>&1 || :
+  fi
 
-    async &!
-    ASYNC_RPROMPT_PROC=$!
+  async &!
+  ASYNC_RPROMPT_PROC=$!
 }
 
 function precmd() {
-    build_rprompt
+  build_rprompt
 }
 
 function TRAPUSR1() {
-    RPROMPT="%{${_line_up}%}${BASE_RPROMPT}$(cat ${_async_rprompt_tmp_file})%{${_line_down}%}"
+  RPROMPT="%{${_line_up}%}${BASE_RPROMPT}$(cat ${_async_rprompt_tmp_file})%{${_line_down}%}"
 
-    ASYNC_RPROMPT_PROC=0
-    refresh_prompts
+  ASYNC_RPROMPT_PROC=0
+  refresh_prompts
 
-    # we delete the file now because we trap an exit at the shell start
-    if [[ ${_async_rprompt_tmp_file_rm_enable} -eq 0 ]]; then
-      trap "rm '${_async_rprompt_tmp_file}'" EXIT
-      _async_rprompt_tmp_file_rm_enable=1
-    fi
+  # we delete the file now because we trap an exit at the shell start
+  if [[ ${_async_rprompt_tmp_file_rm_enable} -eq 0 ]]; then
+    trap "rm '${_async_rprompt_tmp_file}'" EXIT
+    _async_rprompt_tmp_file_rm_enable=1
+  fi
 }
 
 ## Events which imply prompt refresh
 
 # at alarm, every $TMOUT
 function TRAPALRM() {
-    refresh_prompts
+  refresh_prompts
 }
 TMOUT=10
 
 # on resize
 function TRAPWINCH() {
-    build_prompt
-    build_rprompt
-    refresh_prompts
+  build_prompt
+  build_rprompt
+  refresh_prompts
 }
