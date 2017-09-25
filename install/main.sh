@@ -4,8 +4,7 @@ set -e
 
 _git_repo="https://github.com/smumu/dotfiles"
 _dotfiles_dir="${HOME}/dev/dotfiles"
-#_installation_dir="${HOME}"
-_installation_dir="/tmp/install_test"
+_installation_dir="${HOME}"
 
 # Clone or update dotfiles
 if [ -d "${_dotfiles_dir}" ]; then
