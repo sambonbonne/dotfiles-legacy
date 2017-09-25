@@ -29,3 +29,8 @@ tags.tmp
 
 # PHP
 .phpcomplete_extended/
+
+
+## Node DIY
+node_modules.old/
+node_modules.new/
