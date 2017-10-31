@@ -40,7 +40,7 @@ nnoremap <S-TAB> <<
 vnoremap <TAB> >gv
 vnoremap <S-TAB> <gv
 " re-indent file
-function IndentFile()
+function! IndentFile()
   echo "Identing the file..."
   let l:current_view=preserve#save()
   normal gg=Gg``
@@ -140,6 +140,7 @@ if has("nvim")
         \ "awk 'length($0) < 400' tags.tmp > tags",
         \ 'rm tags.tmp'
         \ ]
+  let g:atags_quiet = 1
 
   let g:atags_is_building = 0
 
@@ -370,6 +371,7 @@ call dein#add('tpope/vim-eunuch')
 
 " Mispelling is so common ...
 call dein#add('reedes/vim-litecorrect', { 'on_func': 'litecorrect#init()' })
+
 " Some colors
 call dein#add('NLKNguyen/papercolor-theme')
 call dein#add('joshdick/onedark.vim')
@@ -553,6 +555,26 @@ nnoremap q: :q
 if !exists('g:loaded_matchit')
   runtime macros/matchit.vim
 endif
+
+" better terminal support
+function! OpenSpecificTerminal()
+  let l:ft = tolower(&ft)
+
+  if l:ft =~ 'javascript' || l:ft =~ 'js'
+    vsplit term://node
+  elseif l:ft =~ 'py'
+    vsplit term://python
+  else
+    vsplit term://bash
+  endif " l:ft
+
+  startinsert
+endfunction " OpenSpecificTerminal()
+if has('nvim')
+  command! Terminal call OpenSpecificTerminal()
+  command! T Terminal
+  command! Shell vsplit term://bash
+endif " has(':terminal')
 
 " What if I have custom commands ?
 command! FilePath echo @%
