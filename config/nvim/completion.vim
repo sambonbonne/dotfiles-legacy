@@ -82,7 +82,7 @@ let g:neocomplete#enable_auto_close_preview = 1
 
 
 " Neovim without Python or Vim without Lua use SuperTab
-function SuperTabAddOmni(amatch)
+function! SuperTabAddOmni(amatch)
   if a:amatch == "omnifunc"
     call SuperTabChain(&omnifunc, "<c-n>")
   endif
@@ -140,8 +140,3 @@ call dein#add('tweekmonster/django-plus.vim', { 'on_ft': 'python' })
 
 " Haskell
 call dein#add('eagletmt/neco-ghc', { 'on_ft': 'haskell' })
-
-" PHP
-call dein#add('shawncplus/phpcomplete.vim', { 'on_ft': 'php' })
-let g:phpcomplete_complete_for_unknown_classes = 1
-let g:phpcomplete_parse_docblock_comments = 1

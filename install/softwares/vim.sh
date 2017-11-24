@@ -22,4 +22,4 @@ check_command "neovim"
 
 # plugins installation
 curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > dein-installer.sh
-sh ./dein-installer.sh "${HOME}/.config/nvim/plugins" && rm ./dein-installer.sh
+sh ./dein-installer.sh "${HOME}/.cache/vim-plugins" && rm ./dein-installer.sh

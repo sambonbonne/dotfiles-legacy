@@ -10,13 +10,13 @@ endif " has("nvim")
 
 let mapleader = "\<Space>" " better than backslash
 
-let s:plugin_manager_directory = $NVIMHOME . '/plugins'
-exec "set runtimepath+=" . s:plugin_manager_directory . "/repos/github.com/Shougo/dein.vim"
+let s:plugin_manager_directory = $HOME . '/.cache/vim-plugins'
+exec "set runtimepath+=" . s:plugin_manager_directory . '/repos/github.com/Shougo/dein.vim'
 
 " plugin manager config
 call dein#begin(expand(s:plugin_manager_directory))
 
-call dein#add('Shougo/dein.vim')
+call dein#add(s:plugin_manager_directory . '/repos/github.com/Shougo/dein.vim')
 let g:dein#enable_notification = 1
 let g:dein#notification_time = 3
 call dein#add('haya14busa/dein-command.vim', { 'on_cmd': 'Dein', 'depends': 'dein.vim' })
@@ -49,9 +49,6 @@ function! IndentFile()
 endfunction " IndentAllFile()
 nnoremap g= :call IndentFile()<Return>
 
-" To add .lvimrc for each project you want
-call dein#add('embear/vim-localvimrc')
-let g:localvimrc_ask=0
 " For multiusers projects
 call dein#add('editorconfig/editorconfig-vim', { 'if': filereadable('.editorconfig') })
 let g:EditorConfig_exclude_patterns = [ 'fugitive://.*', 'scp://.*' ]
@@ -111,9 +108,6 @@ let g:startify_change_to_vcs_root = 0
 call dein#add('kopischke/vim-stay')
 set viewoptions=cursor,folds,slash,unix
 
-" Edit macros
-call dein#add('dohsimpson/vim-macroeditor', { 'on_cmd': 'MacroEdit' })
-
 " Plugin repeating
 call dein#add('tpope/vim-repeat')
 
@@ -132,9 +126,10 @@ set scrolloff=8 sidescrolloff=4
 
 " All tags
 let g:auto_generate_tags = 1
+call dein#add('fntlnz/atags.vim', { 'if': has('nvim') })
+call dein#add('xolox/vim-misc', { 'if': !has('nvim') })
+call dein#add('xolox/vim-easytags', { 'if': !has('nvim'), 'depends': 'vim-misc' })
 if has("nvim")
-  call dein#add('fntlnz/atags.vim')
-
   let g:atags_build_commands_list = [
         \ 'ctags -R -f tags.tmp >/dev/null 2>&1',
         \ "awk 'length($0) < 400' tags.tmp > tags",
@@ -170,8 +165,6 @@ if has("nvim")
   autocmd VimEnter * call atags#setup()
   autocmd BufWritePost * call s:BuildTags() " Neovim always as autocmd
 else
-  call dein#add('xolox/vim-misc')
-  call dein#add('xolox/vim-easytags', { 'depends': 'vim-misc' })
   let g:easytags_async = 1
   let g:easytags_auto_highlight = 0
   let g:easytags_on_cursorhold = 0
@@ -214,18 +207,11 @@ else
   nnoremap <Leader>c :Denite change<CR>
   " File/content search
   nnoremap <Leader>f :Denite file_rec<CR>
-  command! Search :Denite grep<CR>
+  nnoremap <Leader><Return> :Denite file_rec<CR>
+  "command! Search :Denite grep<CR>
   " Jumps list
   nnoremap <Leader>j :Denite jump<CR>
 endif
-
-" Fuzzy finder
-let s:fuzzy_dependencies = 'execute(":!command -v fzy >/dev/null 2>&1 && command -v ag >/dev/null 2>&1")'
-let s:fuzzy_dependencies = 1
-call dein#add('cloudhead/neovim-fuzzy', {
-      \ 'if': has('nvim') && s:fuzzy_dependencies
-      \ })
-nnoremap <Leader><Return> :FuzzyOpen<CR>
 
 " A better file manager
 call dein#add('Shougo/vimfiler.vim')
@@ -241,19 +227,15 @@ vmap a <Plug>(EasyAlign)
 
 " Comment better
 call dein#add('scrooloose/nerdcommenter')
+let g:NERDSpaceDelims = 1
+let g:NERDCompactSexyComs = 1
+let g:NERDDefaultAlign = 'left'
 
 " First, auto-close brackets, quotes ... Second, auto-close tags, third change surrounds
 call dein#add('jiangmiao/auto-pairs')
 call dein#add('alvan/vim-closetag', { 'on_ft': [ 'xml', 'html' ] })
 let g:closetag_filenames = "*.xml,*.html,*.tpl,*.hbs,*.blade.php"
 call dein#add('tpope/vim-surround') " cs like Change Surround, ds like Delete Surround
-
-" Snippets
-call dein#add('Shougo/neosnippet')
-call dein#add('Shougo/neosnippet-snippets', { 'depends': 'neosnippet' })
-imap <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-xmap <C-k> <Plug>(neosnippet_expand_target)
 
 " search improvements
 set incsearch " do incremental searching
@@ -264,8 +246,7 @@ map ? <Plug>(incsearch-backward)
 nnoremap <expr> n 'Nn'[v:searchforward]
 nnoremap <expr> N 'nN'[v:searchforward]
 
-" Replace and undo/redo improve
-call dein#add('tpope/vim-abolish', { 'on_cmd': [ 'Abolish', 'Subvert' ] }) " :Abolish{despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}, :Subvert/pattern/subtitute/g
+" undo/redo improve
 call dein#add('mbbill/undotree', { 'on_cmd': [ 'UndotreeToggle', 'UndotreeShow', 'UndotreeFocus' ] })
 nnoremap <Leader>u :UndotreeToggle<CR>
 if has("persistent_undo")
@@ -274,7 +255,7 @@ if has("persistent_undo")
 endif
 
 " Better splits management
-call dein#add('zhaocai/GoldenView.Vim')
+call dein#add('zhaocai/GoldenView.Vim') " @TODO replace with golden-ratio?
 let g:goldenview__enable_default_mapping = 0
 nnoremap <C-H> <C-W>h
 vnoremap <C-H> <C-W>h
@@ -308,11 +289,7 @@ nmap <Return> <Plug>(easymotion-prefix)
 vmap <Return> <Plug>(easymotion-prefix)
 nmap <Leader>m <Plug>(easymotion-prefix)
 vmap <Leader>m <Plug>(easymotion-prefix)
-"call dein#add('bkad/CamelCaseMotion')
 call dein#add('wellle/targets.vim')
-
-" Better selection expanding
-call dein#add('terryma/vim-expand-region')
 
 " Syntax checking
 call dein#add('neomake/neomake')
@@ -326,7 +303,7 @@ let g:neomake_warning_sign = {
             \ }
 let g:neomake_open_list = 2
 let g:neomake_list_height = 4
-let g:neomake_javascript_enabled_makers = [ 'eslint' ]
+"let g:neomake_javascript_enabled_makers = [ 'eslint' ]
 function! NeomakeOpenList()
   if (g:neomake_open_list > 0)
     let g:neomake_open_list = 0
@@ -361,14 +338,6 @@ call dein#add('alcesleo/vim-uppercase-sql', { 'on_ft': 'sql' })
 " Some Unix commands directly inside the editor
 call dein#add('tpope/vim-eunuch')
 
-" Launch test in Vim
-"call dein#add('janko-m/vim-test', { 'depends': 'vim-dispatch' })
-"if has("nvim")
-"  let test#strategy = "neovim"
-"else
-"  let test#strategy = "dispatch"
-"endif " has("nvim")
-
 " Mispelling is so common ...
 call dein#add('reedes/vim-litecorrect', { 'on_func': 'litecorrect#init()' })
 
@@ -389,9 +358,6 @@ let g:limelight_paragraph_span = 3
 
 " Maybe you want to learn something new
 call dein#add('mhinz/vim-randomtag', { 'on_cmd': 'Random' })
-
-" Type speed/timing
-"call dein#add('pace.vim')
 
 call dein#end()
 " End plugins config
