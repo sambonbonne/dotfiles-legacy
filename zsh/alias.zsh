@@ -8,6 +8,7 @@ alias ports='netstat -pln'
 alias monochrome='sed "s,\x1B\[[0-9;]*[a-zA-Z],,g"'
 alias clean_tmp_files='find . -type f -name "*~" -exec rm -f {} \;'
 alias forcessh='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+alias clean_tmp_docker_images='docker images | grep "^<none>" | tr -s ' ' | cut -d ' ' -f 3 | xargs docker rmi'
 command -v thefuck >/dev/null 2>&1 && eval "$(thefuck --alias)"
 
 # Editing
