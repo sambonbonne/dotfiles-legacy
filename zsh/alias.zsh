@@ -52,7 +52,7 @@ function venv() {
 
 # jump
 JUMP_ALIAS="jp"
-JUMP_DIRECTORIES=("${HOME}/dev/www")
+JUMP_DIRECTORIES=("${HOME}/dev" "${HOME}/dev/www")
 JUMP_HOOK_AFTER='ls -FhlX --color=always --hide="*~"'
 source "${ZSH_CONFIG_PATH}/jump.zsh"
 
