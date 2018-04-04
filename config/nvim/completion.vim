@@ -19,7 +19,7 @@ call dein#add('Shougo/deoplete.nvim', {
       \ 'hook_source': join([
       \   s:completion_mapping,
       \   'echo "Use Deoplete completion"',
-      \   'autocmd InsertLeave * call deoplete#refresh()',
+      \   'autocmd InsertLeave * call deoplete#refresh()'
       \ ], "\n"),
       \ })
 let g:deoplete#enable_at_startup = s:completion_choice.deoplete
@@ -28,11 +28,13 @@ let g:deoplete#auto_refresh_delay = 100
 let g:deoplete#max_list = 20
 let g:deoplete#max_menu_width = 80
 let g:deoplete#sources = {}
-let g:deoplete#sources._ = ['member', 'tag', 'omni', 'neosnippet', 'buffer', 'file']
-let g:deoplete#sources.javascript = ['ternjs', 'buffer', 'neosnippet']
-let g:deoplete#sources.python     = ['jedi', 'neosnippet']
-let g:deoplete#sources.php        = ['omni', 'member', 'tag', 'neosnippet', 'buffer', 'file']
-let g:deoplete#sources.vim        = ['vim', 'buffer', 'neosnippet']
+let g:deoplete#sources._ = [ 'member', 'tag', 'omni', 'buffer', 'file' ]
+let g:deoplete#sources.javascript = [ 'tern', 'buffer' ]
+let g:deoplete#sources['javascript.jsx'] = [ 'tern', 'buffer' ]
+let g:deoplete#sources#ternjs#filetypes = [ 'javascript', 'javascript.jsx', 'vue' ]
+let g:deoplete#sources.python     = [ 'jedi' ]
+let g:deoplete#sources.php        = [ 'omni', 'member', 'tag', 'buffer', 'file' ]
+let g:deoplete#sources.vim        = [ 'vim', 'buffer' ]
 if !exists('g:neocomplete#sources#omni#input_patterns')
   let g:neocomplete#sources#omni#input_patterns = {}
 endif
@@ -113,13 +115,17 @@ let g:tmuxcomplete#trigger = ''
 call dein#add('Shougo/neco-vim', { 'on_source': [ 'deoplete.nvim', 'neocomplete.vim' ], 'on_ft': 'vim' })
 
 " JavaScript
-call dein#add('ternjs/tern_for_vim', { 'on_ft': 'javascript', 'build': 'npm install' })
+call dein#add('ternjs/tern_for_vim', {
+      \ 'on_ft': [ 'javascript', 'javascript.jsx' ],
+      \ 'build': 'npm install'
+      \ })
 call dein#add('carlitux/deoplete-ternjs', {
       \ 'if': s:completion_choice.deoplete,
       \ 'depends': 'deoplete.nvim',
-      \ 'on_ft': [ 'javascript', 'typescript', ] ,
+      \ 'on_ft': [ 'javascript', 'javascript.jsx', 'typescript' ],
       \ 'build': 'npm install -g tern'
       \ })
+let g:deoplete#sources#ternjs#tern_bin = '/home/samuel/.npm/bin/tern'
 let g:tern#command = [ "tern" ]
 let g:tern#arguments = [ "--persistent" ]
 
