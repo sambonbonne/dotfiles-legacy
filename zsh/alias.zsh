@@ -17,6 +17,25 @@ alias nvimdiff='nvim -d'
 alias nview='nvim -R'
 alias nvimlog='nvim -w ~/.nvimlog'
 
+# repeating
+function multi() {
+  local count=$(( $1 + 0 ))
+  local command=""
+
+  for arg in "${@:2}"; do
+    command="${command} ${arg}"
+  done
+
+  while [ $count -gt 0 ]; do
+    eval "${command}"
+    count=$(( count - 1 ))
+  done
+}
+
+# Encrypting
+alias cipher='openssl rsautl -encrypt -pubin -inkey'
+alias decipher='openssl rsautl -decrypt -inkey'
+
 function quickedit() {
   local place_to_search="${2:-./}"
   local result="$(grep -m 1 --exclude "*~" --exclude-dir .git/ -rnF "${1}" ${place_to_search} | head -n 1 | cut -d: -f1,2)"
