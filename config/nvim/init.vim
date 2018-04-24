@@ -115,9 +115,11 @@ call dein#add('tpope/vim-repeat')
 call dein#add('Shougo/echodoc.vim')
 let g:echodoc_enabled_at_startup = 1
 
+" Terminal integration
+call dein#add('wincent/terminus')
+
 " Clipboard and pasting
 set clipboard=unnamedplus
-call dein#add('roxma/vim-tmux-clipboard')
 
 " number switch to relative or not
 call dein#add('jeffkreeftmeijer/vim-numbertoggle')
@@ -131,9 +133,7 @@ call dein#add('xolox/vim-misc', { 'if': !has('nvim') })
 call dein#add('xolox/vim-easytags', { 'if': !has('nvim'), 'depends': 'vim-misc' })
 if has("nvim")
   let g:atags_build_commands_list = [
-        \ 'ctags -R -f tags.tmp >/dev/null 2>&1',
-        \ "awk 'length($0) < 400' tags.tmp > tags",
-        \ 'rm tags.tmp'
+        \ "ctags -R -f 2>/dev/null | awk 'length($0) < 400' > tags"
         \ ]
   let g:atags_quiet = 1
 
@@ -180,8 +180,15 @@ call dein#add('majutsushi/tagbar', { 'on_cmd': 'TagbarToggle' })
 nnoremap <Leader>t :TagbarToggle<CR>
 
 " Lot of things with Unite/Denite (depending on Vim/Neovim)
-call dein#add('Shougo/unite.vim', { 'if': !has('nvim') })
-call dein#add('Shougo/denite.nvim', { 'if': has('nvim') })
+call dein#add('Shougo/unite.vim', {
+      \ 'if': !has('nvim')
+      \ })
+call dein#add('Shougo/denite.nvim', {
+      \ 'if': has('nvim'),
+      \ 'hook_post_source': join([
+      \   "call denite#custom#var('file_rec', 'command', [ 'scantree.py' ])"
+      \ ], '\n')
+      \ })
 call dein#add('Shougo/neoyank.vim')
 if !has('nvim')
   " buffers list
@@ -196,21 +203,36 @@ if !has('nvim')
   command! Search :Unite grep
   " Jumps list
   nnoremap <Leader>j :Unite -quick-match jump
+
+  " On split, open file search
+  nnoremap _ :split<CR>:Unite file_rec/async<CR>
+  nnoremap <Bar> :vsplit<CR>:Unite file_rec/async<CR>
 else
   " buffers list
   nnoremap <Leader>b :Denite buffer<CR>
   command! Buffers :Denite buffer
+
+  " current buffer lines
+  nnoremap <Leader>/ :Denite buffer "forward"<CR>
+  nnoremap <Leader>? :Denite buffer "backward"<CR>
+
   " registers and yank history
   let g:unite_source_history_yank_enable = 1
   nnoremap <Leader>y :Denite neoyank<CR>
   nnoremap <Leader>r :Denite register<CR>
   nnoremap <Leader>c :Denite change<CR>
+
   " File/content search
   nnoremap <Leader>f :Denite file_rec<CR>
   nnoremap <Leader><Return> :Denite file_rec<CR>
   "command! Search :Denite grep<CR>
+
   " Jumps list
   nnoremap <Leader>j :Denite jump<CR>
+
+  " On split, open file search
+  nnoremap _ :split<CR>:Denite file_rec<CR>
+  nnoremap <Bar> :vsplit<CR>:Denite file_rec<CR>
 endif
 
 " A better file manager
@@ -324,6 +346,7 @@ call dein#add('airblade/vim-gitgutter')
 
 " Syntax and language detection
 call dein#add('sheerun/vim-polyglot') " There is a grate quantity of languages in this
+let g:javascript_plugin_jsdoc = 1
 call dein#add('othree/javascript-libraries-syntax.vim', { 'on_ft': 'javascript' })
 
 " Completion
@@ -419,7 +442,7 @@ set showcmd   " display incomplete commands
 set wildmenu wildmode=list:longest,full wildignore=*~,*.swp,*.o,*.pdf
 
 " conceal
-set conceallevel=2
+set conceallevel=0
 set concealcursor="nc"
 
 " In many terminal emulators the mouse works just fine, thus enable it.
@@ -474,7 +497,7 @@ nnoremap , ;
 nnoremap <C-,> ,
 
 " toggle hlsearch
-nnoremap <Leader>/ :nohlsearch<CR>
+nnoremap // :nohlsearch<CR>
 
 " press space to insert a single char before cursor
 nmap <Leader>i i_<Esc>r
