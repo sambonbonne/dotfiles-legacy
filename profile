@@ -26,3 +26,6 @@ unset nix_env_path
 if [[ $TERM == xterm || $TERM == vt220 ]]; then
     export TERM="xterm-256color"
 fi
+
+# Enventually set LXC infos
+is_on_lxc && load_sh_config 'lxc'
