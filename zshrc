@@ -40,8 +40,11 @@ autoload -U colors && colors
 HISTFILE=~/.zsh_history
 HISTSIZE=8192
 SAVEHIST=16384
-setopt inc_append_history
-setopt share_history
+setopt HIST_IGNORE_SPACE
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_REDUCE_BLANKS
+setopt HIST_IGNORE_ALL_DUPS
 
 # plugins, something we love
 load_zsh_config "plugins"
