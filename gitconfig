@@ -1,6 +1,6 @@
 [user]
   name = Samuel DENIS
-  email = samuel@datananas.com
+  email = samuel@denis.tech
 
 [color]
   diff = auto
@@ -47,7 +47,7 @@
   amend = commit --amend
   rbc = rebase --continue
   cp = cherry-pick -n
-  lg = log --date-order --graph --pretty=format:'%C(yellow)%h%Creset%Cred%d%Creset %C(green)%cr%Creset - %C(blue)%an%Creset <%C(cyan)%ae%Creset>\n%s\n' --abbrev-commit
+  lg = log --date-order --graph --pretty=format:'%C(yellow)%h%Creset%Cred%d%Creset %C(green)%ci%Creset - %C(blue)%an%Creset <%C(cyan)%ae%Creset>\n%s\n' --abbrev-commit
   last = log @{u}..HEAD --date-order --graph --pretty=format:'%C(yellow)%h%Creset %C(green)%cr%Creset - %s' --abbrev-commit
   pl = pull --rebase
   ps = !git last && git push
