@@ -1,7 +1,9 @@
 set completeopt=longest,menuone,noselect
 
+let g:python_host_skip_check = 1
+
 let s:completion_choice = {
-      \ 'deoplete':    has("nvim") && has("python"),
+      \ 'deoplete':    has("nvim") && has("python3"),
       \ 'neocomplete': !has("nvim") && has("lua"),
       \ }
 let s:completion_choice.supertab = !s:completion_choice.deoplete && !s:completion_choice.neocomplete
@@ -122,7 +124,7 @@ call dein#add('ternjs/tern_for_vim', {
 call dein#add('carlitux/deoplete-ternjs', {
       \ 'if': s:completion_choice.deoplete,
       \ 'depends': 'deoplete.nvim',
-      \ 'on_ft': [ 'javascript', 'javascript.jsx', 'typescript' ],
+      \ 'on_ft': [ 'javascript', 'jsx', 'javascript.jsx', 'typescript' ],
       \ 'build': 'npm install -g tern'
       \ })
 let g:deoplete#sources#ternjs#tern_bin = '/home/samuel/.npm/bin/tern'
