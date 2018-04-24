@@ -1,0 +1,18 @@
+# Vi mode
+set editing-mode vi
+set keymap vi-command
+
+# case insensitive completion and link -/_
+set completion-ignore-case on
+set completion-map-case on
+
+# show results directly after firs tab
+set show-all-if-unmodified on
+
+# move to left/right word with Ctr+arrow
+"\e\e[C": forward-word
+"\e\e[D": backward-word
+
+# "same command" history with Ctrl+arrow
+"\e[1;5A": history-search-backward
+"\e[1;5B": history-search-forward
