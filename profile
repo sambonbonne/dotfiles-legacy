@@ -18,7 +18,7 @@ load_sh_config "lc"
 load_sh_config "tools"
 
 # Eventually source Nix own env
-local nix_env_path="${HOME}/.nix-profile/etc/profile.d/nix.sh"
+nix_env_path="${HOME}/.nix-profile/etc/profile.d/nix.sh"
 [ -e "${nix_env_path}" ] && . "${nix_env_path}"
 unset nix_env_path
 
