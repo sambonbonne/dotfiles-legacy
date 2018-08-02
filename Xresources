@@ -1,92 +1,50 @@
-*wideChars: true
-*locale: true
-*utf8: 1
-*vt100Graphics: true
-
-! Xft settings
-
-!Xft.dpi:        96
-Xft.antialias:  true
-Xft.rgba:       rgb
-Xft.hinting:    true
-Xft.hintstyle:  hintslight
-! We globally choose a font
-*.font: xft:FiraMono:size=10
-*.letterSpace: -1
-
-
-! Colors form Google Material
-
-*background: #263238
-*foreground: #eceff1
+! colors
+*background: #23292D
+*foreground: #E2E6E8
 ! black
-*color0: #263238
-*color8: #37474f
+*color0: #212121
+*color8: #263238
 ! red
-*color1: #ff9800
-*color9: #ffa74d
+*color1: #D32F2F
+*color9: #E57373
 ! green
-*color2: #8bc34a
-*color10: #ceecab
+*color2:  #388E3C
+*color10: #81C784
 ! yellow
-*color3: #ffc107
-*color11: #ffa000
+*color3:  #FBC02D
+*color11: #FFF176
 ! blue
-*color4: #03a9f4
-*color12: #81d4fa
+*color4:  #1976D2
+*color12: #64B5F6
 ! magenta
-*color5: #e91e63
-*color13: #ad1457
+*color5:  #7B1FA2
+*color13: #BA68C8
 ! cyan
-*color6: #009688
-*color14: #26a69a
+*color6:  #0097A7
+*color14: #4DD0E1
 ! white
-*color7: #cfd8dc
-*color15: #eceff1
+*color7:  #CFD8DC
+*color15: #F5F5F5
 
-
-! XTerm conf, if no urxvt
-xterm*termName: xterm-256color
-XTerm*locale: true
-XTerm.highlightSelection: true
-Xterm*saveLines: 1024
-xterm*faceName: Fira Mono:size=11:antialias=true
-xterm*borderWidth: 0
-XTerm*selectToClipboard: true
-
-
-! URxvt configuration
-URxvt.termName: xterm-256color
-URxvt.highlightSelection: true
-URxvt.font: xft:Fira Mono:size=11
-URxvt.url-launcher: /usr/bin/firefox
-! scrollbar style - rxvt (default), plain (most compact), next, or xterm
+! URxvt
+URxvt.font: xft:Hack-Regular:size=12
+URxvt.boldFont: xft:Hack-Bold:size=12
+URxvt.italicFont: xft:Hack-Italic:size=12
+URxvt.boldItalicFont: xft:Hack-BoldItalic:size=12
+URxvt.copyCommand: xsel -ib
+URxvt.pasteCommand: xsel -ob
+URxvt.internalBorder: 10
 URxvt.scrollBar: false
-! do not scroll with output
-URxvt*scrollTtyOutput: false
-! scroll in relation to buffer (with mouse scroll or Shift+Page Up)
-URxvt*scrollWithBuffer: true
-! scroll back to the bottom on keypress
-URxvt*scrollTtyKeypress: true
-URxvt.perl-ext-common: default,matcher
-! click on url to open
-URxvt.matcher.button: 1
-
-URxvt.background: #263238
-URxvt.foreground: #cfd8dc
-URxvt.color0: #424242
-URxvt.color8: #757575
-URxvt.color1: #ef5350
-URxvt.color9: #e53935
-URxvt.color2: #43a047
-URxvt.color10: #66bb6a
-URxvt.color3: #fdd835
-URxvt.color11: #ffee58
-URxvt.color4: #039be5
-URxvt.color12: #29b6f6
-URxvt.color5: #d81b60
-URxvt.color13: #ec407a
-URxvt.color6: #00acc1
-URxvt.color14: #26c6da
-URxvt.color7: #e0e0e0
-URxvt.color15: #f5f5f5
+URxvt.scrollBarRight: false
+URxvt.scrollColor: #263238
+URxvt.visualBell: true
+! extensions
+URxvt.perl-ext-common: default,tabbed,resize-font
+! tabs
+URxvt.tabbar-bg: 0
+URxvt.tabbar-fg: 12
+URxvt.tab-bg: 4
+URxvt.tab-fg: 7
+! enable resize bindings
+URxvt.iso14755: false
+URxvt.iso14755_52: false
