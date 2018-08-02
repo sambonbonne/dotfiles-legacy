@@ -22,14 +22,9 @@ zplug "zplug/zplug"
 
 zplug "zsh-users/zsh-completions"
 
-export ZSH_AUTOSUGGEST_STRATEGY="match_prev_cmd"
-#export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=7'
 zplug "zsh-users/zsh-autosuggestions"
 bindkey '^[ ' autosuggest-accept
 
-# set some colors
-export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=2'
-export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='fg=1'
 zplug "zsh-users/zsh-history-substring-search", defer:3
 # in normal mode, up/down keys
 bindkey "^[[A" history-substring-search-up
@@ -69,3 +64,9 @@ if ! zplug check; then
 fi
 
 zplug load
+
+# configure some plugins after loading
+export ZSH_AUTOSUGGEST_STRATEGY="match_prev_cmd"
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=12'
+export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=14'
+export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='fg=13'
