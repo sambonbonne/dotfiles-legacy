@@ -52,7 +52,7 @@ check_command() {
   command -v "${1}" >/dev/null 2>&1 && echo "${success}" || echo "${fail}"
 }
 
-_softwares_dir="$(realpath "$(pwd)/$(dirname "${0}")")/softwares"
+_softwares_dir="$(realpath "$(pwd)/$(dirname "${0}")")/install/softwares"
 
 # get softwares configuration files
 get_config_files() {
