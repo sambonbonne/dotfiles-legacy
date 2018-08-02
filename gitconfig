@@ -62,7 +62,7 @@
   autocrlf = false
   preloadindex = true
   excludesfile = ~/.gitignore_global
-  pager = diff-so-fancy | less -x2
+  pager = less -x2
 
 [pull]
   rebase = true
