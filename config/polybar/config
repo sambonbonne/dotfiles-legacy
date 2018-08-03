@@ -1,76 +1,123 @@
-[section/bar-colors]
-background = rgb:26/32/38
-foreground = rgb:F5/F5/F5
-format-padding = 2
-
-[section/module-colors]
-background = rgb:26/32/38
-foreground = rgb:F5/F5/F5
+[section/bar-base]
+;background = #23292D
+background = #0023292D
+foreground = #E2E6E8
+fixed-center = true
 
 [bar/top]
-inherit = section/bar-colors
-;override-redirect = true
+inherit = section/bar-base
+override-redirect = true
 width = 100%
-height = 20
+height = 30
 offset-x = 0
 offset-y = 0
-padding = 5
-font-0 = Gidole=Regular:size=16
-module-margin = 10
-modules-left = xworkspaces xwindow
-modules-center = date
-modules-right = network-wireless alsa xbacklight battery
+padding-left = 0
+padding-right = 1
+module-margin-left = 0
+module-margin-right = 1
+font-0 = "Hack:style=Regular:size=12;2"
+font-1 = "Hack:style=Bold:size=12;2"
+font-2 = "Font Awesome 5 Free:style=Solid:size=12;3"
+modules-left = workspaces window
+modules-center = datetime
+modules-right = network-wireless sound backlight battery power
 locale = fr_FR.UTF-8
 
-[module/xworkspaces]
-inherit = section/module-colors
+[module/workspaces]
 type = internal/xworkspaces
 pin-workspaces = false
 enable-click = true
 enable-scroll = true
+label-active = " %index% "
+label-active-font = 1
+label-active-foreground = #A7FFEB
+label-occupied = " %index% "
+label-empty = " %index% "
+label-urgent = " %index% "
+label-urgent-font = 1
+label-urgent-foreground = #FF8A80
 
-[module/xwindow]
-inherit = section/module-colors
+[module/window]
 type = internal/xwindow
-label-empty = "?"
+label-empty = " "
+format-foreground = #80D8FF
 
-[module/date]
+[module/datetime]
 type = internal/date
 interval = 1.0
 date = %Y-%m-%d
 time = %H:%M
-label = %date% %time%
+label = "%date% %time%"
 
 [module/network-wireless]
 type = internal/network
-interface = wlan0
+interface = wlp1s0
 format-connected = <label-connected>
-label-connected = %essid% %local_ip%
+format-connected-padding = 1
+label-connected = "%{T2}%{T-} %essid% %local_ip%"
+label-connected-foreground = #B9F6CA
 format-disconnected = <label-disconnected>
-label-connected-foreground = #B2DFDB
+format-disconnected-padding = 1
+label-disconnected = "%ifname%"
+label-disconnected-foreground = #FF8A80
 
-[module/alsa]
-type = internal/alsa
-format-volume = <bar-volume>
-mapped = true
+[module/sound]
+type = internal/pulseaudio
+format-volume = "<label-volume> <bar-volume>"
+format-volume-foreground = #EA80FC
+format-muted-foreground = #EA80FC
+label-muted = "%{T2}%{T-}"
+label-volume = "%{T2}%{T-}"
+;mapped = true
+ramp-volume-0 = "%{T2}%{T-}"
+ramp-volume-1 = "%{T2}%{T-}"
+bar-volume-width = 10
+bar-volume-empty = "○"
+bar-volume-fill = "○"
+bar-volume-indicator = "●"
 
-[module/xbacklight]
+[module/backlight]
 type = internal/xbacklight
+format = "<label> <bar>"
+label = "%{T2}%{T-}"
+format-padding = 1
+format-foreground = #FFFF8D
 enable-scroll = true
-format = <bar>
 bar-width = 10
-bar-indicator = |
-bar-fill = "-"
-bar-empty = " "
+bar-empty = "─"
+bar-fill = "━"
+bar-indicator = "╾"
 
 [module/battery]
 type = internal/battery
 full-at = 99
 battery = BAT0
 adapter = ADP0
-format-charging = <label-charging>
-format-discharging = <label-discharging>
+time-format = "%H:%M"
+format-charging = "%{T2}%{T-} <ramp-capacity> <label-charging>"
+format-charging-foreground = #A7FFEB
+format-discharging = "<ramp-capacity> <label-discharging>"
+format-discharging-foreground = #FF9E80
 format-full = <label-full>
-label-charging = ⚡ %percentage%
-label-discharging = 🔋 %percentage%
-label-full = 🔋⚡
+format-full-padding = 1
+label-charging = "🔌%time%"
+label-discharging = "%time%"
+label-full = "100%"
+ramp-capacity-0 = "%{T2}%{T-}"
+ramp-capacity-1 = "%{T2}%{T-}"
+ramp-capacity-2 = "%{T2}%{T-}"
+ramp-capacity-3 = "%{T2}%{T-}"
+ramp-capacity-4 = "%{T2}%{T-}"
+
+[module/power]
+type = custom/menu
+expand-right = true
+label-open = "%{T2}%{T-}"
+label-close = "  %{T2}%{T-} "
+label-separator = " "
+menu-0-0 = "%{F#A7FFEB}%{T2}%{T-}%{F-}"
+menu-0-0-exec = sync && systemctl hibernate
+menu-0-1 = "%{F#FFFF8D}%{T2}%{T-}%{F-}"
+menu-0-1-exec = sync && reboot
+menu-0-2 = "%{F#FF8A80}%{T2}%{T-}%{F-}"
+menu-0-3-exec = sync && shutdown now
