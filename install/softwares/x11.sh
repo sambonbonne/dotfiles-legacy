@@ -1,9 +1,6 @@
 #!/usr/bin/env sh
 
-ensure_directory .config/conky
-ensure_directory .config/dunst
-ensure_directory .config/lemonbar
-ensure_directory .config/polybar
+ensure_directory .config
 
 link_config "Xresources"
 link_config "spectrwm.conf"

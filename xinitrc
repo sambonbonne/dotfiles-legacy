@@ -4,11 +4,11 @@ setxkbmap -option compose:ralt # compose key
 
 # decorations
 [[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
-feh --bg-scale "${HOME}/media/images/cityscape.png"
+feh --bg-scale "${HOME}/.config/background.png"
 
 # utils
 uxrvtd -q -o -f
-~/.config/lemonbar/launch.sh
+compton -b --config ~/.config/compton.conf
 redhisft &
 
 # start WM
