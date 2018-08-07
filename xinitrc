@@ -9,7 +9,7 @@ feh --bg-scale "${HOME}/.config/background.png"
 # utils
 uxrvtd -q -o -f
 compton -b --config ~/.config/compton.conf
-redhisft &
+#redhisft &
 
 # start WM
 exec spectrwm
