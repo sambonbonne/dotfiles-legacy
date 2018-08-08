@@ -96,19 +96,17 @@ battery = BAT0
 adapter = ADP0
 time-format = "%H:%M"
 format-charging = "%{T2}%{T-} <ramp-capacity> <label-charging>"
-format-charging-foreground = #A7FFEB
 format-discharging = "<ramp-capacity> <label-discharging>"
-format-discharging-foreground = #FF9E80
 format-full = <label-full>
 format-full-padding = 1
-label-charging = "🔌%time%"
-label-discharging = "%time%"
+label-charging = "%{F#B9F6CA}🔌%time%%{F-}"
+label-discharging = "%{F#FF9E80}%time%%{F-}"
 label-full = "100%"
-ramp-capacity-0 = "%{T2}%{T-}"
-ramp-capacity-1 = "%{T2}%{T-}"
-ramp-capacity-2 = "%{T2}%{T-}"
-ramp-capacity-3 = "%{T2}%{T-}"
-ramp-capacity-4 = "%{T2}%{T-}"
+ramp-capacity-0 = "%{F#FF8A80}%{T2}%{T-}%{F-}"
+ramp-capacity-1 = "%{F#FFD180}%{T2}%{T-}%{F-}"
+ramp-capacity-2 = "%{F#FFFF8D}%{T2}%{T-}%{F-}"
+ramp-capacity-3 = "%{F#CCFF90}%{T2}%{T-}%{F-}"
+ramp-capacity-4 = "%{F#A7FFEB}%{T2}%{T-}%{F-}"
 
 [module/power]
 type = custom/menu
