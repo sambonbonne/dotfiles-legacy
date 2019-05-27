@@ -370,7 +370,9 @@ call dein#add('joshdick/onedark.vim')
 call dein#add('wellsjo/wellsokai.vim')
 
 " Highlight hex colors
-call dein#add('vim-scripts/colorizer', { 'on_ft': [ 'html', 'tpl', 'markdown', 'md' ] })
+call dein#add('vim-scripts/colorizer', {
+      \ 'on_ft': [ 'html', 'tpl', 'markdown', 'md', 'adoc', 'asciidoc' ]
+      \ })
 let g:colorizer_nomap = 1
 
 " Less distraction

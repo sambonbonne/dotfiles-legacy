@@ -23,6 +23,7 @@ _default_editor() {
 export EDITOR="$(_default_editor)"
 export GIT_EDITOR="${EDITOR}"
 [ "${EDITOR}" = "nvim" ] && alias vim='nvim'
+DIFFPROG="${EDITOR} -d"
 
 # a simple Vim pager
 vless() {

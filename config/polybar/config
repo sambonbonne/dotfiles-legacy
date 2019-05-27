@@ -15,12 +15,13 @@ padding-left = 0
 padding-right = 1
 module-margin-left = 0
 module-margin-right = 1
+overline-size = 2
 font-0 = "Hack:style=Regular:size=12;2"
 font-1 = "Hack:style=Bold:size=12;2"
 font-2 = "Font Awesome 5 Free:style=Solid:size=12;3"
 modules-left = workspaces window
 modules-center = datetime
-modules-right = network-wireless sound backlight battery power
+modules-right = network-usb network-wireless sound backlight battery power
 locale = fr_FR.UTF-8
 
 [module/workspaces]
@@ -31,11 +32,13 @@ enable-scroll = true
 label-active = " %index% "
 label-active-font = 1
 label-active-foreground = #A7FFEB
+label-active-overline = #A7FFEB
 label-occupied = " %index% "
 label-empty = " %index% "
 label-urgent = " %index% "
 label-urgent-font = 1
 label-urgent-foreground = #FF8A80
+label-urgent-overline = #FF8A80
 
 [module/window]
 type = internal/xwindow
@@ -49,6 +52,16 @@ interval = 1.0
 date = %Y-%m-%d
 time = %H:%M
 label = "%date% %time%"
+
+[module/network-usb]
+type = internal/network
+interface = enp0s20f0u2
+format-connected = <label-connected>
+format-connected-padding = 1
+label-connected = "%{T2}%ifname%%{T-}"
+label-connected-foreground = #B9F6CA
+format-disconnected =
+format-disconnected-padding = 0
 
 [module/network-wireless]
 type = internal/network
@@ -95,13 +108,13 @@ full-at = 99
 battery = BAT0
 adapter = ADP0
 time-format = "%H:%M"
-format-charging = "%{T2}%{T-} <ramp-capacity> <label-charging>"
+format-charging = "<ramp-capacity> <label-charging>"
 format-discharging = "<ramp-capacity> <label-discharging>"
 format-full = <label-full>
 format-full-padding = 1
-label-charging = "%{F#B9F6CA}🔌%time%%{F-}"
-label-discharging = "%{F#FF9E80}%time%%{F-}"
-label-full = "100%"
+label-charging = "%{F#FFFF8D}%{T2}%{T-} %time%%{F-}"
+label-discharging = "%{F#FF9E80}%{T2}%{T-} %time%%{F-}"
+label-full = "%{F#B9F6CA}%{T2}%{T-}%{F-}"
 ramp-capacity-0 = "%{F#FF8A80}%{T2}%{T-}%{F-}"
 ramp-capacity-1 = "%{F#FFD180}%{T2}%{T-}%{F-}"
 ramp-capacity-2 = "%{F#FFFF8D}%{T2}%{T-}%{F-}"
@@ -118,6 +131,6 @@ menu-0-0 = "%{F#A7FFEB}%{T2}%{T-}%{F-}"
 menu-0-0-exec = systemctl suspend
 m(je vais prendre des places catégorie 1, histoire qu'ils voient bien)enu-0-1 = "%{F#FFFF8D}%{T2}%{T-}%{F-}"
 menu-0-1 = "%{F#FFFF8D}%{T2}%{T-}%{F-}"
-menu-0-1-exec = systemctl reboot
+menu-0-1-exec = reboot
 menu-0-2 = "%{F#FF8A80}%{T2}%{T-}%{F-}"
 menu-0-2-exec = shutdown now

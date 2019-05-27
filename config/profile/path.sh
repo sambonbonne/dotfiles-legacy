@@ -17,6 +17,11 @@ path_append() {
 	[ -d "${1}" ] && (! str_contains "${PATH}" "${1}") && PATH="${1}:${PATH}"
 }
 
+# global
+path_append "/bin"
+path_append "/usr/bin"
+path_append "/usr/local/bin"
+# home
 path_append "${HOME}/bin"
 path_append "${HOME}/.local/bin"
 path_append "${HOME}/.npm/bin"

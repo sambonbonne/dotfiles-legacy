@@ -66,7 +66,7 @@ fi
 zplug load
 
 # configure some plugins after loading
-export ZSH_AUTOSUGGEST_STRATEGY="match_prev_cmd"
+export ZSH_AUTOSUGGEST_STRATEGY=("match_prev_cmd")
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=12'
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=14'
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='fg=13'
