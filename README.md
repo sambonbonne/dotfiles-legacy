@@ -12,11 +12,13 @@ Console
 * [Git](https://git-scm.com/)
 * [npm](https://www.npmjs.com/)
 * [The Fuck](https://github.com/nvbn/thefuck)
+* [Vifm](https://vifm.info/)
 
 X
 ---
 
 * [spectrwm](https://github.com/conformal/spectrwm)
+* [Rofi](https://github.com/davatorium/rofi)
 * [polybar](https://github.com/jaagr/polybar) ([lemonbar](https://github.com/LemonBoy/bar) too but will be removed due to lack of official XFT compatibility)
 * [feh](https://feh.finalrewind.org/) (for background)
 * [urxvt](http://software.schmorp.de/pkg/rxvt-unicode.html)
