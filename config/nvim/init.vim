@@ -10,6 +10,8 @@ endif " has("nvim")
 
 let mapleader = "\<Space>" " better than backslash
 
+let g:node_host_prog = "/usr/bin/neovim-node-host"
+
 let s:plugin_manager_directory = $HOME . '/.cache/vim-plugins'
 exec "set runtimepath+=" . s:plugin_manager_directory . '/repos/github.com/Shougo/dein.vim'
 
@@ -139,7 +141,7 @@ if has("nvim")
 
   let g:atags_is_building = 0
 
-  function! TagsBuilded() " need a global function ...
+  function! TagsBuilded(...) " need a global function ...
     let g:atags_is_building = 0
   endfunction " s:TagBuilded
 
@@ -463,10 +465,6 @@ set cursorline
 command! CursorColumn set cursorcolumn!
 " Also switch on highlighting the last used search pattern.
 set hlsearch
-" And change cursor type when inserting
-if has("nvim")
-  let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-endif " has("nvim")
 
 if has("gui_running")
   set guifont=Fira\ Mono\ 10
