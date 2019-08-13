@@ -27,6 +27,7 @@ X
 * [i3lock](https://i3wm.org/i3lock/) (really, I don't know any better screen locker)
 * [xss-lock](https://bitbucket.org/raymonad/xss-lock)
 * [redshift](http://jonls.dk/redshift/)
+* [Termite](https://github.com/thestinger/termite)
 
 Install
 =======
