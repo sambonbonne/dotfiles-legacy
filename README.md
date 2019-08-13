@@ -19,9 +19,8 @@ X
 
 * [spectrwm](https://github.com/conformal/spectrwm)
 * [Rofi](https://github.com/davatorium/rofi)
-* [polybar](https://github.com/jaagr/polybar) ([lemonbar](https://github.com/LemonBoy/bar) too but will be removed due to lack of official XFT compatibility)
+* [polybar](https://github.com/jaagr/polybar)
 * [feh](https://feh.finalrewind.org/) (for background)
-* [urxvt](http://software.schmorp.de/pkg/rxvt-unicode.html)
 * [dunst](https://dunst-project.org/)
 * [compton](https://github.com/chjj/compton)
 * [i3lock](https://i3wm.org/i3lock/) (really, I don't know any better screen locker)
