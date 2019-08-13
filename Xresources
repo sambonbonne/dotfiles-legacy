@@ -39,7 +39,7 @@ URxvt.scrollBarRight: false
 URxvt.scrollColor: #263238
 URxvt.visualBell: true
 ! extensions
-URxvt.perl-ext-common: default,tabbed,resize-font
+URxvt.perl-ext-common: default,tabbed
 ! tabs
 URxvt.tabbar-bg: 0
 URxvt.tabbar-fg: 12
