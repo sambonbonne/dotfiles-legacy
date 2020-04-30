@@ -1,6 +1,6 @@
 # Commands alias
-alias l='ls -FhlX --color=always --hide="*~"'
-alias ll='ls -AFhlX --color=always --hide="*~"'
+alias l='ls -Fhl --group-directories-first --color=always --hide="*~"'
+alias ll='ls -AFhl --group-directories-first --color=always --hide="*~"'
 alias search='grep -RnF --exclude "*~" --color=always'
 alias c='clear && l'
 alias zsh_history='mv ~/.zsh_history ~/.zsh_history_bad && strings ~/.zsh_history_bad > ~/.zsh_history && fc -R ~/.zsh_history && rm ~/.zsh_history_bad'
