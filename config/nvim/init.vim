@@ -188,7 +188,7 @@ call dein#add('Shougo/unite.vim', {
 call dein#add('Shougo/denite.nvim', {
       \ 'if': has('nvim'),
       \ 'hook_post_source': join([
-      \   "call denite#custom#var('file_rec', 'command', [ 'scantree.py' ])"
+      \   "call denite#custom#var('file/rec', 'command', [ 'scantree.py' ])"
       \ ], '\n')
       \ })
 call dein#add('Shougo/neoyank.vim')
@@ -225,16 +225,16 @@ else
   nnoremap <Leader>c :Denite change<CR>
 
   " File/content search
-  nnoremap <Leader>f :Denite file_rec<CR>
-  nnoremap <Leader><Return> :Denite file_rec<CR>
+  nnoremap <Leader>f :Denite file/rec<CR>
+  nnoremap <Leader><Return> :Denite file/rec<CR>
   "command! Search :Denite grep<CR>
 
   " Jumps list
   nnoremap <Leader>j :Denite jump<CR>
 
   " On split, open file search
-  nnoremap _ :split<CR>:Denite file_rec<CR>
-  nnoremap <Bar> :vsplit<CR>:Denite file_rec<CR>
+  nnoremap _ :split<CR>:Denite file/rec<CR>
+  nnoremap <Bar> :vsplit<CR>:Denite file/rec<CR>
 endif
 
 " A better file manager
@@ -291,12 +291,6 @@ nnoremap <C-K> <C-W>k
 vnoremap <C-K> <C-W>k
 nnoremap <C-L> <C-W>l
 vnoremap <C-L> <C-W>l
-if has("nvim") " issue https://github.com/neovim/neovim/issues/2048 (fixed in 0.2)
-  tnoremap <C-H> <C-\><C-N><C-W>h
-  tnoremap <C-J> <C-\><C-N><C-W>j
-  tnoremap <C-K> <C-\><C-N><C-W>k
-  tnoremap <C-L> <C-\><C-N><C-W>l
-endif " has("nvim")
 
 " Faster editing
 set foldmethod=indent
@@ -328,6 +322,8 @@ let g:neomake_warning_sign = {
 let g:neomake_open_list = 2
 let g:neomake_list_height = 4
 "let g:neomake_javascript_enabled_makers = [ 'eslint' ]
+let g:neomake_typescript_enable_makers = [ 'eslint', 'tsc' ]
+let g:neomake_python_enabled_makers = [ 'pylint' ]
 function! NeomakeOpenList()
   if (g:neomake_open_list > 0)
     let g:neomake_open_list = 0
@@ -347,6 +343,8 @@ call dein#add('tpope/vim-fugitive')
 call dein#add('airblade/vim-gitgutter')
 
 " Syntax and language detection
+let g:vim_markdown_conceal = 0
+let g:markdown_enable_conceal = 0
 call dein#add('sheerun/vim-polyglot') " There is a grate quantity of languages in this
 let g:javascript_plugin_jsdoc = 1
 call dein#add('othree/javascript-libraries-syntax.vim', { 'on_ft': 'javascript' })
@@ -359,6 +357,10 @@ call dein#add('chrisbra/csv.vim', { 'on_ft': 'csv' })
 call dein#add('timonv/vim-cargo', { 'on_ft': 'rust' })
 call dein#add('lervag/vimtex', { 'on_ft': [ 'tex', 'latex', 'plaintex' ] })
 call dein#add('alcesleo/vim-uppercase-sql', { 'on_ft': 'sql' })
+call dein#add('iamcco/markdown-preview.nvim', {
+      \ 'on_ft': ['markdown', 'pandoc.markdown', 'rmd'],
+      \ 'build': 'sh -c "cd app && npm install"'
+      \ })
 
 " Some Unix commands directly inside the editor
 call dein#add('tpope/vim-eunuch')

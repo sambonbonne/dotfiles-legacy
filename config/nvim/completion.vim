@@ -18,8 +18,7 @@ call dein#add('Shougo/deoplete.nvim', {
       \ 'if': s:completion_choice.deoplete,
       \ 'hook_source': join([
       \   s:completion_mapping,
-      \   'echo "Use Deoplete completion"',
-      \   'autocmd InsertLeave * call deoplete#refresh()'
+      \   'echo "Use Deoplete completion"'
       \ ], "\n"),
       \ })
 if !has('nvim')
@@ -90,7 +89,6 @@ let g:tern#arguments = [ "--persistent" ]
 " TypeScript
 call dein#add('HerringtonDarkholme/yats.vim')
 call dein#add('mhartington/nvim-typescript', {
-      \ 'rev': '1e976f105e92c5151654f493a5c590f310a8e728',
       \ 'if': s:completion_choice.deoplete,
       \ 'depends': [ 'deoplete.nvim', 'yats.vim' ],
       \ 'on_ft': [ 'typescript', 'tsx' ],
@@ -98,7 +96,7 @@ call dein#add('mhartington/nvim-typescript', {
       \ })
 
 " Python
-call dein#add('davidhalter/jedi-vim', { 'on_ft': 'python', 'build': 'pip3 install --user --upgrade jedi' })
+" call dein#add('davidhalter/jedi-vim', { 'on_ft': 'python', 'build': 'pip3 install --user --upgrade jedi' })
 call dein#add('zchee/deoplete-jedi', { 'if': s:completion_choice.deoplete, 'depends': 'deoplete.nvim', 'on_ft': 'python' })
 let g:jedi#auto_vim_configuration = 0
 let g:jedi#popup_select_first = 0
