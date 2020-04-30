@@ -5,9 +5,9 @@
  *******************************************************************************/
 
 * {
-  window-background:                  argb:0023292D;
+  window-background:           argb:0023292D;
 
-  background:                 #23292D;
+  background:                  #23292D;
   background-color:            @background;
 
   normal-background:           @background;
