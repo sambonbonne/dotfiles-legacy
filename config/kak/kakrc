@@ -1,1 +1,13 @@
-/home/samuel/.config/kak/kakrc
+source "%val{config}/plugins/plug.kak/rc/plug.kak"
+
+plug "lePerdu/kakboard" %{
+  hook global WinCreate .* %{ kakboard-enable }
+}
+
+plug "danr/kakoune-easymotion"
+plug "alexherbo2/auto-pairs.kak"
+
+plug "ul/kak-lsp" do %{
+  cargo install --locked --force --path .
+}
+
