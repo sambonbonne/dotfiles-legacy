@@ -4,10 +4,66 @@ plug "lePerdu/kakboard" %{
   hook global WinCreate .* %{ kakboard-enable }
 }
 
-plug "danr/kakoune-easymotion"
+plug "danr/kakoune-easymotion" config %{
+  map global normal <ret> ':enter-user-mode easymotion<ret>'
+}
 plug "alexherbo2/auto-pairs.kak"
 
 plug "ul/kak-lsp" do %{
   cargo install --locked --force --path .
 }
 
+plug "andreyorst/fzf.kak" defer "fzf" %{
+  set-option global fzf_implementation 'sk'
+  require-module fzf
+
+} config %{
+  map -docstring 'Fuzzy find' global user <space> ': fzf-mode<ret>'
+}
+
+set global tabstop 2
+set global indentwidth 2
+hook global InsertChar \t %{ exec -draft -itersel h@ }
+
+colorscheme base16
+
+# Use tab for auto completion
+hook global InsertCompletionShow .* %{
+  try %{
+    map window insert <tab> <c-n>
+    map window insert <s-tab> <c-p>
+  }
+}
+hook global InsertCompletionHide .* %{
+  unmap window insert <tab> <c-n>
+  unmap window insert <s-tab> <c-p>
+}
+
+#map global normal <space> ':enter-user-mode user<ret>'
+map -docstring 'Save' global user , :w<ret>
+map -docstring 'Close buffer' global user q :db<ret>
+map -docstring 'Save and quit' global user w :wq<ret>
+map -docstring 'Quit without saving' global user <s-q> :q!<ret>
+
+# dynamic numbers (switch between absolute and relative followinf insert and other modes)
+def set-line-numbers-relatives %{
+  remove-highlighter window/line-numbers
+  add-highlighter window/line-numbers number-lines -relative -hlcursor -min-digits 4
+}
+def set-line-numbers-absolutes %{
+  remove-highlighter window/line-numbers
+  add-highlighter window/line-numbers number-lines -hlcursor -min-digits 4
+}
+hook global WinCreate .* %{ set-line-numbers-relatives }
+hook global ModeChange push:normal:insert %{ set-line-numbers-absolutes }
+hook global ModeChange pop:insert:normal %{ set-line-numbers-relatives }
+
+# splits/windows management (with Tmux)
+declare-user-mode windows
+map -docstring 'Enter windows management mode' global normal = ':enter-user-mode windows<ret>'
+map -docstring 'New window' global windows c ':tmux-terminal-window kak -c %val{session}<ret>'
+map -docstring 'Close' global windows q ':q<ret>'
+map -docstring 'Split vertically' global windows v ':tmux-terminal-vertical kak -c %val{session}<ret>'
+map -docstring 'Split horizontally' global windows h ':tmux-terminal-horizontal kak -c %val{session}<ret>'
+
+def find -params 1 -shell-script-candidates %{ find -type f } %{ edit %arg{1} }
