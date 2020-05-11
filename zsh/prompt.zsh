@@ -1,6 +1,7 @@
 ### Oh yeah my prompt
 autoload -U promptinit && promptinit
 setopt PROMPT_SUBST
+ZLE_RPROMPT_INDENT=0
 
 function refresh_prompts() {
   { zle && zle .reset-prompt } 2> /dev/null
@@ -14,7 +15,7 @@ function _prompt_context() {
   local _default_username="samuel"
 
   if [[ "${LOGNAME}" != "${USER}" || "${LOGNAME}" != "${_default_username}" || "${USER}" != "${_default_username}" ]] ; then
-    prompt="${prompt}%{$fg_no_bold[cyan]%}%n%{$reset_color%}"
+    prompt="${prompt}%{$fg_no_bold[blue]%}%n%{$reset_color%}"
   fi
 
   unset _default_username
@@ -24,37 +25,23 @@ function _prompt_context() {
     prompt="${prompt}%{$fg_no_bold[blue]%}%M%{$reset_color%}"
   fi
 
-  local _cgroup_file="/proc/1/cgroup"
-  if [[ -f "${_cgroup_file}" ]]; then
-    local _nixos_container="$(cat ${_cgroup_file} | grep container | grep 'name=systemd' | cut -d: -f3)"
-
-    if [[ "${_nixos_container}" =~ "container@" ]]; then
-      local _nixos_container_name="$(echo "${_nixos_container}" | cut -d@ -f2 | cut -d. -f1)"
-      [ -n "${prompt}" ] && prompt="${prompt}@"
-      prompt="${prompt}%{$fg_no_bold[blue]%}${_nixos_container_name}%{$reset_color%}"
-    fi
-  fi
-
-  [ -n "${prompt}" ] && prompt=" ${prompt}"
+  [ -n "${prompt}" ] && prompt=" ${prompt} "
 
   echo -n "${prompt}"
 }
 
 function prompt_informations() {
-  local prompt=""
-
-  [[ "${VIRTUAL_ENV}" != "" ]] && prompt="${prompt} %{$fg_no_bold[red]%}$(basename ${VIRTUAL_ENV})%{$reset_color%}"
+  local prompt="%${_prompt_path_max_length:-}~"
 
   if [[ ${COLUMNS} -lt 80 ]]; then
     local _prompt_path_max_length=2
   elif [[ ${COLUMNS} -lt 90 ]]; then
     local _prompt_path_max_length=3
   fi
-  prompt="${prompt} %{$fg_no_bold[yellow]%}%${_prompt_path_max_length:-}~%{$reset_color%}"
 
   echo -n "${prompt}"
 }
-BASE_PROMPT='%{$fg_no_bold[white]%}%T%{$reset_color%}$(_prompt_context)$(prompt_informations)'
+BASE_PROMPT='$(_prompt_context)$(prompt_informations)'
 PROMPT="${BASE_PROMPT}"
 
 # current vi mode and last status
@@ -68,14 +55,15 @@ function zle-line-finish zle-keymap-select {
 
   case "${KEYMAP}" in
     vicmd)
-      PROMPT="${PROMPT}%{$fg_no_bold[yellow]%}?"
+      PROMPT="${PROMPT}%{$fg_no_bold[blue]%}"
       ;;
     *)
-      PROMPT="${PROMPT}%(?.%{$fg_no_bold[green]%}→.%{$fg_bold[red]%}!)"
+      PROMPT="${PROMPT}%(?.%{$fg_no_bold[green]%}.%{$fg_bold[red]%})"
       ;;
   esac
 
-  PROMPT="${PROMPT}%{$reset_color%}${_nbsp}"
+  PROMPT="${PROMPT}❯%{$reset_color%}${_nbsp}"
+
   refresh_prompts
 }
 zle -N zle-line-finish
@@ -99,8 +87,22 @@ _line_down=$'\e[1B'
 BASE_RPROMPT='%{$fg_no_bold[white]%}%(?.$(rprompt_last_duration).%{$fg_no_bold[red]%}%?%{$fg_no_bold[white]%})%{$reset_color%}%(1j. (%{$fg_no_bold[magenta]%}%j%{$reset_color%}💤%).)'
 source ~/.zsh/git.prompt.zsh
 
+function base_rprompt() {
+  local rprompt="${BASE_RPROMPT}"
+
+  rprompt="${rprompt}"
+  [[ "${VIRTUAL_ENV}" != "" ]] && rprompt="${rprompt} %{$bg[black]%} $(basename ${VIRTUAL_ENV}) %{$reset_color%}"
+
+  echo "${rprompt}"
+}
+
 function rprompt_slow_cmd() {
-  echo "$(git_prompt_string)"
+  local rpromt=""
+
+  local rprompt_git="$(git_prompt_string)"
+  test -n "${rprompt_git}" && rprompt="${rprompt} %{$bg[black]%} ${rprompt_git} %{$reset_color%}"
+
+  echo "${rprompt}"
 }
 
 function rprompt_last_duration() {
@@ -131,7 +133,9 @@ function build_rprompt() {
     unset _rprompt_timer
   fi
 
-  RPROMPT="%{${_line_up}%}${BASE_RPROMPT} 🔃%{${_line_down}%}"
+  local prompt=""
+
+  RPROMPT="%{${_line_up}%}$(base_rprompt) 🔃%{${_line_down}%}"
 
   function async() {
     printf "%s" "$(rprompt_slow_cmd)" > "${_async_rprompt_tmp_file}"
@@ -151,7 +155,7 @@ function precmd() {
 }
 
 function TRAPUSR1() {
-  RPROMPT="%{${_line_up}%}${BASE_RPROMPT}$(cat ${_async_rprompt_tmp_file})%{${_line_down}%}"
+  RPROMPT="%{${_line_up}%}$(base_rprompt)$(cat ${_async_rprompt_tmp_file})%{${_line_down}%}"
 
   ASYNC_RPROMPT_PROC=0
   refresh_prompts
@@ -160,6 +164,8 @@ function TRAPUSR1() {
   if [[ ${_async_rprompt_tmp_file_rm_enable} -eq 0 ]]; then
     trap "rm '${_async_rprompt_tmp_file}'" EXIT
     _async_rprompt_tmp_file_rm_enable=1
+  else
+    rm "${_async_rprompt_tmp_file}"
   fi
 }
 

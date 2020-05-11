@@ -1,12 +1,12 @@
 ## We want git informations
 # Modify the colors and symbols in these variables as desired.
-GIT_PROMPT_SYMBOL="%{$fg[white]%}✓%{$reset_color%}"
-GIT_PROMPT_MODIFIED="%{$fg[yellow]%}±%{$reset_color%}"
-GIT_PROMPT_STAGED="%{$fg[green]%}±%{$reset_color%}"
-GIT_PROMPT_UNTRACKED="%{$fg[cyan]%}+%{$reset_color%}"
-GIT_PROMPT_AHEAD=" %{$fg[blue]%}↑NUM%{$reset_color%}"
-GIT_PROMPT_BEHIND=" %{$fg[magenta]%}↓NUM%{$reset_color%}"
-GIT_PROMPT_MERGING=" %{$fg[red]%}⚡︎%{$reset_color%}"
+GIT_PROMPT_SYMBOL="%{$fg[white]%}✓%{$reset_color%}%{$bg[black]%}"
+GIT_PROMPT_MODIFIED="%{$fg[yellow]%}±%{$reset_color%}%{$bg[black]%}"
+GIT_PROMPT_STAGED="%{$fg[green]%}±%{$reset_color%}%{$bg[black]%}"
+GIT_PROMPT_UNTRACKED="%{$fg[cyan]%}+%{$reset_color%}%{$bg[black]%}"
+GIT_PROMPT_AHEAD=" %{$fg[blue]%}↑NUM%{$reset_color%}%{$bg[black]%}"
+GIT_PROMPT_BEHIND=" %{$fg[magenta]%}↓NUM%{$reset_color%}%{$bg[black]%}"
+GIT_PROMPT_MERGING=" %{$fg[red]%}⚡︎%{$reset_color%}%{$bg[black]%}"
 
 # Show Git branch/tag, or name-rev if on detached head
 function parse_git_branch() {
@@ -74,11 +74,11 @@ function git_prompt_string() {
   git_where="${git_where#(refs/heads/|tags/)}"
   if [ -n "${git_where}" ]; then
     if [[ ${COLUMNS} -gt 90 ]]; then
-      echo " {$(parse_git_state_full) %{$reset_color%}%{$fg[cyan]%}${git_where}%{$reset_color%}}"
+      echo "$(parse_git_state_full) %{$reset_color%}%{$bg[black]%}${git_where}"
     elif [[ ${COLUMNS} -gt 60 ]]; then
-      echo " %{$reset_color%}$(clean_branch_color)${git_where}%{$reset_color%}"
+      echo "$(clean_branch_color)${git_where}"
     else
-      echo " %{$reset_color%}$(clean_branch_color)${git_where[1,10]}%{$reset_color%}"
+      echo "$(clean_branch_color)${git_where[1,10]}"
     fi
   fi
 }
