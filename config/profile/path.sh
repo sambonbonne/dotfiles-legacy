@@ -24,5 +24,6 @@ path_append "/usr/local/bin"
 # home
 path_append "${HOME}/bin"
 path_append "${HOME}/.local/bin"
+path_append "${HOME}/.cargo/bin"
 path_append "${HOME}/.npm/bin"
 path_append "${HOME}/.composer/vendor/bin"
