@@ -11,6 +11,15 @@ plug "alexherbo2/auto-pairs.kak"
 
 plug "ul/kak-lsp" do %{
   cargo install --locked --force --path .
+} config %{
+  set-option global lsp_auto_highlight_references true
+  set-option global lsp_hover_anchor false
+  lsp-auto-hover-enable
+
+  #eval %sh{kak-lsp --kakoune -s $kak_session}
+  lsp-enable
+
+  hook global KakEnd .* lsp-exit
 }
 
 plug "andreyorst/fzf.kak" defer "fzf" %{
@@ -21,11 +30,12 @@ plug "andreyorst/fzf.kak" defer "fzf" %{
   map -docstring 'Fuzzy find' global user <space> ': fzf-mode<ret>'
 }
 
+colorscheme nord
+
+# Indentation management
 set global tabstop 2
 set global indentwidth 2
 hook global InsertChar \t %{ exec -draft -itersel h@ }
-
-colorscheme base16
 
 # Use tab for auto completion
 hook global InsertCompletionShow .* %{
