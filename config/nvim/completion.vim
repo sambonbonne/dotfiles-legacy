@@ -110,5 +110,8 @@ let g:jedi#rename_command = "<leader>r"
 " Django of course
 call dein#add('tweekmonster/django-plus.vim', { 'on_ft': 'python' })
 
+" Rust
+call dein#add('racer-rust/vim-racer', { 'on_ft': 'rust' })
+
 " Haskell
 call dein#add('eagletmt/neco-ghc', { 'on_ft': 'haskell' })
