@@ -1,5 +1,7 @@
 source "%val{config}/plugins/plug.kak/rc/plug.kak"
 
+plug "andreyorst/plug.kak" noload
+
 plug "lePerdu/kakboard" %{
   hook global WinCreate .* %{ kakboard-enable }
 }
@@ -21,6 +23,8 @@ plug "ul/kak-lsp" do %{
 
   hook global KakEnd .* lsp-exit
 }
+
+plug "whereswaldon/shellcheck.kak"
 
 plug "andreyorst/fzf.kak" defer "fzf" %{
   set-option global fzf_implementation 'sk'
