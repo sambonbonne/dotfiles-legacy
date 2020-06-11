@@ -55,6 +55,9 @@ load_zsh_config "prompt"
 ## Some alias, can belways usefull
 load_zsh_config "alias"
 
+## Hooks
+load_zsh_config "hooks"
+
 ## And some mapping
 load_zsh_config "map"
 
