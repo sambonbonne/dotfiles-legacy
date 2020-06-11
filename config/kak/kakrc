@@ -81,3 +81,27 @@ map -docstring 'Split vertically' global windows v ':tmux-terminal-vertical kak 
 map -docstring 'Split horizontally' global windows h ':tmux-terminal-horizontal kak -c %val{session}<ret>'
 
 def find -params 1 -shell-script-candidates %{ find -type f } %{ edit %arg{1} }
+
+# show and remove trailing whitespaces
+define-command -hidden show-trailing-whitespaces %{
+  try %{
+    add-highlighter global/trailing-whitespaces regex '\h+$' 0:default,red
+  }
+}
+define-command -hidden hide-trailing-whitespaces %{
+  try %{
+    remove-highlighter global/trailing-whitespaces
+  }
+}
+define-command -hidden remove-trailing-whitespaces %{
+  try %{
+    exec -draft '%s\h+$<ret>d'
+  }
+}
+hook global WinDisplay .*              show-trailing-whitespaces
+hook global ModeChange 'insert:normal' show-trailing-whitespaces
+hook global ModeChange 'normal:insert' hide-trailing-whitespaces
+hook global BufWritePre .*             remove-trailing-whitespaces
+
+# config reload
+map -docstring "Reload configuration" global user r ":source %val{config}/kakrc"
