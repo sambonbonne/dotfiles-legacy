@@ -12,18 +12,21 @@ export LESS_TERMCAP_ue=$'\E[0m'
 
 # Default editor
 _default_editor() {
-  local nvim_path="$(command -v nvim)"
-  [ -n "${nvim_path}" ] && echo "${nvim_path}" && return 0
+  kak_path="$(command -v kak)"
+  test -n "${kak_path}" && echo "${kak_path}" && return 0
 
-  local vim_path="$(command -v vim)"
-  [ -n "${vim_path}" ] && echo "${vim_path}" && return 0
+  nvim_path="$(command -v nvim)"
+  test -n "${nvim_path}" && echo "${nvim_path}" && return 0
+
+  vim_path="$(command -v vim)"
+  test -n "${vim_path}" && echo "${vim_path}" && return 0
 
   echo "vi" && return 0
 }
 export EDITOR="$(_default_editor)"
 export GIT_EDITOR="${EDITOR}"
-[ "${EDITOR}" = "nvim" ] && alias vim='nvim'
-DIFFPROG="${EDITOR} -d"
+test "${EDITOR}" = "nvim" && alias vim='nvim'
+test "${EDITOR}" != "kak" && DIFFPROG="${EDITOR} -d"
 
 # a simple Vim pager
 vless() {
