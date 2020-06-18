@@ -29,8 +29,3 @@ fi
 
 # Enventually set LXC infos
 is_on_lxc && load_sh_config 'lxc'
-
-# Eventually start X
-if [ "$(tty)" = "/dev/tty1" ]; then
-  [ -z "${DISPLAY}${SSH_TTY}$(pgrep xinit)" ] && exec startx > /dev/null
-fi
