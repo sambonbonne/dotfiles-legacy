@@ -118,4 +118,4 @@ gsettings set org.gnome.desktop.wm.keybindings close \
   "[ '<Super>bracketright' ]"
 
 gsettings set org.gnome.mutter.keybindings switch-monitor \
-  "[ '<Super>p' 'XF86Display' ]"
+  "[ '<Super>p', 'XF86Display' ]"
