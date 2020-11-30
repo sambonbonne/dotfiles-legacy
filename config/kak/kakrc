@@ -1,6 +1,6 @@
 source "%val{config}/plugins/plug.kak/rc/plug.kak"
 
-plug "andreyorst/plug.kak" noload
+plug "robertmeta/plug.kak" noload
 
 plug "lePerdu/kakboard" %{
   hook global WinCreate .* %{ kakboard-enable }
