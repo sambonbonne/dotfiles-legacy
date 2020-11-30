@@ -5,4 +5,4 @@ link_config "config/kak/kakrc"
 check_command "kak"
 
 # plugins installation
-git clone https://github.com/andreyorst/plug.kak.git ~/.config/kak/plugins/plug.kak
+git clone https://github.com/robertmeta/plug.kak.git ~/.config/kak/plugins/plug.kak
