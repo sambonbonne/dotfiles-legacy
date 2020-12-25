@@ -16,6 +16,8 @@ load_sh_config "path"
 load_sh_config "ssh_agent"
 load_sh_config "lc"
 load_sh_config "tools"
+load_sh_config "aliases"
+load_sh_config "prompt"
 
 # Eventually source Nix own env
 nix_env_path="${HOME}/.nix-profile/etc/profile.d/nix.sh"
