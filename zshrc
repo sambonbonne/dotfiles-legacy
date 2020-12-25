@@ -52,9 +52,6 @@ load_zsh_config "plugins"
 # Load prompt
 load_zsh_config "prompt"
 
-## Some alias, can belways usefull
-load_zsh_config "alias"
-
 ## Hooks
 load_zsh_config "hooks"
 
