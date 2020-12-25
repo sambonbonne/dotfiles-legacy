@@ -14,7 +14,8 @@ test "${COLOR_RESET}" = "" && export COLOR_RESET=$(echo -en '\033[0m')
 
 PROMPT_NBSP=$'\u00A0'
 PROMPT_STATE_SEPARATOR=" ${COLOR_BLACK}❭${COLOR_RESET}${PROMPT_NBSP}"
-PROMPT_USER="$(id -u -n)"
+PROMPT_DEFAULT_USER="${PROMPT_DEFAULT_USER:-sam}"
+PROMPT_CURRENT_USER="$(id -u -n)"
 PROMPT_HOSTNAME="$(hostname -s)"
 
 build_prompt() {
@@ -26,13 +27,15 @@ build_prompt() {
 
   echo -n "${COLOR_BLACK}╭${COLOR_RESET} "
 
-  echo -n "${COLOR_BLUE}${PROMPT_USER}${COLOR_RESET}"
-
-  if [ "${SSH_CLIENT}" != "" ]; then
-    echo -n "${PROMPT_STATE_SEPARATOR}${COLOR_CYAN}${PROMPT_HOSTNAME}${COLOR_RESET}"
+  if [ "${PROMPT_CURRENT_USER}" != "${PROMPT_DEFAULT_USER}" ]; then
+    echo -n "${COLOR_BLUE}${PROMPT_CURRENT_USER}${COLOR_RESET}${PROMPT_STATE_SEPARATOR}"
   fi
 
-  echo -n "${PROMPT_STATE_SEPARATOR}$(prompt_path)"
+  if [ "${SSH_CLIENT}" != "" ]; then
+    echo -n "${COLOR_CYAN}${PROMPT_HOSTNAME}${COLOR_RESET}${PROMPT_STATE_SEPARATOR}"
+  fi
+
+  echo -n "$(prompt_path)"
 
   git_state="$(prompt_git_state)"
   test "${git_state}" != "" && echo -n "${PROMPT_STATE_SEPARATOR}⍿${git_state}"
