@@ -1,0 +1,14 @@
+alias l='ls -Fhl --group-directories-first --color=always --hide="*~"'
+alias ll='ls -AFhl --group-directories-first --color=always --hide="*~"'
+alias search='grep -RnF --exclude "*~" --color=always'
+alias c='clear && l'
+alias ports='ss -atn'
+alias monochrome='sed "s,\x1B\[[0-9;]*[a-zA-Z],,g"'
+alias clean_tmp_files='find . -type f -name "*~" -exec rm -f {} \;'
+alias find_syncthing_conflict="find ./ -type f -name '*.sync-conflict*'"
+
+#which thefuck &> /dev/null && eval "$(thefuck --alias)"
+
+fn PROMPT
+  sh -c ". ${env::HOME}/.config/profile/prompt.sh && SHELL_LAST_STATUS=$? build_prompt"
+end
