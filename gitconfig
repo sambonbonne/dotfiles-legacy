@@ -45,10 +45,12 @@
   cm = commit -m
   cam = commit -am
   amend = commit --amend
+  quickfix = commit --amend --no-edit
   rbc = rebase --continue
   cp = cherry-pick -n
   lg = log --date-order --graph --pretty=format:'%C(yellow)%h%Creset%Cred%d%Creset %C(green)%ci%Creset - %C(blue)%an%Creset <%C(cyan)%ae%Creset>\n%s\n' --abbrev-commit
-  last = log @{u}..HEAD --date-order --graph --pretty=format:'%C(yellow)%h%Creset %C(green)%cr%Creset - %s' --abbrev-commit
+  ahead = log @{u}..HEAD --date-order --graph --pretty=format:'%C(yellow)%h%Creset %C(green)%cr%Creset - %s' --abbrev-commit
+  behind = log HEAD..@{u} --date-order --graph --pretty=format:'%C(yellow)%h%Creset %C(green)%cr%Creset - %s' --abbrev-commit
   pl = pull --rebase
   ps = !git last && git push
   get = "!git stash && git pull --rebase && git stash pop"
