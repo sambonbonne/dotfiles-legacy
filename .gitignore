@@ -5,6 +5,7 @@ vim/sessions
 vim/spell
 config/nvim/plugged
 tmux/plugins
+config/kak/plugins
 
 # Custom configurations
 zsh/custom.zsh
