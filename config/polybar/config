@@ -129,7 +129,6 @@ label-close = "  %{T2}%{T-} "
 label-separator = " "
 menu-0-0 = "%{F#A7FFEB}%{T2}%{T-}%{F-}"
 menu-0-0-exec = systemctl suspend
-m(je vais prendre des places catégorie 1, histoire qu'ils voient bien)enu-0-1 = "%{F#FFFF8D}%{T2}%{T-}%{F-}"
 menu-0-1 = "%{F#FFFF8D}%{T2}%{T-}%{F-}"
 menu-0-1-exec = reboot
 menu-0-2 = "%{F#FF8A80}%{T2}%{T-}%{F-}"
