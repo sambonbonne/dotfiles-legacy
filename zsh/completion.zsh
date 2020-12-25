@@ -1,6 +1,9 @@
 autoload -Uz compinit && compinit
 autoload bashcompinit && bashcompinit
 
+# prevent removing space after completion, for example when piping
+ZLE_REMOVE_SUFFIX_CHARS=""
+
 zstyle ':completion:*' menu select=2
 
 zstyle ':completion:*' squeeze-slashes true
