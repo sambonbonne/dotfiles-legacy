@@ -31,3 +31,6 @@ fi
 
 # Enventually set LXC infos
 is_on_lxc && load_sh_config 'lxc'
+
+# Welcome message when ready
+load_sh_config "welcome"
