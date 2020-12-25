@@ -55,13 +55,13 @@ build_prompt() {
 }
 
 prompt_path() {
-  pwd -L | sed "s#$(getent passwd sam | cut -d ':' -f 6)#~#g"
+  pwd -L | sed "s|$(getent passwd $(id -u -n) | cut -d ':' -f 6)|~|g"
 }
 
 prompt_git_state() {
   git_state="$(echo $(git symbolic-ref -q HEAD 2> /dev/null \
     || git name-rev --name-only --no-undefined --always HEAD 2> /dev/null) \
-    | sed -e 's#refs/heads/##' | sed -e 's#tags/##')"
+    | sed -e 's/refs\/heads\///' | sed -e 's/tags\///')"
 
   test "${git_state}" = "" && return 0
 
