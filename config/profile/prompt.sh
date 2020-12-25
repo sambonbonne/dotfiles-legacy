@@ -1,26 +1,14 @@
 # Build a prompt, POSIX style
 
-COLOR_BLACK=$(echo -en '\033[00;30m')
-COLOR_RED=$(echo -en '\033[00;31m')
-COLOR_GREEN=$(echo -en '\033[00;32m')
-COLOR_YELLOW=$(echo -en '\033[00;33m')
-COLOR_BLUE=$(echo -en '\033[00;34m')
-COLOR_MAGENTA=$(echo -en '\033[00;35m')
-COLOR_PURPLE=$(echo -en '\033[00;35m')
-COLOR_CYAN=$(echo -en '\033[00;36m')
-COLOR_LIGHTGRAY=$(echo -en '\033[00;37m')
-COLOR_LRED=$(echo -en '\033[01;31m')
-COLOR_LGREEN=$(echo -en '\033[01;32m')
-COLOR_LYELLOW=$(echo -en '\033[01;33m')
-COLOR_LBLUE=$(echo -en '\033[01;34m')
-COLOR_LMAGENTA=$(echo -en '\033[01;35m')
-COLOR_LPURPLE=$(echo -en '\033[01;35m')
-COLOR_LCYAN=$(echo -en '\033[01;36m')
-COLOR_WHITE=$(echo -en '\033[01;37m')
-COLOR_RESET=$(echo -en '\033[0m')
-
-FONT_BOLD=$(tput bold)
-FONT_NORMAL=$(tput sgr0)
+test "${COLOR_BLACK}" = "" && export COLOR_BLACK=$(echo -en '\033[00;30m')
+test "${COLOR_RED}" = "" && export COLOR_RED=$(echo -en '\033[00;31m')
+test "${COLOR_GREEN}" = "" && export COLOR_GREEN=$(echo -en '\033[00;32m')
+test "${COLOR_YELLOW}" = "" && export COLOR_YELLOW=$(echo -en '\033[00;33m')
+test "${COLOR_BLUE}" = "" && export COLOR_BLUE=$(echo -en '\033[00;34m')
+test "${COLOR_MAGENTA}" = "" && export COLOR_MAGENTA=$(echo -en '\033[00;35m')
+test "${COLOR_CYAN}" = "" && export COLOR_CYAN=$(echo -en '\033[00;36m')
+test "${COLOR_WHITE}" = "" && export COLOR_WHITE=$(echo -en '\033[01;37m')
+test "${COLOR_RESET}" = "" && export COLOR_RESET=$(echo -en '\033[0m')
 
 PROMPT_NBSP=$'\u00A0'
 PROMPT_STATE_SEPARATOR=" ${COLOR_BLACK}❭${COLOR_RESET}${PROMPT_NBSP}"
@@ -34,28 +22,29 @@ function build_prompt() {
 
   # first line
 
-  printf "${COLOR_BLACK}╭${COLOR_RESET} "
+  echo -n "${COLOR_BLACK}╭${COLOR_RESET} "
 
-  printf "${COLOR_BLUE}${PROMPT_USER}${COLOR_RESET}"
+  echo -n "${COLOR_BLUE}${PROMPT_USER}${COLOR_RESET}"
 
   if [ "${SSH_CLIENT}" != "" ]; then
-    printf "${PROMPT_STATE_SEPARATOR}${COLOR_CYAN}${PROMPT_HOSTNAME}${COLOR_RESET}"
+    echo -n "${PROMPT_STATE_SEPARATOR}${COLOR_CYAN}${PROMPT_HOSTNAME}${COLOR_RESET}"
   fi
 
-  printf "${PROMPT_STATE_SEPARATOR}$(prompt_path)"
+  echo -n "${PROMPT_STATE_SEPARATOR}$(prompt_path)"
 
   git_state="$(prompt_git_state)"
-  test "${git_state}" != "" && printf "${PROMPT_STATE_SEPARATOR}${git_state}"
+  test "${git_state}" != "" && echo -n "${PROMPT_STATE_SEPARATOR}${git_state}"
 
   # second line
 
-  printf "\n${COLOR_BLACK}╰${COLOR_RESET} "
+  printf "\n"
+  echo -n "${COLOR_BLACK}╰${COLOR_RESET} "
 
   if [ "${last_status}" != "0" ]; then
-    printf "${COLOR_MAGENTA}${last_status}${COLOR_RESET}${PROMPT_NBSP}"
+    echo -n "${COLOR_MAGENTA}${last_status}${COLOR_RESET}${PROMPT_NBSP}"
   fi
 
-  printf "$(prompt_end_indicator ${last_status}) "
+  echo -n "$(prompt_end_indicator ${last_status}) "
 }
 
 prompt_path() {
@@ -81,7 +70,7 @@ prompt_git_state() {
     git_color="${COLOR_GREEN}"
   fi
 
-  printf "${git_color}${git_state}${COLOR_RESET}"
+  echo -n "${git_color}${git_state}${COLOR_RESET}"
 }
 
 function prompt_end_indicator() {
@@ -97,7 +86,7 @@ function prompt_end_indicator() {
     end_indicator_color="${COLOR_GREEN}"
   fi
 
-  printf "${end_indicator_color}❯${COLOR_RESET}"
+  echo -n "${end_indicator_color}❯${COLOR_RESET}"
 }
 
 
