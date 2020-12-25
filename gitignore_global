@@ -2,6 +2,8 @@
 
 .env
 env
+*_env/
+env_*/
 
 ## Vim
 
