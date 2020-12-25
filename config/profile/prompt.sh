@@ -1,5 +1,7 @@
 # Build a prompt, POSIX style
 
+export VIRTUAL_ENV_DISABLE_PROMPT=1 # we set it manually
+
 test "${COLOR_BLACK}" = "" && export COLOR_BLACK=$(echo -en '\033[00;30m')
 test "${COLOR_RED}" = "" && export COLOR_RED=$(echo -en '\033[00;31m')
 test "${COLOR_GREEN}" = "" && export COLOR_GREEN=$(echo -en '\033[00;32m')
@@ -33,7 +35,9 @@ function build_prompt() {
   echo -n "${PROMPT_STATE_SEPARATOR}$(prompt_path)"
 
   git_state="$(prompt_git_state)"
-  test "${git_state}" != "" && echo -n "${PROMPT_STATE_SEPARATOR}${git_state}"
+  test "${git_state}" != "" && echo -n "${PROMPT_STATE_SEPARATOR}⍿${git_state}"
+
+  test "${VIRTUAL_ENV}" != "" && echo -n "${PROMPT_STATE_SEPARATOR}⦚${COLOR_YELLOW}$(basename "${VIRTUAL_ENV}")${COLOR_RESET}"
 
   # second line
 
@@ -70,10 +74,23 @@ prompt_git_state() {
     git_color="${COLOR_GREEN}"
   fi
 
+  git_num_ahead="$(git log --oneline @{u}.. 2> /dev/null | wc -l | tr -d ' ')"
+  git_num_behind="$(git log --oneline ..@{u} 2> /dev/null | wc -l | tr -d ' ')"
+
+  if [ "${git_num_ahead}" -gt 0 ]; then
+    if [ "${git_num_behind}" -gt 0 ]; then
+      git_state="⇅ ${git_state}"
+    else
+      git_state="↑ ${git_state}"
+    fi
+  elif [ "${git_num_behind}" -gt 0 ]; then
+    git_state="↓ ${git_state}"
+  fi
+
   echo -n "${git_color}${git_state}${COLOR_RESET}"
 }
 
-function prompt_end_indicator() {
+prompt_end_indicator() {
   last_status="${1}"
 
   end_indicator_color="${COLOR_YELLOW}"
@@ -88,11 +105,3 @@ function prompt_end_indicator() {
 
   echo -n "${end_indicator_color}❯${COLOR_RESET}"
 }
-
-
-
-
-
-
-
-
