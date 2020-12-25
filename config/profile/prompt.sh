@@ -25,7 +25,7 @@ build_prompt() {
 
   # first line
 
-  echo -n "${COLOR_BLACK}╭${COLOR_RESET} "
+  echo -n "$(prompt_status_color "${last_status}")╻${COLOR_RESET} "
 
   if [ "${PROMPT_CURRENT_USER}" != "${PROMPT_DEFAULT_USER}" ]; then
     echo -n "${COLOR_BLUE}${PROMPT_CURRENT_USER}${COLOR_RESET}${PROMPT_STATE_SEPARATOR}"
@@ -40,18 +40,18 @@ build_prompt() {
   git_state="$(prompt_git_state)"
   test "${git_state}" != "" && echo -n "${PROMPT_STATE_SEPARATOR}⍿${git_state}"
 
-  test "${VIRTUAL_ENV}" != "" && echo -n "${PROMPT_STATE_SEPARATOR}⦚${COLOR_YELLOW}$(basename "${VIRTUAL_ENV}")${COLOR_RESET}"
+  test "${VIRTUAL_ENV}" != "" && echo -n "${PROMPT_STATE_SEPARATOR}〜${COLOR_YELLOW}$(basename "${VIRTUAL_ENV}")${COLOR_RESET}"
 
   # second line
 
   printf "\n"
-  echo -n "${COLOR_BLACK}╰${COLOR_RESET} "
+  echo -n "$(prompt_status_color "${last_status}")╰╴${COLOR_RESET}"
 
   if [ "${last_status}" != "0" ]; then
-    echo -n "${COLOR_MAGENTA}${last_status}${COLOR_RESET}${PROMPT_NBSP}"
+    echo -n " ${COLOR_MAGENTA}${last_status}${COLOR_RESET}$(prompt_status_color "${last_status}") ╶╴❱${COLOR_RESET} "
+  else
+    echo -n "$(prompt_status_color "${last_status}")❱${COLOR_RESET} "
   fi
-
-  echo -n "$(prompt_end_indicator ${last_status}) "
 }
 
 prompt_path() {
@@ -93,18 +93,16 @@ prompt_git_state() {
   echo -n "${git_color}${git_state}${COLOR_RESET}"
 }
 
-prompt_end_indicator() {
-  last_status="${1}"
-
-  end_indicator_color="${COLOR_YELLOW}"
+prompt_status_color() {
+  status_code="${1}"
 
   if [ "${KEYMAP}" = "vicmd" ]; then
-    end_indicator_color="${COLOR_BLUE}"
-  elif [ "${last_status}" != "0" ]; then
-    end_indicator_color="${COLOR_RED}"
+    echo -n "${COLOR_BLUE}"
+  elif [ "${status_code}" != "0" ]; then
+    echo -n "${COLOR_RED}"
+  elif [ "${status_code}" = "0" ]; then
+    echo -n "${COLOR_GREEN}"
   else
-    end_indicator_color="${COLOR_GREEN}"
+    echo -n "${COLOR_YELLOW}"
   fi
-
-  echo -n "${end_indicator_color}❯${COLOR_RESET}"
 }
