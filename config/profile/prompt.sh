@@ -17,7 +17,7 @@ PROMPT_STATE_SEPARATOR=" ${COLOR_BLACK}❭${COLOR_RESET}${PROMPT_NBSP}"
 PROMPT_USER="$(id -u -n)"
 PROMPT_HOSTNAME="$(hostname -s)"
 
-function build_prompt() {
+build_prompt() {
   last_status=$?
 
   test "${SHELL_LAST_STATUS}" != "" && last_status="${SHELL_LAST_STATUS}"
