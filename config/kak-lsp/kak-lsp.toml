@@ -1,0 +1,42 @@
+[language.docker]
+filetypes = []
+roots = ["Dockerfile", "Containerfile"]
+command = "podman"
+args = [
+  "run",
+  "--rm",
+  "--interactive",
+  "--net=host",
+  "docker.io/rcjsuen/docker-langserver"
+]
+
+[language.rust]
+filetypes = ["rust"]
+roots = ["Cargo.toml"]
+#command = "rls"
+command = "rust-analyzer"
+
+[language.typescript]
+filetypes = ["typescript", "ts"]
+roots = ["package.json", "tsconfig.json"]
+# command = "typescript-language-server"
+# args = ["--stdio"]
+command = "podman"
+args = [
+  "run",
+  "--rm",
+  "--interactive",
+  "--net=host",
+  "lsp/typescript",
+  "--stdio"
+]
+# command = "docker"
+# args = [
+#   "run",
+#   "--rm",
+#   "-it",
+#   "node:16",
+#   "sh",
+#   "-c",
+#   "npm install -g typescript typescript-language-server && typescript-language-server --stdio"
+# ]
