@@ -1,7 +1,10 @@
 source "%val{config}/plugins/plug.kak/rc/plug.kak"
 
-plug "robertmeta/plug.kak" noload
+plug "andreyorst/plug.kak" noload
 
+plug "kakoune-editor/kakoune-extra-filetypes"
+
+# clipboard integration
 plug "lePerdu/kakboard" %{
   hook global WinCreate .* %{ kakboard-enable }
 }
@@ -9,10 +12,13 @@ plug "lePerdu/kakboard" %{
 plug "danr/kakoune-easymotion" config %{
   map global normal <ret> ':enter-user-mode easymotion<ret>'
 }
-plug "alexherbo2/auto-pairs.kak"
+#plug "alexherbo2/auto-pairs.kak" # @TODO find an alternative
 
-plug "ul/kak-lsp" do %{
-  cargo install --locked --force --path .
+# plug https://github.com/alexherbo2/surround.kak
+
+plug "kak-lsp/kak-lsp" do %{
+  cargo build --release --locked
+  cargo install --force --path .
 } config %{
   set-option global lsp_auto_highlight_references true
   set-option global lsp_hover_anchor false
@@ -27,7 +33,8 @@ plug "ul/kak-lsp" do %{
 plug "whereswaldon/shellcheck.kak"
 
 plug "andreyorst/fzf.kak" defer "fzf" %{
-  set-option global fzf_implementation 'sk'
+  set-option global fzf_implementation 'sk' # cargo install skim
+  set-option global fzf_file_command 'rg' # cargo install ripgrep
   require-module fzf
 
 } config %{
@@ -35,11 +42,17 @@ plug "andreyorst/fzf.kak" defer "fzf" %{
 }
 
 colorscheme nord
+add-highlighter global/insecable regex ' +' 0:default,black
 
 # Indentation management
 set global tabstop 2
 set global indentwidth 2
 hook global InsertChar \t %{ exec -draft -itersel h@ }
+# Specific types
+hook global WinSetOption filetype=(rust|python) %{
+  set global tabstop 4
+  set global indentwidth 4
+}
 
 # Use tab for auto completion
 hook global InsertCompletionShow .* %{
@@ -53,11 +66,18 @@ hook global InsertCompletionHide .* %{
   unmap window insert <s-tab> <c-p>
 }
 
+# Other completion option
+#set-option global ignored_files '~$'
+
 #map global normal <space> ':enter-user-mode user<ret>'
+map -docstring 'Comment' global user c :comment-line<ret>
 map -docstring 'Save' global user , :w<ret>
 map -docstring 'Close buffer' global user q :db<ret>
 map -docstring 'Save and quit' global user w :wq<ret>
 map -docstring 'Quit without saving' global user <s-q> :q!<ret>
+
+# wrap text
+addhl -override global/ wrap -word
 
 # dynamic numbers (switch between absolute and relative followinf insert and other modes)
 def set-line-numbers-relatives %{
@@ -102,6 +122,11 @@ hook global WinDisplay .*              show-trailing-whitespaces
 hook global ModeChange 'insert:normal' show-trailing-whitespaces
 hook global ModeChange 'normal:insert' hide-trailing-whitespaces
 hook global BufWritePre .*             remove-trailing-whitespaces
+
+# disable scratc buffer message
+#set global disabled_hooks write-scratch-message
+
+# see `:doc options` to modify status line (modelinefmt)
 
 # config reload
 map -docstring "Reload configuration" global user r ":source %val{config}/kakrc"
