@@ -16,7 +16,7 @@ PROMPT_NBSP=$'\u00A0'
 PROMPT_STATE_SEPARATOR=" ${COLOR_BLACK}❭${COLOR_RESET}${PROMPT_NBSP}"
 PROMPT_DEFAULT_USER="${PROMPT_DEFAULT_USER:-sam}"
 PROMPT_CURRENT_USER="$(id -u -n)"
-PROMPT_HOSTNAME="$(hostname -s)"
+PROMPT_HOSTNAME="$(hostname -s 2>/dev/null || echo "${HOST}")"
 
 build_prompt() {
   last_status=$?
