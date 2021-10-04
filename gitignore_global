@@ -36,3 +36,8 @@ tags.tmp
 ## Node DIY
 node_modules.old/
 node_modules.new/
+
+
+## Caches
+
+packer_cache
