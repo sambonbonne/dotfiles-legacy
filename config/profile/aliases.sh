@@ -7,6 +7,16 @@ alias monochrome='sed "s,\x1B\[[0-9;]*[a-zA-Z],,g"' # pipe anything here
 alias ports='ss -atn'
 alias clean_editors_tmp_files='find . -type f -name "*~" -exec rm -f {} \;'
 alias quickpod='podman run --rm -it -v "$(pwd):/mnt:z" -w /mnt'
+alias vagrant_pod='podman run --rm -it \
+  --volume /run/libvirt:/run/libvirt \
+  --volume "${HOME}:${HOME}:rslave" \
+  --env "HOME=${HOME}" \
+  --workdir "$(pwd)" \
+  --net host \
+  --privileged \
+  --security-opt label=disable \
+  --entrypoint /usr/bin/vagrant \
+  localhost/vagrant-container:latest'
 
 # Encrypting
 alias cipher='openssl rsautl -encrypt -pubin -inkey'
@@ -18,6 +28,8 @@ alias util_docker_images_rm_anonymous='docker rmi $(docker images | grep "^<none
 alias util_syncthing_list_conflicts="find ./ -type f -name '*.sync-conflict*'"
 alias util_vim_clean_swap='find ./ -type f -name "\.*sw[klmnop]" -delete'
 alias util_steam_clean='find ~/.steam/root/ \( -name "libgcc_s.so*" -o -name "libstdc++.so*" -o -name "libxcb.so*" -o -name "libgpg-error.so*" \) -print -delete'
+
+eval "$(thefuck --alias)"
 
 
 # shrink a PDF
@@ -58,9 +70,9 @@ venv() {
     fi
 
     . "${VENV_SOURCE_PATH}"
-    rehash
-  elif [ "${1}" == "update" ]; then
-    pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
+    rehash 2>/dev/null || true
+  elif [ "${1}" = "update" ]; then
+    python3 -m pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
   else
     deactivate || unset VIRTUAL_ENV
     rehash
