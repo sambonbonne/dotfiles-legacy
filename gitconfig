@@ -1,6 +1,12 @@
 [user]
-  name = Sam D
-  email = sam@wekk.io
+  name = "Sam"
+  email = "sam@wekk.io"
+
+[includeIf "gitdir:~/dev/perso/"]
+  path = ~/dev/perso/gitconfig
+
+[includeIf "gitdir:~/dev/wekk/"]
+  path = ~/dev/wekk/gitconfig
 
 [color]
   diff = auto
@@ -37,6 +43,7 @@
   cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 
 [alias]
+  root = rev-parse --show-toplevel
   s = status -uno ./
   st = status -u ./
   sta = status -u
@@ -53,9 +60,11 @@
   behind = log HEAD..@{u} --date-order --graph --pretty=format:'%C(yellow)%h%Creset %C(green)%cr%Creset - %s' --abbrev-commit
   pl = pull --rebase
   ps = !git last && git push
+  pls = !git pull --rebase && git push
   get = "!git stash && git pull --rebase && git stash pop"
   lines = !"git ls-files | xargs cat | wc -l 2>/dev/null"
   rank = shortlog -sn --no-merges # show list of contributors in descending order by number of commits
+  clean-branches = "!git branch --merged | grep -E "[a-z]+/[A-Z]+-[0-9]+" | xargs git branch -d"
 
 [apply]
   whitespace = strip
@@ -74,3 +83,6 @@
 
 [rebase]
   autoStash = true
+
+[init]
+	defaultBranch = main
