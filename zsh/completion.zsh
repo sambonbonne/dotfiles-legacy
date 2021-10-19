@@ -9,7 +9,7 @@ zstyle ':completion:*' menu select=2
 zstyle ':completion:*' squeeze-slashes true
 
 # root path for sudo
-is_on_nixos || zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
+zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
 
 # don't complete the same thing twice
 #zstyle ':completion:*:*:(ls|rm|mv|cp|vi|vim|nvim|view|nview|vimdiff|nvimdiff):*' ignore-line true
@@ -57,3 +57,5 @@ setopt HIST_IGNORE_DUPS
 bindkey '^I' expand-or-complete-prefix
 bindkey '^[[Z' reverse-menu-complete
 which stack >/dev/null 2>&1 && eval "$(stack --bash-completion-script stack)"
+
+which scw 2&>1 >/dev/null && eval "$(scw autocomplete script shell=zsh)"
