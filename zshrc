@@ -12,7 +12,7 @@ if [[ $TERM == xterm-termite && -f /etc/profile.d/vte.sh ]]; then
 fi
 
 COMMAND_NOT_FOUND_FILE="/usr/share/doc/pkgfile/command-not-found.zsh"
-[[ -f "${COMMAND_NOT_FOUND_FILE}" ]] && source $COMMAND_NOT_FOUND_FILE
+test -f "${COMMAND_NOT_FOUND_FILE}" && source $COMMAND_NOT_FOUND_FILE
 
 # Lines configured by zsh-newuser-install
 setopt appendhistory autocd beep extendedglob nomatch
