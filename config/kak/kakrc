@@ -1,6 +1,17 @@
-source "%val{config}/plugins/plug.kak/rc/plug.kak"
+evaluate-commands %sh{
+  PLUGINS_DIR="${HOME}/.cache/kak/plugins"
+  mkdir -p "${PLUGINS_DIR}"
 
-plug "andreyorst/plug.kak" noload
+  if [ ! -e "${PLUGINS_DIR}/plug.kak" ]; then
+    git clone -q "https://github.com/andreyorst/plug.kak.git" "${PLUGINS_DIR}/plug.kak"
+  fi
+
+  printf "%s\n" "source '${PLUGINS_DIR}/plug.kak/rc/plug.kak'"
+}
+
+plug "andreyorst/plug.kak" noload config %{
+  set-option global plug_install_dir %sh{ echo "${HOME}/.cache/kak/plugins" }
+}
 
 plug "kakoune-editor/kakoune-extra-filetypes"
 
