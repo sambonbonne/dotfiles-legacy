@@ -3,7 +3,7 @@ ZINIT_MAIN="${ZINIT_HOME}/zinit.zsh"
 
 if [ ! -f "${ZINIT_MAIN}" ]; then
   mkdir -p "${ZINIT_HOME}"
-  git clone https://github.com/zdharma/zinit "${ZINIT_HOME}"
+  git clone https://github.com/zdharma-continuum/zinit "${ZINIT_HOME}"
 fi
 
 source "${ZINIT_MAIN}"
