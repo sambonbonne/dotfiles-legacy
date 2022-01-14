@@ -50,7 +50,7 @@ zinit load "johnhamelink/env-zsh"
 
 ZSH_COMMAND_TIME_MIN_SECONDS=15
 ZSH_COMMAND_TIME_MSG="Execution time: %s sec"
-ZSH_COMMAND_TIME_EXCLUDE=(time kak tmx tmux docker-compose)
+ZSH_COMMAND_TIME_EXCLUDE=(time hx kak tmx tmux docker-compose)
 zinit load "popstas/zsh-command-time"
 
 zinit compinit

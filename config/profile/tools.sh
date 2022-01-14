@@ -12,6 +12,9 @@ export LESS_TERMCAP_ue=$'\E[0m'
 
 # Default editor
 _default_editor() {
+  helix_path="$(command -v hx)"
+  test -n "${helix_path}" && echo "${helix_path}" && return 0
+
   kak_path="$(command -v kak)"
   test -n "${kak_path}" && echo "${kak_path}" && return 0
 
