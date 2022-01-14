@@ -58,4 +58,4 @@ bindkey '^I' expand-or-complete-prefix
 bindkey '^[[Z' reverse-menu-complete
 which stack >/dev/null 2>&1 && eval "$(stack --bash-completion-script stack)"
 
-which scw 2&>1 >/dev/null && eval "$(scw autocomplete script shell=zsh)"
+which scw 2>&1 >/dev/null && eval "$(scw autocomplete script shell=zsh)"
