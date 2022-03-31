@@ -1,9 +1,9 @@
-ZINIT_HOME="${HOME}/.cache/.zinit/bin"
+ZINIT_HOME="${HOME}/.local/share/zinit/zinit.git"
 ZINIT_MAIN="${ZINIT_HOME}/zinit.zsh"
 
 if [ ! -f "${ZINIT_MAIN}" ]; then
   mkdir -p "${ZINIT_HOME}"
-  git clone https://github.com/zdharma-continuum/zinit "${ZINIT_HOME}"
+  git clone --progress https://github.com/zdharma-continuum/zinit "${ZINIT_HOME}"
 fi
 
 source "${ZINIT_MAIN}"
@@ -11,28 +11,32 @@ source "${ZINIT_MAIN}"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-zinit ice src"src"
+zinit ice src"src" wait lucid
 zinit load "zsh-users/zsh-completions"
 
+# seem to not work with ice wait
+zinit ice atload"bindkey '^[ ' autosuggest-accept"
 zinit load "zsh-users/zsh-autosuggestions"
-bindkey '^[ ' autosuggest-accept
 
+zinit ice wait lucid
 zinit load "hlissner/zsh-autopair"
 
 export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+zinit ice wait lucid
 zinit load "zsh-users/zsh-syntax-highlighting"
 
+zinit ice wait lucid atload"\
+  # in normal mode, up/down keys
+  bindkey \"^[[A\" history-substring-search-up;\
+  bindkey \"^[[B\" history-substring-search-down;\
+  # in vi mode, j/k keys
+  bindkey -M vicmd 'k' history-substring-search-up;\
+  bindkey -M vicmd 'j' history-substring-search-down"
 zinit load "zsh-users/zsh-history-substring-search"
-# in normal mode, up/down keys
-bindkey "^[[A" history-substring-search-up
-bindkey "^[[B" history-substring-search-down
-# in vi mode, j/k keys
-bindkey -M vicmd 'k' history-substring-search-up
-bindkey -M vicmd 'j' history-substring-search-down
 
 zinit load "chrissicool/zsh-256color"
 
-zinit ice has"tmux"
+zinit ice wait lucid has"tmux"
 zinit load "jreese/zsh-titles"
 
 # # zplug "MichaelAquilina/zsh-auto-notify", if:"{ command -v notify-send ; } >/dev/null 2>&1"
@@ -46,11 +50,10 @@ zinit load "jreese/zsh-titles"
 # zstyle ':notify:*' error-title "(╯°□°)╯ ︵ ┻━┻"
 # zstyle ':notify:*' success-title "(⌐■_■)"
 
-zinit load "johnhamelink/env-zsh"
-
 ZSH_COMMAND_TIME_MIN_SECONDS=15
 ZSH_COMMAND_TIME_MSG="Execution time: %s sec"
-ZSH_COMMAND_TIME_EXCLUDE=(time hx kak tmx tmux docker-compose)
+ZSH_COMMAND_TIME_EXCLUDE=(time hx k9s kak tmx tmux zellij)
+zinit ice wait lucid
 zinit load "popstas/zsh-command-time"
 
 zinit compinit
