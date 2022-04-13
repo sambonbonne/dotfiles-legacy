@@ -32,5 +32,7 @@ fi
 # Enventually set LXC infos
 is_on_lxc && load_sh_config 'lxc'
 
+which zellij 2>&1 >/dev/null && load_sh_config "zellij"
+
 # Welcome message when ready
 load_sh_config "welcome"
