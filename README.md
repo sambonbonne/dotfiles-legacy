@@ -1,4 +1,4 @@
-Welcome to my dotfiles!
+:warning: This repository contains my legacy dotfiles, I now have [a new dotfiles repository](https://github.com/sambonbonne/dotfiles) :warning:
 
 Configured softwares
 ====================
